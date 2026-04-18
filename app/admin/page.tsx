@@ -55,7 +55,7 @@ const getApiErrorMessage = async (response: Response, fallback: string) => {
   }
 
   const details = `${data.error || ""} ${data.details || ""}`;
-  if (/can't reach database server|connect.*database|localhost:5432|p1001|econnrefused/i.test(details)) {
+  if (/can't reach database server|connect.*database|localhost:5432|p1001|econnrefused|tls connection|security package|channel_binding/i.test(details)) {
     return "Database unavailable. Start Postgres or update DATABASE_URL.";
   }
   if (/relation .* does not exist|table .* does not exist|doesn't exist/i.test(details)) {

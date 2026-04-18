@@ -24,7 +24,9 @@ const normalizeYouTubeId = (value: unknown) => {
 };
 
 const isDatabaseUnavailable = (error: unknown) =>
-  /can't reach database server|connect.*database|localhost:5432|p1001|econnrefused/i.test(String(error));
+  /can't reach database server|connect.*database|localhost:5432|p1001|econnrefused|tls connection|security package|channel_binding/i.test(
+    String(error)
+  );
 
 export async function GET() {
   try {
