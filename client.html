@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NOI EDITORS — Client Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{bebas:['Bebas Neue','cursive'],syne:['Syne','sans-serif'],dm:['DM Sans','sans-serif']}}}}
+</script>
+<style>
+  *{box-sizing:border-box;}
+  body{background:#080808;font-family:'DM Sans',sans-serif;color:#F0EDE8;}
+  ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:#111;} ::-webkit-scrollbar-thumb{background:#FF6B1A;border-radius:99px;}
+  @keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadein .4s ease;}
+  .status-pending{background:rgba(136,136,136,0.1);color:#888;border-color:rgba(136,136,136,0.2);}
+  .status-in-progress{background:rgba(255,107,26,0.1);color:#FF6B1A;border-color:rgba(255,107,26,0.2);}
+  .status-review{background:rgba(245,166,35,0.1);color:#F5A623;border-color:rgba(245,166,35,0.2);}
+  .status-done{background:rgba(76,175,80,0.1);color:#4CAF50;border-color:rgba(76,175,80,0.2);}
+</style>
+</head>
+<body class="min-h-screen">
+<script>
+  if(localStorage.getItem('noi_role')!=='client'){window.location.href='login.html';}
+</script>
+
+<!-- Header -->
+<header class="border-b px-6 py-4 flex items-center justify-between" style="background:rgba(8,8,8,0.95);backdrop-filter:blur(20px);border-color:#1a1a1a;position:sticky;top:0;z-index:50">
+  <div class="font-bebas text-xl tracking-widest text-white">NOI <span style="color:#FF6B1A">EDITORS</span> <span class="text-sm text-gray-600 font-dm ml-2">Client Portal</span></div>
+  <div class="flex items-center gap-4">
+    <div class="hidden md:flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center font-bebas text-sm" style="background:rgba(255,107,26,0.15);color:#FF6B1A" id="user-avatar">?</div>
+      <span class="text-sm font-syne text-white" id="user-name">Loading...</span>
+    </div>
+    <button onclick="logout()" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-syne transition-all hover:bg-red-900/20 hover:text-red-400" style="color:#555">
+      <i data-lucide="log-out" class="w-4 h-4"></i>
+      <span class="hidden md:inline">Logout</span>
+    </button>
+  </div>
+</header>
+
+<div class="max-w-5xl mx-auto px-6 py-10">
+
+  <!-- Welcome -->
+  <div class="mb-10 fade-in">
+    <h1 class="font-bebas text-5xl text-white">Welcome Back, <span style="color:#FF6B1A" id="welcome-name">Client</span></h1>
+    <p class="text-gray-500 font-dm mt-2">Here are all your projects and deliverables from NOI EDITORS.</p>
+  </div>
+
+  <!-- Stats row -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 fade-in">
+    <div class="p-5 rounded-2xl border text-center" style="background:#111;border-color:#1f1f1f">
+      <div class="font-bebas text-4xl" style="color:#FF6B1A" id="stat-total">0</div>
+      <div class="text-xs font-syne uppercase tracking-wider mt-1" style="color:#555">Total Projects</div>
+    </div>
+    <div class="p-5 rounded-2xl border text-center" style="background:#111;border-color:#1f1f1f">
+      <div class="font-bebas text-4xl text-green-400" id="stat-done">0</div>
+      <div class="text-xs font-syne uppercase tracking-wider mt-1" style="color:#555">Delivered</div>
+    </div>
+    <div class="p-5 rounded-2xl border text-center" style="background:#111;border-color:#1f1f1f">
+      <div class="font-bebas text-4xl" style="color:#FF6B1A" id="stat-wip">0</div>
+      <div class="text-xs font-syne uppercase tracking-wider mt-1" style="color:#555">In Progress</div>
+    </div>
+    <div class="p-5 rounded-2xl border text-center" style="background:#111;border-color:#1f1f1f">
+      <div class="font-bebas text-4xl text-gray-500" id="stat-pending">0</div>
+      <div class="text-xs font-syne uppercase tracking-wider mt-1" style="color:#555">Pending</div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="mb-4 flex items-center justify-between">
+    <h2 class="font-syne font-bold text-white text-lg">Your Projects</h2>
+    <a href="index.html#contact" class="flex items-center gap-2 text-sm font-syne transition-colors hover:text-white" style="color:#FF6B1A">
+      <i data-lucide="plus" class="w-4 h-4"></i> New Project
+    </a>
+  </div>
+
+  <div id="project-list" class="space-y-4 fade-in">
+    <div class="text-center py-16 text-gray-600 font-syne">Loading your projects...</div>
+  </div>
+
+  <!-- Contact NOI -->
+  <div class="mt-12 p-8 rounded-2xl border fade-in" style="background:linear-gradient(135deg,#111 0%,#1a1008 100%);border-color:rgba(255,107,26,0.2)">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <h3 class="font-syne font-bold text-white text-lg">Need something?</h3>
+        <p class="text-gray-500 font-dm text-sm mt-1">Reach out to NOI EDITORS directly for revisions or new projects.</p>
+      </div>
+      <div class="flex gap-3">
+        <a href="https://wa.me/918849438871" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+        </a>
+        <a href="mailto:noieditorswork@gmail.com" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-orange-400" style="border-color:#2a2a2a;color:#888">
+          <i data-lucide="mail" class="w-4 h-4"></i> Email
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+const clientId = localStorage.getItem('noi_client_id');
+const username = localStorage.getItem('noi_user');
+
+function getClients(){try{return JSON.parse(localStorage.getItem('noi_clients'))||[];}catch{return[];}}
+function getProjects(){try{return JSON.parse(localStorage.getItem('noi_projects'))||[];}catch{return[];}}
+
+const client = getClients().find(c=>c.id===clientId);
+const clientName = client?.name || username || 'Client';
+
+document.getElementById('user-avatar').textContent = clientName.slice(0,2).toUpperCase();
+document.getElementById('user-name').textContent = clientName;
+document.getElementById('welcome-name').textContent = clientName.split(' ')[0];
+
+const statusLabels = {pending:'Pending','in-progress':'In Progress',review:'In Review',done:'Delivered'};
+const statusClass = {pending:'status-pending','in-progress':'status-in-progress',review:'status-review',done:'status-done'};
+
+function renderProjects(){
+  const all = getProjects().filter(p=>p.clientId===clientId);
+  const total=all.length, done=all.filter(p=>p.status==='done').length;
+  const wip=all.filter(p=>p.status==='in-progress').length, pending=all.filter(p=>p.status==='pending').length;
+
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-wip').textContent=wip;
+  document.getElementById('stat-pending').textContent=pending;
+
+  if(!all.length){
+    document.getElementById('project-list').innerHTML=`
+      <div class="text-center py-16 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+        <i data-lucide="folder-open" class="w-12 h-12 mx-auto mb-4" style="color:#333"></i> 
+        <div class="font-syne font-semibold text-gray-600">No projects assigned yet</div>
+        <div class="text-sm font-dm text-gray-700 mt-2">Contact NOI EDITORS to start a new project</div>
+      </div>`;
+    lucide.createIcons();
+    return;
+  }
+
+  document.getElementById('project-list').innerHTML = all.map(p=>`
+    <div class="p-6 rounded-2xl border transition-all hover:border-orange-500/30" style="background:#111;border-color:#1f1f1f">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div class="flex-1">
+          <h3 class="font-syne font-bold text-white text-base">${p.title}</h3>
+          <div class="text-xs font-dm mt-1" style="color:#555">Added: ${p.date||'—'}</div>
+          ${p.notes?`<div class="text-sm font-dm text-gray-500 mt-2 leading-relaxed">${p.notes}</div>`:''}
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <span class="px-4 py-1.5 rounded-full text-xs font-syne font-semibold border ${statusClass[p.status]||'status-pending'}">${statusLabels[p.status]||p.status}</span>
+        </div>
+      </div>
+      ${p.status==='done'&&p.video?`
+        <div class="mt-4 pt-4 border-t" style="border-color:#1f1f1f">
+          <div class="text-xs font-syne uppercase tracking-wider mb-3" style="color:#555">Your Video</div>
+          <div class="aspect-video rounded-xl overflow-hidden max-w-md">
+            <iframe src="https://www.youtube.com/embed/${p.video}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>`:''}
+      ${p.status==='review'&&p.video?`
+        <div class="mt-4 pt-4 border-t" style="border-color:#1f1f1f">
+          <div class="text-xs font-syne uppercase tracking-wider mb-2" style="color:#F5A623">⏳ Ready for Review</div>
+          <div class="aspect-video rounded-xl overflow-hidden max-w-md">
+            <iframe src="https://www.youtube.com/embed/${p.video}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <p class="text-xs font-dm text-gray-600 mt-3">Please review and let us know if you need any changes.</p>
+        </div>`:''}
+      ${p.status==='in-progress'?`
+        <div class="mt-4 pt-4 border-t" style="border-color:#1f1f1f">
+          <div class="flex items-center gap-2 text-xs font-syne" style="color:#FF6B1A">
+            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse inline-block"></span>
+            Your video is currently being edited. We'll notify you soon!
+          </div>
+        </div>`:''}
+    </div>`).join('');
+  lucide.createIcons();
+}
+
+function logout(){localStorage.removeItem('noi_role');localStorage.removeItem('noi_user');localStorage.removeItem('noi_client_id');window.location.href='login.html';}
+
+renderProjects();
+</script>
+</body>
+</html>

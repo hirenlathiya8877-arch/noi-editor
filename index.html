@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x:hidden">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NOI EDITORS — Raw to Royalty</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          orange: { accent: '#FF6B1A', light: '#FF8C42', dark: '#CC4E00' },
+          dark: { bg: '#080808', surface: '#111111', card: '#161616', border: '#1f1f1f' }
+        },
+        fontFamily: {
+          bebas: ['Bebas Neue', 'cursive'],
+          syne: ['Syne', 'sans-serif'],
+          dm: ['DM Sans', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+html {
+  scroll-behavior: smooth;
+}
+  * { box-sizing: border-box; }
+  body { background: #080808; color: #F0EDE8; font-family: 'DM Sans', sans-serif; overflow-x: hidden; cursor: none; }
+
+  /* Cursor */
+  @media (pointer: fine) {
+  body { cursor: none; }
+  #cursor { position: fixed; width: 10px; height: 10px; background: #FF6B1A; border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+  #cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid #FF6B1A; border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: all .12s ease; opacity: .5; }
+  body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 20px; height: 20px; }
+}
+body { background: #080808; color: #F0EDE8; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+  /* Noise texture overlay */
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9997; opacity:.4; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar { width: 0px; }
+}
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: #FF6B1A; border-radius: 99px; }
+
+  /* Marquee */
+ .marquee-track { display:flex; width:max-content; animation: marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+  .marquee-track:hover { animation-play-state: paused; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Glow */
+  .glow-orange { box-shadow: 0 0 40px rgba(255,107,26,0.25); }
+  .text-glow { text-shadow: 0 0 60px rgba(255,107,26,0.4); }
+
+  /* Nav blur */
+  .nav-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+  /* Hero gradient */
+  .hero-gradient { background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.12) 0%, transparent 70%); }
+
+  /* Card hover */
+  .card-hover { transition: transform .3s ease, box-shadow .3s ease; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(255,107,26,0.15); }
+
+  /* Video thumb */
+  .video-thumb { position:relative; overflow:hidden; border-radius:12px; }
+  .video-thumb::after { content:'▶'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; background:rgba(0,0,0,0.4); opacity:0; transition:.3s; color:#FF6B1A; }
+  .video-thumb:hover::after { opacity:1; }
+  .video-thumb img { transition:transform .4s ease; }
+  .video-thumb:hover img { transform:scale(1.05); }
+
+  /* Accordion */
+  .faq-content { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .faq-content.open { max-height:200px; }
+
+  /* Section title */
+  .section-title { font-family:'Bebas Neue',cursive; letter-spacing:0.02em; }
+
+  /* Orange line */
+  .orange-line { width:60px; height:3px; background:linear-gradient(90deg,#FF6B1A,transparent); border-radius:99px; }
+
+  /* Play button pulse on center card */
+  @keyframes play-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,107,26,0.5)} 70%{box-shadow:0 0 0 14px rgba(255,107,26,0)} }
+  .carousel-card[data-idx] .vid-overlay .play-pulse { animation: play-pulse 2s ease-in-out infinite; }
+  
+  /* Premium card border on center */
+  .carousel-card { border-radius:18px; }
+
+  /* Floating badge */
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .float { animation:float 3s ease-in-out infinite; }
+
+  /* Stripe pattern */
+  .stripe-bg { background-image: repeating-linear-gradient(45deg, rgba(255,107,26,0.03) 0px, rgba(255,107,26,0.03) 1px, transparent 1px, transparent 12px); }
+
+  /* Pricing card popular */
+  .popular-card { border-color: #FF6B1A !important; background: linear-gradient(135deg, #161616 0%, #1a1008 100%) !important; }
+
+  /* Mobile menu */
+  #mobile-menu { transition: all .3s ease; }
+
+  /* Tag pill */
+  .tag { background:rgba(255,107,26,0.1); border:1px solid rgba(255,107,26,0.2); color:#FF6B1A; }
+  @media (max-width:768px){ nav { padding-top:10px !important; } }
+
+  /* ── FIX: hero overflow on mobile ── */
+  .hero-section { overflow-x: hidden; }
+  .hero-section .hero-deco { pointer-events:none; }
+
+  /* ── Inline Video Player ── */
+  .vid-card { position:relative; border-radius:14px; overflow:hidden; background:#111; cursor:pointer; }
+  .vid-card video { width:100%; height:100%; object-fit:cover; display:block; }
+  .vid-card iframe { width:100%; height:100%; border:none; display:block; }
+  .vid-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; transition:opacity .3s; }
+  .vid-overlay.hidden-overlay { opacity:0; pointer-events:none; }
+  .vid-play-btn { width:56px; height:56px; border-radius:50%; background:rgba(255,107,26,0.9); display:flex; align-items:center; justify-content:center; transition:transform .2s; }
+  .vid-play-btn:hover { transform:scale(1.1); }
+  .vid-controls { position:absolute; bottom:0; left:0; right:0; padding:12px 14px; background:linear-gradient(transparent,rgba(0,0,0,0.85)); display:flex; align-items:center; justify-content:space-between; opacity:0; transition:opacity .3s; }
+  .vid-card:hover .vid-controls, .vid-card.playing .vid-controls { opacity:1; }
+  .vid-ctrl-btn { background:none; border:none; color:#fff; cursor:pointer; padding:4px; border-radius:6px; display:flex; align-items:center; gap:6px; font-family:'Syne',sans-serif; font-size:12px; }
+  .vid-ctrl-btn:hover { color:#FF6B1A; }
+  .vid-title-bar { position:absolute; bottom:40px; left:0; right:0; padding:0 14px 8px; }
+  .vid-card.playing .vid-overlay { opacity:0; pointer-events:none; }
+
+  @media (pointer: coarse), (max-width: 1024px) {
+    #cursor, #cursor-ring { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ─── NAV ─── -->
+<nav class="fixed top-0 left-0 right-0 z-50 pt-4 px-4 md:px-8" style="overflow:hidden">
+
+  <!-- Desktop: Pill Nav -->
+<div class="hidden md:flex items-center justify-between px-3 py-2 rounded-full mx-auto max-w-2xl" style="background:rgba(8,8,8,0.95);backdrop-filter:blur(20px);border:1px solid rgba(255,107,26,0.15);box-shadow:0 4px 40px rgba(0,0,0,0.8)">    <!-- Logo -->
+    <a href="#" id="nav-logo-link" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bebas text-xs tracking-wider leading-none overflow-hidden" style="background:#1c1c1c;border:1.5px solid rgba(255,255,255,0.12);color:#fff;letter-spacing:0">
+      <img id="nav-logo-img" src="" alt="" class="w-full h-full object-cover hidden"/>
+      <span id="nav-logo-text">ne</span>
+    </a>
+    <!-- Links -->
+    <div class="flex items-center gap-5">
+      <a href="#work" class="text-sm font-syne text-gray-400 hover:text-white transition-colors">Work</a>
+      <a href="#services" class="text-sm font-syne text-gray-400 hover:text-white transition-colors">Services</a>
+      <a href="#pricing" class="text-sm font-syne text-gray-400 hover:text-white transition-colors">Pricing</a>
+      <a href="#contact" class="text-sm font-syne text-gray-400 hover:text-white transition-colors">Contact</a>
+      <a href="login.html" class="text-sm font-syne text-gray-400 hover:text-white transition-colors">Client Login</a>
+    </div>
+    <!-- CTA -->
+   <a href="#contact" class="px-5 py-2 rounded-full text-sm font-syne font-semibold transition-all hover:opacity-90 shrink-0" style="background:#FF6B1A;color:#000;border:none">
+      Get in Touch
+    </a>
+  </div>
+
+  <!-- Mobile: Bar -->
+  <div class="flex md:hidden items-center justify-between px-4 py-3 rounded-2xl" style="background:rgba(13,13,13,0.96);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.07);max-width:100%;overflow:hidden">
+    <a href="#" class="flex items-center gap-2">
+      <img id="mobile-logo-img" src="" alt="" class="w-8 h-8 rounded-full object-cover hidden"/>
+      <span id="mobile-logo-text" class="font-bebas text-lg tracking-widest text-white">NOI <span style="color:#FF6B1A">EDITORS</span></span>
+    </a>
+    <button id="menu-btn" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(255,107,26,0.12);color:#FF6B1A">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+  </div>
+
+  <!-- Mobile: Dropdown -->
+  <div id="mobile-menu" class="md:hidden hidden mt-2 rounded-2xl overflow-hidden" style="background:rgba(13,13,13,0.98);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.07)">
+    <div class="flex flex-col p-3 gap-1">
+      <a href="#work" onclick="closeMobileMenu()" class="px-4 py-3 rounded-xl text-sm font-syne text-gray-400 hover:text-white hover:bg-white/5 transition-all">Work</a>
+      <a href="#services" onclick="closeMobileMenu()" class="px-4 py-3 rounded-xl text-sm font-syne text-gray-400 hover:text-white hover:bg-white/5 transition-all">Services</a>
+      <a href="#pricing" onclick="closeMobileMenu()" class="px-4 py-3 rounded-xl text-sm font-syne text-gray-400 hover:text-white hover:bg-white/5 transition-all">Pricing</a>
+      <a href="#contact" onclick="closeMobileMenu()" class="px-4 py-3 rounded-xl text-sm font-syne text-gray-400 hover:text-white hover:bg-white/5 transition-all">Contact</a>
+      <a href="login.html" class="px-4 py-3 rounded-xl text-sm font-syne text-gray-400 hover:text-white hover:bg-white/5 transition-all">Client Login</a>
+      <div class="pt-2 mt-1 border-t" style="border-color:rgba(255,255,255,0.06)">
+        <a href="#contact" onclick="closeMobileMenu()" class="flex justify-center py-3 rounded-xl text-sm font-syne font-semibold" style="background:#FF6B1A;color:#000">Get In Touch</a>
+      </div>
+    </div>
+  </div>
+
+</nav>
+
+<section class="hero-gradient hero-section min-h-screen flex flex-col items-center text-center px-6 pt-52 md:pt-32 relative">
+  <!-- Decorative circles — clipped inside section -->
+  <div class="hero-deco absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-5" style="background:radial-gradient(circle,#FF6B1A,transparent);filter:blur(60px)"></div>
+  <div class="hero-deco absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full opacity-5" style="background:radial-gradient(circle,#FF6B1A,transparent);filter:blur(40px)"></div>
+
+  <div class="float inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 tag text-xs font-syne font-semibold tracking-wider uppercase" data-aos="fade-down">
+    <span class="w-2 h-2 rounded-full bg-orange-accent animate-pulse inline-block"></span>
+    Available for New Projects
+  </div>
+
+  <h1 class="section-title text-glow leading-none mb-6 w-full" style="font-size:clamp(3.2rem,12vw,11rem)" data-aos="fade-up">
+    RAW TO<br/><span style="color:#FF6B1A">ROYALTY</span>
+  </h1>
+
+  <p class="max-w-sm mx-auto text-gray-400 text-base font-dm mb-10 tracking-wide" data-aos="fade-up" data-aos-delay="100">
+    <span class="text-white font-semibold">NOI EDITORS</span> — We make your vision <span style="color:#FF6B1A" class="font-semibold">Legendary.</span>
+  </p>
+
+  <div class="flex flex-wrap gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+    <a href="#work" class="px-8 py-4 rounded-full font-syne font-semibold text-black transition-all hover:scale-105 glow-orange" style="background:#FF6B1A">
+      See Our Work ↓
+    </a>
+    <a href="#contact" class="px-8 py-4 rounded-full font-syne font-semibold text-white border transition-all hover:border-orange-accent hover:text-orange-accent" style="border-color:rgba(255,107,26,0.3)">
+      Start a Project
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl w-full" data-aos="fade-up" data-aos-delay="300">
+    <div class="text-center">
+      <div class="font-bebas text-5xl" style="color:#FF6B1A">200+</div>
+      <div class="text-xs text-gray-500 font-syne uppercase tracking-wider mt-1">Videos Edited</div>
+    </div>
+    <div class="text-center">
+      <div class="font-bebas text-5xl" style="color:#FF6B1A">50+</div>
+      <div class="text-xs text-gray-500 font-syne uppercase tracking-wider mt-1">Happy Clients</div>
+    </div>
+    <div class="text-center">
+      <div class="font-bebas text-5xl" style="color:#FF6B1A">3+</div>
+      <div class="text-xs text-gray-500 font-syne uppercase tracking-wider mt-1">Years Exp</div>
+    </div>
+    <div class="text-center">
+      <div class="font-bebas text-5xl" style="color:#FF6B1A">24H</div>
+      <div class="text-xs text-gray-500 font-syne uppercase tracking-wider mt-1">Fast Delivery</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MARQUEE ─── -->
+<div class="py-6 overflow-hidden" style="background:linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.05) 50%,rgba(8,8,8,1) 100%);border-top:1px solid rgba(255,107,26,0.2);border-bottom:1px solid rgba(255,107,26,0.2)">
+  <div class="marquee-track">
+    <span class="inline-flex items-center gap-10 pr-16 font-bebas text-2xl tracking-widest" style="white-space:nowrap;color:rgba(255,107,26,0.5)">
+      <span>VIDEO EDITING</span><span style="color:#FF6B1A">✦</span>
+      <span>MOTION GRAPHICS</span><span style="color:#FF6B1A">✦</span>
+      <span>SHORT FORM</span><span style="color:#FF6B1A">✦</span>
+      <span>LONG FORM</span><span style="color:#FF6B1A">✦</span>
+      <span>CINEMATIC</span><span style="color:#FF6B1A">✦</span>
+      <span>GAMING</span><span style="color:#FF6B1A">✦</span>
+      <span>PROMOTIONAL ADS</span><span style="color:#FF6B1A">✦</span>
+      <span>DOCUMENTARY</span><span style="color:#FF6B1A">✦</span>
+      <span>VIDEO EDITING</span><span style="color:#FF6B1A">✦</span>
+      <span>MOTION GRAPHICS</span><span style="color:#FF6B1A">✦</span>
+      <span>SHORT FORM</span><span style="color:#FF6B1A">✦</span>
+      <span>LONG FORM</span><span style="color:#FF6B1A">✦</span>
+      <span>CINEMATIC</span><span style="color:#FF6B1A">✦</span>
+      <span>GAMING</span><span style="color:#FF6B1A">✦</span>
+      <span>PROMOTIONAL ADS</span><span style="color:#FF6B1A">✦</span>
+      <span>DOCUMENTARY</span><span style="color:#FF6B1A">✦</span>
+    </span>
+  </div>
+</div>
+
+<!-- ─── WORK / PORTFOLIO ─── -->
+<section id="work" class="py-32 px-6 max-w-7xl mx-auto">
+  <!-- Section Header -->
+  <div class="mb-16" data-aos="fade-up">
+    <div class="orange-line mb-4"></div>
+    <div class="flex items-end justify-between flex-wrap gap-4">
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">OUR WORK</h2>
+      <span class="text-gray-500 font-syne text-sm">Short Form ✦ Reels ✦ YouTube</span>
+    </div>
+  </div>
+
+  <!-- ── SHORT FORM ── -->
+  <div id="short-form-section" class="mb-24">
+    <div class="flex items-center gap-3 mb-10" data-aos="fade-up">
+      <span class="font-bebas text-3xl text-white tracking-wider">SHORT FORM</span>
+      <span class="tag px-3 py-1 rounded-full text-xs font-syne">Reels · Shorts · TikTok</span>
+    </div>
+    <div class="relative flex items-center justify-center gap-2 md:gap-4" style="padding:0 4px;">
+      <button id="btn-prev" onclick="slideWork(-1)" class="shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border transition-all hover:border-orange-accent hover:text-orange-accent z-20" style="border-color:rgba(255,107,26,0.3);color:#999;background:#111">
+        <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
+      </button>
+      <div id="short-viewport" style="overflow:hidden;width:100%;max-width:1100px;position:relative;">
+        <div id="short-carousel" style="display:flex;gap:20px;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);will-change:transform;align-items:center;"></div>
+      </div>
+      <button id="btn-next" onclick="slideWork(1)" class="shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border transition-all hover:border-orange-accent hover:text-orange-accent z-20" style="border-color:rgba(255,107,26,0.3);color:#999;background:#111">
+        <i data-lucide="chevron-right" class="w-4 h-4 md:w-5 md:h-5"></i>
+      </button>
+    </div>
+    <div id="short-dots" class="flex justify-center gap-2 mt-8"></div>
+  </div>
+
+  <!-- ── LONG FORM ── -->
+  <div id="long-form-section">
+    <div class="flex items-center gap-3 mb-10" data-aos="fade-up">
+      <span class="font-bebas text-3xl text-white tracking-wider">LONG FORM</span>
+      <span class="tag px-3 py-1 rounded-full text-xs font-syne">YouTube · Documentary</span>
+    </div>
+    <div class="relative flex items-center justify-center gap-2 md:gap-4" style="padding:0 4px;">
+      <button id="btn-long-prev" onclick="slideLong(-1)" class="shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border transition-all hover:border-orange-accent hover:text-orange-accent z-20" style="border-color:rgba(255,107,26,0.3);color:#999;background:#111">
+        <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
+      </button>
+      <div id="long-viewport" style="overflow:hidden;width:100%;max-width:1100px;position:relative;">
+        <div id="long-carousel" style="display:flex;gap:20px;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);will-change:transform;align-items:center;"></div>
+      </div>
+      <button id="btn-long-next" onclick="slideLong(1)" class="shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border transition-all hover:border-orange-accent hover:text-orange-accent z-20" style="border-color:rgba(255,107,26,0.3);color:#999;background:#111">
+        <i data-lucide="chevron-right" class="w-4 h-4 md:w-5 md:h-5"></i>
+      </button>
+    </div>
+    <div id="long-dots" class="flex justify-center gap-2 mt-8"></div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services" class="py-32 px-6 stripe-bg" style="background-color:#080808">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16 text-center" data-aos="fade-up">
+      <div class="orange-line mx-auto mb-4"></div>
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">WHAT NOI DO</h2>
+      <p class="text-gray-500 mt-4 max-w-xl mx-auto font-dm">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="0">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,107,26,0.1)">
+          <i data-lucide="zap" class="w-5 h-5" style="color:#FF6B1A"></i>
+        </div>
+        <h3 class="font-syne font-bold text-white text-lg mb-3">Short Form</h3>
+        <p class="text-gray-500 text-sm font-dm leading-relaxed">Scroll-stopping Reels, Shorts & TikToks with trend-based cuts and high-retention hooks.</p>
+        <div class="mt-5 pt-5 border-t" style="border-color:#1f1f1f">
+          <span class="tag px-3 py-1 rounded-full text-xs font-syne">Reels · Shorts · TikTok</span>
+        </div>
+      </div>
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="80">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,107,26,0.1)">
+          <i data-lucide="film" class="w-5 h-5" style="color:#FF6B1A"></i>
+        </div>
+        <h3 class="font-syne font-bold text-white text-lg mb-3">Long Form</h3>
+        <p class="text-gray-500 text-sm font-dm leading-relaxed">Story-driven, high-retention YouTube videos with clean pacing and professional flow.</p>
+        <div class="mt-5 pt-5 border-t" style="border-color:#1f1f1f">
+          <span class="tag px-3 py-1 rounded-full text-xs font-syne">YouTube · Documentary</span>
+        </div>
+      </div>
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="160">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,107,26,0.1)">
+          <i data-lucide="sparkles" class="w-5 h-5" style="color:#FF6B1A"></i>
+        </div>
+        <h3 class="font-syne font-bold text-white text-lg mb-3">Motion Graphics</h3>
+        <p class="text-gray-500 text-sm font-dm leading-relaxed">Dynamic animations, lower thirds, intros/outros, and visual effects that elevate your brand.</p>
+        <div class="mt-5 pt-5 border-t" style="border-color:#1f1f1f">
+          <span class="tag px-3 py-1 rounded-full text-xs font-syne">VFX · Animation · Branding</span>
+        </div>
+      </div>
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="240">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,107,26,0.1)">
+          <i data-lucide="megaphone" class="w-5 h-5" style="color:#FF6B1A"></i>
+        </div>
+        <h3 class="font-syne font-bold text-white text-lg mb-3">Promo Ads</h3>
+        <p class="text-gray-500 text-sm font-dm leading-relaxed">High-converting promotional videos for product launches, brands, and social media campaigns.</p>
+        <div class="mt-5 pt-5 border-t" style="border-color:#1f1f1f">
+          <span class="tag px-3 py-1 rounded-full text-xs font-syne">Ads · Promos · Brand</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
+      <div class="p-5 rounded-xl border flex items-center gap-3" style="background:#111;border-color:#1f1f1f" data-aos="fade-up">
+        <i data-lucide="gamepad-2" class="w-5 h-5 shrink-0" style="color:#FF6B1A"></i>
+        <span class="font-syne font-semibold text-sm">Gaming Videos</span>
+      </div>
+      <div class="p-5 rounded-xl border flex items-center gap-3" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="80">
+        <i data-lucide="clapperboard" class="w-5 h-5 shrink-0" style="color:#FF6B1A"></i>
+        <span class="font-syne font-semibold text-sm">Cinematic Edits</span>
+      </div>
+      <div class="p-5 rounded-xl border flex items-center gap-3" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="160">
+        <i data-lucide="clock" class="w-5 h-5 shrink-0" style="color:#FF6B1A"></i>
+        <span class="font-syne font-semibold text-sm">24H Fast Delivery</span>
+      </div>
+      <div class="p-5 rounded-xl border flex items-center gap-3" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="240">
+        <i data-lucide="refresh-cw" class="w-5 h-5 shrink-0" style="color:#FF6B1A"></i>
+        <span class="font-syne font-semibold text-sm">Unlimited Revisions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section id="testimonials" class="py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16 text-center" data-aos="fade-up">
+      <div class="orange-line mx-auto mb-4"></div>
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">CLIENT FEEDBACK</h2>
+    </div>
+    <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section id="pricing" class="py-32 px-6 stripe-bg" style="background-color:#080808">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-16 text-center" data-aos="fade-up">
+      <div class="orange-line mx-auto mb-4"></div>
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">PRICING PLANS</h2>
+      <p class="text-gray-500 mt-4 font-dm">Flexible plans for every creator and brand</p>
+    </div>
+    <div class="flex justify-center mb-12" data-aos="fade-up">
+      <div class="flex p-1 rounded-full" style="background:#111;border:1px solid #1f1f1f">
+        <button onclick="setPricing('india')" id="btn-india" class="price-toggle px-6 py-2 rounded-full text-sm font-syne font-semibold transition-all" style="background:#FF6B1A;color:#000">India 🇮🇳</button>
+        <button onclick="setPricing('world')" id="btn-world" class="price-toggle px-6 py-2 rounded-full text-sm font-syne font-semibold transition-all text-gray-400">Outside India 🌍</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111;border-color:#1f1f1f" data-aos="fade-up">
+        <div class="tag px-3 py-1 rounded-full text-xs font-syne inline-block mb-6">SHORT FORM</div>
+        <h3 class="font-bebas text-4xl text-white mb-1">SHORT</h3>
+        <div class="font-syne font-bold text-2xl mb-6 price-india price-label" style="color:#FF6B1A">₹ As per project</div>
+        <div class="font-syne font-bold text-2xl mb-6 price-world price-label hidden" style="color:#FF6B1A">$ As per project</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>20 Videos / Month</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Scroll-Stopping Edits</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Trend-Based Cuts</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Personalized Branding</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Unlimited Revisions</li>
+        </ul>
+        <a href="#contact" class="block text-center py-3 rounded-full font-syne font-semibold text-sm border transition-all hover:border-orange-accent hover:text-orange-accent" style="border-color:#2a2a2a;color:#888">Get In Touch</a>
+      </div>
+      <div class="card-hover popular-card p-8 rounded-2xl border relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full text-xs font-syne font-bold" style="background:#FF6B1A;color:#000">MOST POPULAR</div>
+        <div class="tag px-3 py-1 rounded-full text-xs font-syne inline-block mb-6">LONG FORM</div>
+        <h3 class="font-bebas text-4xl text-white mb-1">LONG</h3>
+        <div class="font-syne font-bold text-2xl mb-6 price-india price-label" style="color:#FF6B1A">₹ As per project</div>
+        <div class="font-syne font-bold text-2xl mb-6 price-world price-label hidden" style="color:#FF6B1A">$ As per project</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Story-Driven Editing</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Clean Pacing & Flow</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Personalized Branding</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Unlimited Revisions</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>24/7 Chat Support</li>
+        </ul>
+        <a href="#contact" class="block text-center py-3 rounded-full font-syne font-semibold text-sm transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Get In Touch</a>
+      </div>
+      <div class="card-hover p-8 rounded-2xl border" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="200">
+        <div class="tag px-3 py-1 rounded-full text-xs font-syne inline-block mb-6">CUSTOM</div>
+        <h3 class="font-bebas text-4xl text-white mb-1">CUSTOM</h3>
+        <div class="font-syne font-bold text-2xl mb-6" style="color:#FF6B1A">Let's Talk</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Fully Customizable</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Any Format / Style</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Dedicated Editor</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>Priority Delivery</li>
+          <li class="flex items-center gap-3 text-sm text-gray-400 font-dm"><i data-lucide="check" class="w-4 h-4 shrink-0" style="color:#FF6B1A"></i>VIP Support</li>
+        </ul>
+        <a href="#contact" class="block text-center py-3 rounded-full font-syne font-semibold text-sm border transition-all hover:border-orange-accent hover:text-orange-accent" style="border-color:#2a2a2a;color:#888">Get In Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ─── -->
+<section id="faq" class="py-32 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="mb-16 text-center" data-aos="fade-up">
+      <div class="orange-line mx-auto mb-4"></div>
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">FAQs</h2>
+    </div>
+    <div class="space-y-3" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="py-32 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-16 text-center" data-aos="fade-up">
+      <div class="orange-line mx-auto mb-4"></div>
+      <h2 class="section-title text-white" style="font-size:clamp(2.5rem,6vw,5rem)">LET'S WORK</h2>
+      <p class="text-gray-500 mt-4 font-dm">Have a project? Drop us a message.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <div data-aos="fade-right">
+        <div class="space-y-6">
+          <a href="/cdn-cgi/l/email-protection#741a1b1d11101d001b0607341319151d185a171b19" class="flex items-center gap-4 p-5 rounded-2xl border transition-all hover:border-orange-accent group" style="background:#111;border-color:#1f1f1f">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-orange-accent transition-all" style="background:rgba(255,107,26,0.1)">
+              <i data-lucide="mail" class="w-5 h-5" style="color:#FF6B1A"></i>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 font-syne uppercase tracking-wider">Email</div>
+              <div class="font-syne font-semibold text-white mt-0.5"><span class="__cf_email__" data-cfemail="a0cecfc9c5c4c9d4cfd2d3e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></div>
+            </div>
+          </a>
+          <a href="https://wa.me/918849438871" target="_blank" class="flex items-center gap-4 p-5 rounded-2xl border transition-all hover:border-orange-accent group" style="background:#111;border-color:#1f1f1f">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-orange-accent transition-all" style="background:rgba(255,107,26,0.1)">
+              <i data-lucide="message-circle" class="w-5 h-5" style="color:#FF6B1A"></i>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 font-syne uppercase tracking-wider">WhatsApp</div>
+              <div class="font-syne font-semibold text-white mt-0.5">+91 88494 38871</div>
+            </div>
+          </a>
+          <a href="https://www.instagram.com/noieditors" target="_blank" class="flex items-center gap-4 p-5 rounded-2xl border transition-all hover:border-orange-accent group" style="background:#111;border-color:#1f1f1f">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-orange-accent transition-all" style="background:rgba(255,107,26,0.1)">
+              <i data-lucide="instagram" class="w-5 h-5" style="color:#FF6B1A"></i>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 font-syne uppercase tracking-wider">Instagram</div>
+              <div class="font-syne font-semibold text-white mt-0.5">@noieditors</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div data-aos="fade-left">
+        <div class="p-8 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-syne uppercase tracking-wider text-gray-500 mb-2">Your Name</label>
+              <input id="cf-name" type="text" placeholder="John Doe" class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white placeholder-gray-600 outline-none transition-all" style="background:#161616;border:1px solid #2a2a2a"/>
+            </div>
+            <div>
+              <label class="block text-xs font-syne uppercase tracking-wider text-gray-500 mb-2">Email</label>
+              <input id="cf-email" type="email" placeholder="you@example.com" class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white placeholder-gray-600 outline-none transition-all" style="background:#161616;border:1px solid #2a2a2a"/>
+            </div>
+            <div>
+              <label class="block text-xs font-syne uppercase tracking-wider text-gray-500 mb-2">Project Type</label>
+              <select id="cf-type" class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white outline-none" style="background:#161616;border:1px solid #2a2a2a">
+                <option value="">Select Type</option>
+                <option>Short Form (Reels/Shorts)</option>
+                <option>Long Form (YouTube)</option>
+                <option>Motion Graphics</option>
+                <option>Promo Ad</option>
+                <option>Custom Package</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-syne uppercase tracking-wider text-gray-500 mb-2">Message</label>
+              <textarea id="cf-msg" rows="4" placeholder="Tell us about your project..." class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white placeholder-gray-600 outline-none transition-all resize-none" style="background:#161616;border:1px solid #2a2a2a"></textarea>
+            </div>
+            <button onclick="submitForm()" class="w-full py-4 rounded-xl font-syne font-bold text-sm transition-all hover:opacity-90 hover:scale-[1.01]" style="background:#FF6B1A;color:#000">
+              Send Message →
+            </button>
+            <div id="form-msg" class="hidden text-center text-sm font-syne py-2" style="color:#FF6B1A"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="border-t py-12 px-6" style="border-color:#1f1f1f;background:#080808">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <img id="footer-logo-img" src="" alt="" class="w-8 h-8 rounded-full object-cover hidden"/>
+      <div class="font-bebas text-2xl tracking-widest">NOI <span style="color:#FF6B1A">EDITORS</span></div>
+    </div>
+    <div class="flex gap-6">
+      <a href="#work" class="text-gray-600 hover:text-white text-sm font-syne transition-colors">Work</a>
+      <a href="#services" class="text-gray-600 hover:text-white text-sm font-syne transition-colors">Services</a>
+      <a href="#pricing" class="text-gray-600 hover:text-white text-sm font-syne transition-colors">Pricing</a>
+      <a href="login.html" class="text-gray-600 hover:text-white text-sm font-syne transition-colors">Login</a>
+    </div>
+    <div class="text-gray-600 text-xs font-dm">© 2026 noieditors.com · All rights reserved</div>
+  </div>
+</footer>
+
+<!-- Video modal removed — inline player used instead -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── Cursor
+if(window.matchMedia('(pointer: fine)').matches){
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+  animRing();
+}
+
+// ─── Mobile Menu
+document.getElementById('menu-btn').addEventListener('click',()=>{
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+function closeMobileMenu(){ document.getElementById('mobile-menu').classList.add('hidden'); }
+document.addEventListener('click',(e)=>{
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.getElementById('menu-btn');
+  if(!menu.contains(e.target)&&!btn.contains(e.target)) menu.classList.add('hidden');
+});
+
+// ─── AOS Init
+AOS.init({ duration: 700, once: true, offset: 80 });
+lucide.createIcons();
+
+// ─── Logo from admin
+function applyLogo(){
+  const logo = localStorage.getItem('noi_logo');
+  if(!logo) return;
+  // Desktop nav
+  const img = document.getElementById('nav-logo-img');
+  const txt = document.getElementById('nav-logo-text');
+  if(img){ img.src=logo; img.classList.remove('hidden'); }
+  if(txt) txt.classList.add('hidden');
+  // Mobile nav
+  const mImg = document.getElementById('mobile-logo-img');
+  const mTxt = document.getElementById('mobile-logo-text');
+  if(mImg){ mImg.src=logo; mImg.classList.remove('hidden'); }
+  if(mTxt) mTxt.classList.add('hidden');
+  // Footer
+  const fImg = document.getElementById('footer-logo-img');
+  if(fImg){ fImg.src=logo; fImg.classList.remove('hidden'); }
+}
+
+// ─── Default Data
+const defaultVideos = [
+  { id:'v1', title:'Tech Review | Cinematic Edit', category:'long', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v2', title:'Gaming Highlights Reel', category:'long', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v3', title:'Short Form · Instagram Reel', category:'short', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v4', title:'Motion Graphics Promo', category:'long', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v5', title:'YouTube Long-Form Edit', category:'long', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v6', title:'Brand Ad · Short Form', category:'short', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v7', title:'Reel Edit · Trending Audio', category:'short', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+  { id:'v8', title:'YouTube Documentary Edit', category:'long', thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', yt:'dQw4w9WgXcQ' },
+];
+const defaultTestimonials = [
+  { name:'Technical Sagar', sub:'3.14M Subscribers', text:"Been working with Noi Editors for over 6 months. Clean edits, fast delivery, and a smooth workflow. Highly recommend!", avatar:'TS' },
+  { name:'I Love Jamnagar', sub:'429K Followers', text:'Really good experience working with Noi Editors. Everything was smooth and the output quality was solid.', avatar:'IJ' },
+  { name:'Cyber Sagar', sub:'64.1K Subscribers', text:'Communication was smooth, edits were clean, and delivery was always on time. No complications at all.', avatar:'CS' },
+];
+const defaultFAQs = [
+  { q:'What is your editing process?', a:'We receive your raw footage, understand your vision, edit with precision, and deliver within the agreed timeline. We keep you updated at every step.' },
+  { q:'How can I send you the footage?', a:"You can share footage via Google Drive, WeTransfer, or any cloud storage. We'll send you a link once the project is confirmed." },
+  { q:"What if I'm not satisfied with the edit?", a:"We offer unlimited revisions until you're 100% happy. Your satisfaction is our priority." },
+  { q:'Can you deliver within 24 hours?', a:'Yes! For urgent projects we offer 24H express delivery. Contact us to confirm availability.' },
+  { q:'How do I get started?', a:'Simply click "Get In Touch", describe your project, and we\'ll get back to you within a few hours.' },
+  { q:'What payment methods do you accept?', a:'We accept UPI, Bank Transfer (India), and PayPal / Wise (International clients).' },
+];
+
+function getVideos(){ try{ return JSON.parse(localStorage.getItem('noi_videos'))||defaultVideos; }catch{ return defaultVideos; } }
+function getTestimonials(){ try{ return JSON.parse(localStorage.getItem('noi_testimonials'))||defaultTestimonials; }catch{ return defaultTestimonials; } }
+
+// ─── Video Player System
+let shortIndex = 0;
+let activeVideoEl = null; // currently playing <video> element
+
+function getShortVideos(){ return getVideos().filter(v=>v.category==='short'); }
+function getLongVideos(){ return getVideos().filter(v=>v.category!=='short'); }
+function getVisibleCount(){ return window.innerWidth>=768?3:1; }
+
+// Stop all playing videos
+function stopAllVideos(){
+  document.querySelectorAll('video').forEach(v=>{
+    v.pause();
+  });
+  document.querySelectorAll('.yt-frame').forEach(f=>{
+    f.src = f.src.replace('&autoplay=1','');
+    f.style.display='none';
+    const img = f.parentElement.querySelector('.vid-thumb-img');
+    if(img) img.style.display='block';
+  });
+  document.querySelectorAll('.short-card,.vid-card').forEach(c=>c.classList.remove('playing'));
+  activeVideoEl = null;
+}
+
+// Build a video card HTML
+function buildVideoCard(v, isShort){
+  const isMP4 = v.mp4 && v.mp4.length > 0;
+  const aspect = isShort ? 'padding-bottom:177.78%' : 'padding-bottom:56.25%';
+  const tag = isShort ? 'Short Form' : 'Long Form';
+  const thumb = v.thumb || (v.yt ? `https://img.youtube.com/vi/${v.yt}/maxresdefault.jpg` : '');
+
+  if(isMP4){
+    return `
+    <div class="vid-card card-hover shrink-0 flex-1" style="min-width:0;position:relative;">
+      <div style="position:relative;${aspect};overflow:hidden;border-radius:14px;">
+        <video class="vid-video" src="${v.mp4}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" muted playsinline preload="none" poster="${thumb}"></video>
+        <div class="vid-overlay" onclick="toggleVideoPlay(this)">
+          <div class="vid-play-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <div class="vid-controls">
+          <button class="vid-ctrl-btn" onclick="togglePlayBtn(this)" title="Play/Pause">
+            <svg class="pp-icon" width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="vid-ctrl-btn" onclick="toggleMuteBtn(this)" title="Mute/Unmute">
+            <svg class="mute-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
+        </div>
+        <div class="vid-title-bar">
+          <span class="tag px-2 py-0.5 rounded text-xs font-syne inline-block mb-1">${tag}</span>
+          <div class="font-syne font-semibold text-white text-sm">${v.title}</div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    const ytId = v.yt || '';
+    return `
+    <div class="vid-card card-hover shrink-0 flex-1" style="min-width:0;position:relative;">
+      <div style="position:relative;${aspect};overflow:hidden;border-radius:14px;background:#111;">
+        <img src="${thumb}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s" class="vid-thumb-img"/>
+        <iframe class="yt-frame" style="position:absolute;inset:0;width:100%;height:100%;display:none;" src="https://www.youtube.com/embed/${ytId}?enablejsapi=1&rel=0&modestbranding=1" allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
+        <div class="vid-overlay" onclick="playYT(this,'${ytId}')">
+          <div class="vid-play-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <div class="vid-controls" style="opacity:0">
+          <button class="vid-ctrl-btn" onclick="toggleYTPause(this)" title="Pause">
+            <svg class="pp-icon" width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="vid-ctrl-btn mute-yt-btn" onclick="toggleYTMute(this)" title="Mute">
+            <svg class="mute-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
+        </div>
+        <div class="vid-title-bar">
+          <span class="tag px-2 py-0.5 rounded text-xs font-syne inline-block mb-1">${tag}</span>
+          <div class="font-syne font-semibold text-white text-sm">${v.title}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+// Toggle MP4 play via overlay click
+function toggleVideoPlay(overlay){
+  const card = overlay.closest('.vid-card');
+  const video = card.querySelector('video');
+  if(!video) return;
+  if(video.paused){
+    stopAllVideos();
+    video.muted = false;
+    video.play();
+    card.classList.add('playing');
+    activeVideoEl = video;
+    overlay.classList.add('hidden-overlay');
+  } else {
+    video.pause();
+    card.classList.remove('playing');
+    overlay.classList.remove('hidden-overlay');
+  }
+}
+
+// Play/pause button inside controls
+function togglePlayBtn(btn){
+  const card = btn.closest('.vid-card');
+  const video = card.querySelector('video');
+  if(!video) return;
+  if(video.paused){ video.play(); card.classList.add('playing'); }
+  else { video.pause(); card.classList.remove('playing'); }
+}
+
+// Mute/unmute for MP4
+function toggleMuteBtn(btn){
+  const video = btn.closest('.vid-card').querySelector('video');
+  if(!video) return;
+  video.muted = !video.muted;
+  const svg = btn.querySelector('.mute-icon');
+  if(video.muted){
+    svg.innerHTML='<polygon points="11,5 6,9 2,9 2,15 6,15 11,19" fill="white"/><line x1="23" y1="9" x2="17" y2="15" stroke="white" stroke-width="2"/><line x1="17" y1="9" x2="23" y2="15" stroke="white" stroke-width="2"/>';
+  } else {
+    svg.innerHTML='<polygon points="11,5 6,9 2,9 2,15 6,15 11,19" fill="none" stroke="white" stroke-width="2"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="white" stroke-width="2" fill="none"/>';
+  }
+}
+
+// Play YouTube inline
+function playYT(overlay, ytId){
+  const card = overlay.closest('.vid-card');
+  stopAllVideos();
+  const iframe = card.querySelector('.yt-frame');
+  const thumbImg = card.querySelector('.vid-thumb-img');
+  iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
+  iframe.style.display='block';
+  if(thumbImg) thumbImg.style.display='none';
+  overlay.classList.add('hidden-overlay');
+  card.classList.add('playing');
+  card.querySelector('.vid-controls').style.opacity='1';
+}
+
+function toggleYTPause(btn){
+  // YouTube autoplay — clicking pause just stops showing controls (basic UX)
+  const card = btn.closest('.vid-card');
+  const iframe = card.querySelector('.yt-frame');
+  const thumb = card.querySelector('.vid-thumb-img');
+  iframe.style.display='none';
+  if(thumb) thumb.style.display='block';
+  card.classList.remove('playing');
+  btn.closest('.vid-controls').style.opacity='0';
+}
+
+function toggleYTMute(btn){ /* YT API mute would need postMessage — skip for simplicity */ }
+
+// ─── Intersection Observer: center video auto-unmute
+const ioOptions = { threshold: 0.7 };
+const vidObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const video = entry.target.querySelector('video');
+    if(!video) return;
+    if(entry.isIntersecting && !video.paused){
+      video.muted = false;
+    } else {
+      video.muted = true;
+    }
+  });
+}, ioOptions);
+
+function observeCards(){
+  document.querySelectorAll('.vid-card').forEach(card=>{ vidObserver.observe(card); });
+}
+
+// ══════════════════════════════════════════
+// UNIFIED CAROUSEL ENGINE
+// ══════════════════════════════════════════
+let shortCenterIndex = 0;
+let longCenterIndex  = 0;
+let centerIndex = 0; // legacy compat
+
+function getShortVideos(){ return getVideos().filter(v=>v.category==="short"); }
+function getLongVideos(){  return getVideos().filter(v=>v.category!=="short"); }
+
+// ── Card builder (shared by short & long)
+function buildCarouselCard(v, realIdx, displayIdx, type){
+  const isMP4  = v.mp4 && v.mp4.length > 0;
+  const thumb  = v.thumb || (v.yt ? `https://img.youtube.com/vi/${v.yt}/maxresdefault.jpg` : "");
+  const ytId   = v.yt || "";
+  const tag    = type === "short" ? "Short Form" : "Long Form";
+  const aspect = type === "short" ? "padding-bottom:177.78%" : "padding-bottom:56.25%";
+
+  // ✅ FIXED TERNARY
+  const mediaHtml = isMP4 ? `
+    <video src="${v.mp4}" 
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" 
+      muted playsinline preload="none" poster="${thumb}" loop></video>
+  ` : `
+    <img src="${thumb}" 
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" 
+      class="vid-thumb-img"/>
+    <iframe class="yt-frame" 
+      style="position:absolute;inset:0;width:100%;height:100%;display:none;border:none;" 
+      src="https://www.youtube.com/embed/${ytId}?enablejsapi=1&rel=0&modestbranding=1" 
+      allow="autoplay; fullscreen" allowfullscreen></iframe>
+  `;
+
+  return `
+  <div class="carousel-card ${type}-card" 
+       data-idx="${displayIdx}" 
+       data-real-idx="${realIdx}" 
+       data-type="${type}" 
+       style="flex-shrink:0;position:relative;transition:0.6s;cursor:pointer;border-radius:18px;"
+       onclick="handleCarouselClick('${type}', ${displayIdx}, this, '${ytId}', ${isMP4})">
+
+    <div style="position:relative;${aspect};overflow:hidden;border-radius:18px;background:#111;">
+      
+      ${mediaHtml}
+
+      <!-- overlay -->
+      <div class="vid-overlay" 
+           onclick="event.stopPropagation(); toggleVideoPlay(this)"
+           style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;">
+        <div style="width:58px;height:58px;border-radius:50%;background:#FF6B1A;display:flex;align-items:center;justify-content:center;">
+          ▶
+        </div>
+      </div>
+
+      <!-- controls -->
+      <div class="vid-controls" 
+           style="position:absolute;bottom:0;left:0;right:0;padding:10px;display:flex;justify-content:space-between;z-index:3;">
+
+        <button onclick="event.stopPropagation(); togglePlayBtn(this)">
+          ⏯
+        </button>
+
+        <button onclick="event.stopPropagation(); toggleMuteBtn(this)">
+          🔊
+        </button>
+
+      </div>
+
+      <!-- title -->
+      <div style="position:absolute;bottom:40px;left:0;right:0;padding:0 12px;">
+        <span>${tag}</span>
+        <div>${v.title}</div>
+      </div>
+
+    </div>
+  </div>`;
+}
+
+function renderCarousel(type){
+  const videos     = type === "short" ? getShortVideos() : getLongVideos();
+  const carouselEl = document.getElementById(type+"-carousel");
+  const dotsEl     = document.getElementById(type+"-dots");
+  if(!carouselEl || !videos.length) return;
+  stopAllVideos();
+
+  // 5x clone for infinite loop — no blank ends
+  const repeated = [];
+  for(let r = 0; r < 5; r++){
+    videos.forEach((v, i) => repeated.push({ v, realIdx: i, displayIdx: r * videos.length + i }));
+  }
+
+  carouselEl.innerHTML = repeated.map(({v, realIdx, displayIdx}) =>
+    buildCarouselCard(v, realIdx, displayIdx, type)
+  ).join("");
+
+  // Start at middle copy (index 2)
+  if(type==="short") shortCenterIndex = 2 * videos.length;
+  else               longCenterIndex  = 2 * videos.length;
+
+  updateCarouselTransform(type, false);
+  updateCarouselCardStyles(type);
+
+  if(dotsEl){
+    const realCi = 0;
+    dotsEl.innerHTML = videos.map((_,i) => `
+      <button onclick="goToCarouselCenter('${type}',${i})" style="width:${i===realCi?"20px":"8px"};height:8px;border-radius:99px;background:${i===realCi?"#FF6B1A":"rgba(255,107,26,0.25)"};border:none;cursor:pointer;transition:all .35s;padding:0"></button>
+    `).join("");
+  }
+}
+function getCardWidth(type){
+  const vp  = document.getElementById(type+"-viewport");
+  const vpW = vp ? vp.offsetWidth : window.innerWidth;
+  if(type === "short"){
+    return window.innerWidth < 768 ? Math.min(vpW * 0.72, 300) : 280;
+  } else {
+    return window.innerWidth < 768 ? Math.min(vpW * 0.88, 400) : 480;
+  }
+}
+
+function updateCarouselTransform(type, animate){
+  const carouselEl = document.getElementById(type+"-carousel");
+  if(!carouselEl) return;
+  const vpW   = carouselEl.parentElement.offsetWidth;
+  const cardW = getCardWidth(type);
+  const gap   = 20;
+  const ci    = type === "short" ? shortCenterIndex : longCenterIndex;
+
+  document.querySelectorAll("."+type+"-card").forEach(c => c.style.width = cardW+"px");
+
+  const offset = (vpW/2) - (cardW/2) - ci*(cardW+gap);
+  carouselEl.style.transition = animate ? "transform 0.6s cubic-bezier(0.4,0,0.2,1)" : "none";
+  carouselEl.style.transform  = `translateX(${offset}px)`;
+  if(!animate){
+    carouselEl.getBoundingClientRect();
+    carouselEl.style.transition = "transform 0.6s cubic-bezier(0.4,0,0.2,1)";
+  }
+}
+
+function updateCarouselCardStyles(type){
+  const ci = type === "short" ? shortCenterIndex : longCenterIndex;
+  document.querySelectorAll("."+type+"-card").forEach(card => {
+    const diff     = parseInt(card.dataset.idx) - ci;
+    const overlay  = card.querySelector(".vid-overlay");
+    const controls = card.querySelector(".vid-controls");
+    const inner    = card.firstElementChild;
+
+    if(diff === 0){
+      card.style.transform  = "perspective(1000px) rotateY(0deg) scale(1)";
+      card.style.opacity    = "1";
+      card.style.filter     = "brightness(1)";
+      card.style.zIndex     = "10";
+      if(inner) inner.style.boxShadow = "0 0 60px rgba(255,107,26,0.4), 0 20px 60px rgba(0,0,0,0.6)";
+      if(overlay){ overlay.style.opacity="1"; overlay.style.pointerEvents="auto"; }
+      if(controls){ controls.style.display="flex"; }
+    } else if(Math.abs(diff)===1){
+      const tilt = diff > 0 ? -18 : 18;
+      card.style.transform  = `perspective(1000px) rotateY(${tilt}deg) scale(0.82)`;
+      card.style.opacity    = "0.45";
+      card.style.filter     = "brightness(0.5)";
+      card.style.zIndex     = "5";
+      if(inner) inner.style.boxShadow = "none";
+      if(overlay){ overlay.style.opacity="0"; overlay.style.pointerEvents="none"; }
+      if(controls){ controls.style.display="none"; }
+    } else {
+      const tilt = diff > 0 ? -32 : 32;
+      card.style.transform  = `perspective(1000px) rotateY(${tilt}deg) scale(0.65)`;
+      card.style.opacity    = "0.12";
+      card.style.filter     = "brightness(0.25)";
+      card.style.zIndex     = "1";
+      if(inner) inner.style.boxShadow = "none";
+      if(overlay){ overlay.style.opacity="0"; overlay.style.pointerEvents="none"; }
+      if(controls){ controls.style.display="none"; }
+    }
+  });
+}
+
+function handleCarouselClick(type, displayIdx, cardEl, ytId, isMP4){
+  const ci = type === "short" ? shortCenterIndex : longCenterIndex;
+  if(displayIdx !== ci){ goToCarouselCenter(type, displayIdx); return; }
+  if(isMP4){
+    const video   = cardEl.querySelector("video");
+    const overlay = cardEl.querySelector(".vid-overlay");
+    if(!video) return;
+    if(video.paused){
+      stopAllVideos();
+      video.muted = false;
+      video.play().catch(()=>{ video.muted=true; video.play(); });
+      cardEl.classList.add("playing");
+      activeVideoEl = video;
+      if(overlay){ overlay.style.opacity="0"; overlay.style.pointerEvents="none"; }
+      const ctrl = cardEl.querySelector(".vid-controls");
+      if(ctrl){ ctrl.style.display="flex"; ctrl.style.opacity="1"; }
+    } else {
+      video.pause();
+      cardEl.classList.remove("playing");
+      if(overlay){ overlay.style.opacity="1"; overlay.style.pointerEvents="auto"; }
+    }
+  } else if(ytId){
+    const overlay = cardEl.querySelector(".vid-overlay");
+    playYT(overlay, ytId);
+  }
+}
+
+function goToCarouselCenter(type, idx){
+  stopAllVideos();
+  if(type==="short") shortCenterIndex=idx; else longCenterIndex=idx;
+  updateCarouselTransform(type, true);
+  updateCarouselCardStyles(type);
+  document.querySelectorAll("#"+type+"-dots button").forEach((btn,i)=>{
+    btn.style.width      = i===idx ? "20px" : "8px";
+    btn.style.background = i===idx ? "#FF6B1A" : "rgba(255,107,26,0.25)";
+  });
+}
+
+function slideWork(dir){
+  const videos = getShortVideos();
+  if(!videos.length) return;
+  const total = videos.length;
+  shortCenterIndex += dir;
+  // Silently jump to middle if near edges
+  if(shortCenterIndex <= total * 0.5) shortCenterIndex += total * 2;
+  if(shortCenterIndex >= total * 4)   shortCenterIndex -= total * 2;
+  stopAllVideos();
+  updateCarouselTransform("short", true);
+  updateCarouselCardStyles("short");
+  const ri = shortCenterIndex % total;
+  document.querySelectorAll("#short-dots button").forEach((btn,i)=>{
+    btn.style.width = i===ri ? "20px" : "8px";
+    btn.style.background = i===ri ? "#FF6B1A" : "rgba(255,107,26,0.25)";
+  });
+}
+
+function slideLong(dir){
+  const videos = getLongVideos();
+  if(!videos.length) return;
+  const total = videos.length;
+  longCenterIndex += dir;
+  if(longCenterIndex <= total * 0.5) longCenterIndex += total * 2;
+  if(longCenterIndex >= total * 4)   longCenterIndex -= total * 2;
+  stopAllVideos();
+  updateCarouselTransform("long", true);
+  updateCarouselCardStyles("long");
+  const ri = longCenterIndex % total;
+  document.querySelectorAll("#long-dots button").forEach((btn,i)=>{
+    btn.style.width = i===ri ? "20px" : "8px";
+    btn.style.background = i===ri ? "#FF6B1A" : "rgba(255,107,26,0.25)";
+  });
+}
+
+function renderShortCarousel(){ renderCarousel("short"); }
+function renderLongGrid()     { renderCarousel("long"); }
+function goToCenter(idx)      { goToCarouselCenter("short", idx); }
+function filterWork(f,btn){}
+
+// ─── Testimonials
+function renderTestimonials(){
+  const list=getTestimonials();
+  document.getElementById('testimonials-grid').innerHTML=list.map((t,i)=>`
+    <div class="card-hover p-8 rounded-2xl border" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="${i*80}">
+      <div class="flex gap-1 mb-4">${'★★★★★'.split('').map(s=>`<span style="color:#FF6B1A">${s}</span>`).join('')}</div>
+      <p class="text-gray-400 font-dm text-sm leading-relaxed mb-6">"${t.text}"</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bebas text-sm shrink-0" style="background:rgba(255,107,26,0.15);color:#FF6B1A">${t.avatar}</div>
+        <div>
+          <div class="font-syne font-bold text-white text-sm">${t.name}</div>
+          <div class="text-gray-600 text-xs font-dm">${t.sub}</div>
+        </div>
+      </div>
+    </div>`).join('');
+  AOS.refresh();
+}
+
+// ─── FAQ
+function renderFAQ(){
+  document.getElementById('faq-list').innerHTML=defaultFAQs.map((f,i)=>`
+    <div class="rounded-2xl border overflow-hidden" style="background:#111;border-color:#1f1f1f" data-aos="fade-up" data-aos-delay="${i*50}">
+      <button onclick="toggleFAQ(${i})" class="w-full flex items-center justify-between p-6 text-left">
+        <span class="font-syne font-semibold text-white text-sm">${f.q}</span>
+        <i data-lucide="chevron-down" class="w-4 h-4 shrink-0 transition-transform faq-icon-${i}" style="color:#FF6B1A"></i>
+      </button>
+      <div class="faq-content" id="faq-${i}">
+        <p class="px-6 pb-6 text-gray-500 text-sm font-dm leading-relaxed">${f.a}</p>
+      </div>
+    </div>`).join('');
+  lucide.createIcons(); AOS.refresh();
+}
+function toggleFAQ(i){
+  const el=document.getElementById('faq-'+i);
+  el.classList.toggle('open');
+  document.querySelector('.faq-icon-'+i).style.transform=el.classList.contains('open')?'rotate(180deg)':'';
+}
+
+// ─── Pricing
+function setPricing(type){
+  document.querySelectorAll('.price-india').forEach(el=>el.classList.toggle('hidden',type!=='india'));
+  document.querySelectorAll('.price-world').forEach(el=>el.classList.toggle('hidden',type!=='world'));
+  document.getElementById('btn-india').style.background=type==='india'?'#FF6B1A':'';
+  document.getElementById('btn-india').style.color=type==='india'?'#000':'#999';
+  document.getElementById('btn-world').style.background=type==='world'?'#FF6B1A':'';
+  document.getElementById('btn-world').style.color=type==='world'?'#000':'#999';
+}
+
+// ─── Contact Form
+function submitForm(){
+  const n=document.getElementById('cf-name').value;
+  const e=document.getElementById('cf-email').value;
+  const msg=document.getElementById('cf-msg').value;
+  const msgEl=document.getElementById('form-msg');
+  if(!n||!e||!msg){ msgEl.textContent='Please fill all fields.'; msgEl.classList.remove('hidden'); return; }
+  msgEl.textContent="✓ Message sent! We'll get back to you soon."; msgEl.classList.remove('hidden');
+  document.getElementById('cf-name').value='';
+  document.getElementById('cf-email').value='';
+  document.getElementById('cf-msg').value='';
+}
+
+// ─── Init
+window.addEventListener('DOMContentLoaded',()=>{
+  applyLogo();
+  renderShortCarousel();
+  renderLongGrid();
+  renderTestimonials();
+  renderFAQ();
+  lucide.createIcons();
+  AOS.init({ duration:700, once:true, offset:60 });
+});
+window.addEventListener('resize',()=>{
+  renderShortCarousel();
+  renderLongGrid();
+});
+// ─── Auto-scroll carousels
+let autoScrollPaused = false;
+
+document.getElementById('short-viewport').addEventListener('mouseenter', () => autoScrollPaused = true);
+document.getElementById('short-viewport').addEventListener('mouseleave', () => autoScrollPaused = false);
+document.getElementById('long-viewport').addEventListener('mouseenter',  () => autoScrollPaused = true);
+document.getElementById('long-viewport').addEventListener('mouseleave',  () => autoScrollPaused = false);
+
+setInterval(() => {
+  if (autoScrollPaused) return;
+  const shortVideos = getShortVideos();
+  const longVideos  = getLongVideos();
+  if (shortVideos.length > 1) {
+    const t = shortVideos.length;
+    shortCenterIndex++;
+    if(shortCenterIndex <= t * 0.5) shortCenterIndex += t * 2;
+    if(shortCenterIndex >= t * 4)   shortCenterIndex -= t * 2;
+    updateCarouselTransform('short', true);
+    updateCarouselCardStyles('short');
+    const ri = shortCenterIndex % t;
+    document.querySelectorAll('#short-dots button').forEach((btn,i)=>{
+      btn.style.width = i===ri ? '20px' : '8px';
+      btn.style.background = i===ri ? '#FF6B1A' : 'rgba(255,107,26,0.25)';
+    });
+  }
+  if (longVideos.length > 1) {
+    const t = longVideos.length;
+    longCenterIndex++;
+    if(longCenterIndex <= t * 0.5) longCenterIndex += t * 2;
+    if(longCenterIndex >= t * 4)   longCenterIndex -= t * 2;
+    updateCarouselTransform('long', true);
+    updateCarouselCardStyles('long');
+    const ri = longCenterIndex % t;
+    document.querySelectorAll('#long-dots button').forEach((btn,i)=>{
+      btn.style.width = i===ri ? '20px' : '8px';
+      btn.style.background = i===ri ? '#FF6B1A' : 'rgba(255,107,26,0.25)';
+    });
+  }
+}, 3500);
+function togglePlayBtn(btn){
+  const video = btn.closest('.carousel-card').querySelector('video');
+  if(!video) return;
+
+  if(video.paused){
+    video.play();
+  } else {
+    video.pause();
+  }
+}
+
+function toggleMuteBtn(btn){
+  const video = btn.closest('.carousel-card').querySelector('video');
+  if(!video) return;
+
+  video.muted = !video.muted;
+}
+
+function toggleVideoPlay(overlay){
+  const video = overlay.closest('.carousel-card').querySelector('video');
+  if(!video) return;
+
+  video.muted = false;
+  video.play();
+}
+</script>
+</body>
+</html>

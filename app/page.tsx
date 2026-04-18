@@ -1,0 +1,444 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { CustomCursor } from "@/components/site/custom-cursor";
+import { FaqList } from "@/components/site/faq-list";
+import { NavBar } from "@/components/site/nav-bar";
+import { TestimonialGrid } from "@/components/site/testimonial-grid";
+import { VideoCarousel } from "@/components/site/video-carousel";
+import { defaultFaqs } from "@/lib/default-data";
+import type { FAQ, Testimonial, Video } from "@/lib/types";
+
+type SiteResponse = {
+  videos: Video[];
+  testimonials: Testimonial[];
+  faqs: FAQ[];
+  logo: string;
+};
+
+const defaultState: SiteResponse = {
+  videos: [],
+  testimonials: [],
+  faqs: defaultFaqs,
+  logo: ""
+};
+
+export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pricing, setPricing] = useState<"india" | "world">("india");
+  const [site, setSite] = useState<SiteResponse>(defaultState);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    projectType: "",
+    message: ""
+  });
+
+  useEffect(() => {
+    const load = async () => {
+      const response = await fetch("/api/site", { cache: "no-store" });
+      if (!response.ok) return;
+      const data: SiteResponse = await response.json();
+      setSite({
+        videos: data.videos || [],
+        testimonials: data.testimonials || [],
+        faqs: data.faqs || defaultFaqs,
+        logo: data.logo || ""
+      });
+    };
+    load().catch(() => undefined);
+  }, []);
+
+  const shortVideos = useMemo(
+    () => site.videos.filter((video) => video.category.toLowerCase() === "short"),
+    [site.videos]
+  );
+  const longVideos = useMemo(
+    () => site.videos.filter((video) => video.category.toLowerCase() !== "short"),
+    [site.videos]
+  );
+
+  const submitContact = async () => {
+    if (!formData.name || !formData.email || !formData.message) {
+      setMessage("Please fill all fields.");
+      return;
+    }
+
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      setMessage("Could not send message. Please try again.");
+      return;
+    }
+
+    setFormData({ name: "", email: "", projectType: "", message: "" });
+    setMessage("✓ Message sent! We'll get back to you soon.");
+  };
+
+  return (
+    <main className="bg-[#080808] text-[#F0EDE8]">
+      <CustomCursor />
+      <NavBar
+        logo={site.logo}
+        mobileOpen={mobileMenuOpen}
+        onToggleMobile={() => setMobileMenuOpen((open) => !open)}
+        onCloseMobile={() => setMobileMenuOpen(false)}
+      />
+
+      <section className="hero-gradient relative flex min-h-screen flex-col items-center px-6 pb-12 pt-52 text-center md:pt-32">
+        <div
+          className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5"
+          style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }}
+        />
+        <div
+          className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5"
+          style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }}
+        />
+        <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
+          Available for New Projects
+        </div>
+        <h1 className="section-title text-glow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
+          RAW TO
+          <br />
+          <span style={{ color: "#FF6B1A" }}>ROYALTY</span>
+        </h1>
+        <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
+          <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
+          <span className="font-semibold" style={{ color: "#FF6B1A" }}>
+            Legendary.
+          </span>
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link
+            href="#work"
+            className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105"
+            style={{ background: "#FF6B1A" }}
+          >
+            See Our Work ↓
+          </Link>
+          <Link
+            href="#contact"
+            className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent"
+            style={{ borderColor: "rgba(255,107,26,0.3)" }}
+          >
+            Start a Project
+          </Link>
+        </div>
+      </section>
+
+      <div
+        className="overflow-hidden border-b border-t py-6"
+        style={{
+          background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.05) 50%,rgba(8,8,8,1) 100%)",
+          borderColor: "rgba(255,107,26,0.2)"
+        }}
+      >
+        <div className="marquee-track">
+          <span
+            className="inline-flex items-center gap-10 pr-16 font-bebas text-2xl tracking-widest"
+            style={{ whiteSpace: "nowrap", color: "rgba(255,107,26,0.5)" }}
+          >
+            {Array.from({ length: 2 }).map((_, i) => (
+              <span key={i}>
+                VIDEO EDITING <span style={{ color: "#FF6B1A" }}>✦</span> MOTION GRAPHICS{" "}
+                <span style={{ color: "#FF6B1A" }}>✦</span> SHORT FORM <span style={{ color: "#FF6B1A" }}>✦</span>{" "}
+                LONG FORM <span style={{ color: "#FF6B1A" }}>✦</span> CINEMATIC{" "}
+                <span style={{ color: "#FF6B1A" }}>✦</span> GAMING <span style={{ color: "#FF6B1A" }}>✦</span>{" "}
+                PROMOTIONAL ADS <span style={{ color: "#FF6B1A" }}>✦</span> DOCUMENTARY{" "}
+                <span style={{ color: "#FF6B1A" }}>✦</span>{" "}
+              </span>
+            ))}
+          </span>
+        </div>
+      </div>
+
+      <section id="work" className="mx-auto max-w-7xl px-6 py-32">
+        <div className="mb-16">
+          <div className="orange-line mb-4" />
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              OUR WORK
+            </h2>
+            <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
+          </div>
+        </div>
+        <VideoCarousel
+          title="SHORT FORM"
+          tag="Reels · Shorts · TikTok"
+          videos={shortVideos.length ? shortVideos : site.videos}
+          isShort
+        />
+        <VideoCarousel title="LONG FORM" tag="YouTube · Documentary" videos={longVideos.length ? longVideos : site.videos} />
+      </section>
+
+      <section id="services" className="stripe-bg bg-[#080808] px-6 py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              WHAT NOI DO
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-gray-500">
+              Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts & TikToks." },
+              { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
+              { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
+              { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." }
+            ].map((service) => (
+              <div
+                key={service.title}
+                className="card-hover rounded-2xl border p-8"
+                style={{ background: "#111111", borderColor: "#1f1f1f" }}
+              >
+                <div
+                  className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl"
+                  style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}
+                >
+                  {service.icon}
+                </div>
+                <h3 className="mb-3 text-lg font-bold text-white">{service.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{service.copy}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {[Gamepad2, Clapperboard, Clock, RefreshCw].map((Icon, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 rounded-xl border p-5"
+                style={{ background: "#111", borderColor: "#1f1f1f" }}
+              >
+                <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
+                <span className="text-sm font-semibold">
+                  {["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions"][i]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials" className="px-6 py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              CLIENT FEEDBACK
+            </h2>
+          </div>
+          <TestimonialGrid testimonials={site.testimonials} />
+        </div>
+      </section>
+
+      <section id="pricing" className="stripe-bg bg-[#080808] px-6 py-32">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              PRICING PLANS
+            </h2>
+          </div>
+          <div className="mb-12 flex justify-center">
+            <div className="flex rounded-full border p-1" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+              <button
+                onClick={() => setPricing("india")}
+                className="rounded-full px-6 py-2 text-sm font-semibold transition-all"
+                style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#999" }}
+              >
+                India 🇮🇳
+              </button>
+              <button
+                onClick={() => setPricing("world")}
+                className="rounded-full px-6 py-2 text-sm font-semibold transition-all"
+                style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#999" }}
+              >
+                Outside India 🌍
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {["SHORT", "LONG", "CUSTOM"].map((name, i) => (
+              <div
+                key={name}
+                className={`card-hover rounded-2xl border p-8 ${i === 1 ? "popular-card relative" : ""}`}
+                style={{ background: i === 1 ? undefined : "#111", borderColor: i === 1 ? undefined : "#1f1f1f" }}
+              >
+                {i === 1 ? (
+                  <div
+                    className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-xs font-bold"
+                    style={{ background: "#FF6B1A", color: "#000" }}
+                  >
+                    MOST POPULAR
+                  </div>
+                ) : null}
+                <div className="tag mb-6 inline-block rounded-full px-3 py-1 text-xs">{name === "CUSTOM" ? "CUSTOM" : `${name} FORM`}</div>
+                <h3 className="mb-1 font-bebas text-4xl text-white">{name}</h3>
+                <div className="mb-6 text-2xl font-bold" style={{ color: "#FF6B1A" }}>
+                  {name === "CUSTOM" ? "Let's Talk" : `${pricing === "india" ? "₹" : "$"} As per project`}
+                </div>
+                <Link
+                  href="#contact"
+                  className="block rounded-full py-3 text-center text-sm font-semibold transition-all hover:opacity-90"
+                  style={{
+                    background: i === 1 ? "#FF6B1A" : "transparent",
+                    color: i === 1 ? "#000" : "#888",
+                    border: i === 1 ? "none" : "1px solid #2a2a2a"
+                  }}
+                >
+                  Get In Touch
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="px-6 py-32">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              FAQs
+            </h2>
+          </div>
+          <FaqList faqs={site.faqs} />
+        </div>
+      </section>
+
+      <section id="contact" className="px-6 py-32">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>
+              LET&apos;S WORK
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
+            <div className="space-y-6">
+              <Link
+                href="mailto:noieditorswork@gmail.com"
+                className="group flex items-center gap-4 rounded-2xl border p-5 transition-all hover:border-orange-accent"
+                style={{ background: "#111", borderColor: "#1f1f1f" }}
+              >
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all group-hover:bg-orange-accent"
+                  style={{ background: "rgba(255,107,26,0.1)" }}
+                >
+                  <MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} />
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-500">Email</div>
+                  <div className="mt-0.5 font-semibold text-white">noieditorswork@gmail.com</div>
+                </div>
+              </Link>
+              <Link
+                href="https://wa.me/918849438871"
+                target="_blank"
+                className="group flex items-center gap-4 rounded-2xl border p-5 transition-all hover:border-orange-accent"
+                style={{ background: "#111", borderColor: "#1f1f1f" }}
+              >
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all group-hover:bg-orange-accent"
+                  style={{ background: "rgba(255,107,26,0.1)" }}
+                >
+                  <MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} />
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-500">WhatsApp</div>
+                  <div className="mt-0.5 font-semibold text-white">+91 88494 38871</div>
+                </div>
+              </Link>
+            </div>
+
+            <div className="rounded-2xl border p-8" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+              <div className="space-y-4">
+                <input
+                  value={formData.name}
+                  onChange={(e) => setFormData((current) => ({ ...current, name: e.target.value }))}
+                  placeholder="Your Name"
+                  className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+                  style={{ background: "#161616", borderColor: "#2a2a2a" }}
+                />
+                <input
+                  value={formData.email}
+                  onChange={(e) => setFormData((current) => ({ ...current, email: e.target.value }))}
+                  placeholder="Email"
+                  type="email"
+                  className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+                  style={{ background: "#161616", borderColor: "#2a2a2a" }}
+                />
+                <select
+                  value={formData.projectType}
+                  onChange={(e) => setFormData((current) => ({ ...current, projectType: e.target.value }))}
+                  className="w-full rounded-xl border px-4 py-3 text-sm text-white outline-none"
+                  style={{ background: "#161616", borderColor: "#2a2a2a" }}
+                >
+                  <option value="">Select Type</option>
+                  <option>Short Form (Reels/Shorts)</option>
+                  <option>Long Form (YouTube)</option>
+                  <option>Motion Graphics</option>
+                  <option>Promo Ad</option>
+                  <option>Custom Package</option>
+                </select>
+                <textarea
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData((current) => ({ ...current, message: e.target.value }))}
+                  placeholder="Tell us about your project..."
+                  className="w-full resize-none rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+                  style={{ background: "#161616", borderColor: "#2a2a2a" }}
+                />
+                <button
+                  onClick={submitContact}
+                  className="w-full rounded-xl py-4 text-sm font-bold text-black transition-all hover:scale-[1.01] hover:opacity-90"
+                  style={{ background: "#FF6B1A" }}
+                >
+                  Send Message →
+                </button>
+                {message ? <div className="py-2 text-center text-sm text-orange-accent">{message}</div> : null}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t bg-[#080808] px-6 py-12" style={{ borderColor: "#1f1f1f" }}>
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
+          <div className="flex items-center gap-3">
+            {site.logo ? <img src={site.logo} alt="Logo" className="h-8 w-8 rounded-full object-cover" /> : null}
+            <div className="font-bebas text-2xl tracking-widest">
+              NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span>
+            </div>
+          </div>
+          <div className="flex gap-6">
+            <Link href="#work" className="text-sm text-gray-600 transition-colors hover:text-white">
+              Work
+            </Link>
+            <Link href="#services" className="text-sm text-gray-600 transition-colors hover:text-white">
+              Services
+            </Link>
+            <Link href="#pricing" className="text-sm text-gray-600 transition-colors hover:text-white">
+              Pricing
+            </Link>
+            <Link href="/login" className="text-sm text-gray-600 transition-colors hover:text-white">
+              Login
+            </Link>
+          </div>
+          <div className="text-xs text-gray-600">© 2026 noieditors.com · All rights reserved</div>
+        </div>
+      </footer>
+    </main>
+  );
+}

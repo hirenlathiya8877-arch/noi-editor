@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NOI EDITORS — Login</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+tailwind.config = {
+  theme: { extend: { fontFamily: { bebas:['Bebas Neue','cursive'], syne:['Syne','sans-serif'], dm:['DM Sans','sans-serif'] } } }
+}
+</script>
+<style>
+  body { background:#080808; font-family:'DM Sans',sans-serif; cursor:none; }
+  #cursor { position:fixed; width:10px; height:10px; background:#FF6B1A; border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+  #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid #FF6B1A; border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.5; transition:all .12s ease; }
+  .glow { box-shadow:0 0 60px rgba(255,107,26,0.2); }
+  input:focus { border-color:#FF6B1A !important; outline:none; }
+  .tab-active { background:#FF6B1A; color:#000; }
+  .tab-inactive { background:transparent; color:#888; }
+  @keyframes fadein { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .card { animation:fadein .5s ease; }
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- BG decoration -->
+<div class="fixed inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(255,107,26,0.06) 0%,transparent 70%)"></div>
+
+<div class="card w-full max-w-md">
+  <!-- Logo -->
+  <div class="text-center mb-10">
+    <a href="index.html" class="font-bebas text-3xl tracking-widest text-white">NOI <span style="color:#FF6B1A">EDITORS</span></a>
+    <p class="text-gray-600 text-sm font-dm mt-2">Welcome back. Please login.</p>
+  </div>
+
+  <!-- Card -->
+  <div class="rounded-2xl border p-8 glow" style="background:#111;border-color:#1f1f1f">
+    <!-- Tabs -->
+    <div class="flex p-1 rounded-xl mb-8" style="background:#161616">
+      <button id="tab-client" onclick="setTab('client')" class="flex-1 py-2.5 rounded-lg text-sm font-syne font-semibold transition-all tab-active">Client</button>
+      <button id="tab-admin" onclick="setTab('admin')" class="flex-1 py-2.5 rounded-lg text-sm font-syne font-semibold transition-all tab-inactive">Admin</button>
+    </div>
+
+    <div class="space-y-5">
+      <div>
+        <label class="block text-xs font-syne uppercase tracking-wider mb-2" style="color:#555">Username</label>
+        <input id="username" type="text" placeholder="Enter username" class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white placeholder-gray-700 transition-all" style="background:#161616;border:1px solid #2a2a2a;color:#fff"/>
+      </div>
+      <div>
+        <label class="block text-xs font-syne uppercase tracking-wider mb-2" style="color:#555">Password</label>
+        <div class="relative">
+          <input id="password" type="password" placeholder="Enter password" class="w-full px-4 py-3 rounded-xl text-sm font-dm text-white placeholder-gray-700 transition-all pr-12" style="background:#161616;border:1px solid #2a2a2a;color:#fff"/>
+          <button onclick="togglePwd()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400">
+            <i data-lucide="eye" class="w-4 h-4" id="eye-icon"></i>
+          </button>
+        </div>
+      </div>
+      <div id="error-msg" class="hidden text-xs font-syne py-2 px-4 rounded-lg" style="background:rgba(255,100,100,0.1);color:#ff6b6b;border:1px solid rgba(255,100,100,0.2)"></div>
+      <button onclick="doLogin()" class="w-full py-3.5 rounded-xl font-syne font-bold text-sm transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">
+        Login →
+      </button>
+    </div>
+
+    <div class="mt-6 pt-6 border-t text-center" style="border-color:#1f1f1f">
+      <p class="text-xs font-dm" style="color:#444">
+        <span id="hint-text">Client login — use your credentials provided by NOI EDITORS</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="text-center mt-6">
+    <a href="index.html" class="text-xs font-syne transition-colors hover:text-white" style="color:#555">← Back to Portfolio</a>
+  </div>
+</div>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+lucide.createIcons();
+
+// Enter key
+document.getElementById('password').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+let currentTab = 'client';
+function setTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-client').className = 'flex-1 py-2.5 rounded-lg text-sm font-syne font-semibold transition-all ' + (tab==='client'?'tab-active':'tab-inactive');
+  document.getElementById('tab-admin').className = 'flex-1 py-2.5 rounded-lg text-sm font-syne font-semibold transition-all ' + (tab==='admin'?'tab-active':'tab-inactive');
+  document.getElementById('hint-text').textContent = tab==='admin'
+    ? 'Admin login — for NOI EDITORS team only'
+    : 'Client login — use your credentials provided by NOI EDITORS';
+  document.getElementById('error-msg').classList.add('hidden');
+}
+
+function togglePwd() {
+  const p=document.getElementById('password');
+  p.type = p.type==='password'?'text':'password';
+}
+
+function doLogin() {
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value.trim();
+  const errEl = document.getElementById('error-msg');
+  errEl.classList.add('hidden');
+
+  if(!u||!p){ errEl.textContent='Please enter username and password.'; errEl.classList.remove('hidden'); return; }
+
+  // Admin credentials
+  if(currentTab==='admin') {
+    if(u==='admin' && p==='noi2026') {
+      localStorage.setItem('noi_role','admin');
+      localStorage.setItem('noi_user','admin');
+      window.location.href='admin.html';
+    } else {
+      errEl.textContent='Invalid admin credentials.'; errEl.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // Client credentials — check from localStorage
+  const clients = JSON.parse(localStorage.getItem('noi_clients')||'[]');
+  const found = clients.find(c=>c.username===u && c.password===p);
+  if(found) {
+    localStorage.setItem('noi_role','client');
+    localStorage.setItem('noi_user', found.username);
+    localStorage.setItem('noi_client_id', found.id);
+    window.location.href='client.html';
+  } else {
+    errEl.textContent='Invalid credentials. Contact NOI EDITORS team.'; errEl.classList.remove('hidden');
+  }
+}
+</script>
+</body>
+</html>

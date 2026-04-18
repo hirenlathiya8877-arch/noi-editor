@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NOI EDITORS — Admin Panel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{bebas:['Bebas Neue','cursive'],syne:['Syne','sans-serif'],dm:['DM Sans','sans-serif']}}}}
+</script>
+<style>
+  *{box-sizing:border-box;}
+  body{background:#080808;font-family:'DM Sans',sans-serif;color:#F0EDE8;}
+  ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:#111;} ::-webkit-scrollbar-thumb{background:#FF6B1A;border-radius:99px;}
+  .sidebar-link{transition:all .2s;} .sidebar-link:hover,.sidebar-link.active{background:rgba(255,107,26,0.1);color:#FF6B1A;border-left-color:#FF6B1A;}
+  .tab-panel{display:none;} .tab-panel.active{display:block;}
+  input,select,textarea{background:#161616;border:1px solid #2a2a2a;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;width:100%;outline:none;transition:.2s;}
+  input:focus,select:focus,textarea:focus{border-color:#FF6B1A;}
+  .toast{position:fixed;bottom:24px;right:24px;padding:12px 24px;border-radius:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;z-index:9999;transition:all .3s;background:#FF6B1A;color:#000;}
+  @keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadein .3s ease;}
+</style>
+</head>
+<body>
+<script>
+  if(localStorage.getItem('noi_role')!=='admin'){ window.location.href='login.html'; }
+</script>
+
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 shrink-0 border-r flex flex-col" style="background:#0d0d0d;border-color:#1a1a1a">
+    <div class="p-6 border-b" style="border-color:#1a1a1a">
+      <div class="font-bebas text-xl tracking-widest text-white">NOI <span style="color:#FF6B1A">EDITORS</span></div>
+      <div class="text-xs font-syne mt-1" style="color:#555">Admin Dashboard</div>
+    </div>
+    <nav class="flex-1 p-4 space-y-1">
+      <button onclick="showTab('dashboard')" class="sidebar-link active w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:#FF6B1A;color:#FF6B1A;background:rgba(255,107,26,0.1)">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+      </button>
+      <button onclick="showTab('videos')" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:transparent;color:#888">
+        <i data-lucide="video" class="w-4 h-4"></i> Portfolio Videos
+      </button>
+      <button onclick="showTab('testimonials')" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:transparent;color:#888">
+        <i data-lucide="star" class="w-4 h-4"></i> Testimonials
+      </button>
+      <button onclick="showTab('clients')" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:transparent;color:#888">
+        <i data-lucide="users" class="w-4 h-4"></i> Clients
+      </button>
+      <button onclick="showTab('projects')" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:transparent;color:#888">
+        <i data-lucide="folder-open" class="w-4 h-4"></i> Projects
+      </button>
+      <button onclick="showTab('logo')" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold border-l-2" style="border-left-color:transparent;color:#888">
+        <i data-lucide="image" class="w-4 h-4"></i> Site Logo
+      </button>
+    </nav>
+    <div class="p-4 border-t" style="border-color:#1a1a1a">
+      <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-syne font-semibold transition-all hover:bg-red-900/20 hover:text-red-400" style="color:#666">
+        <i data-lucide="log-out" class="w-4 h-4"></i> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 overflow-auto">
+    <!-- Topbar -->
+    <div class="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b" style="background:rgba(8,8,8,0.9);backdrop-filter:blur(20px);border-color:#1a1a1a">
+      <h1 id="page-title" class="font-syne font-bold text-xl text-white">Dashboard</h1>
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bebas text-sm" style="background:rgba(255,107,26,0.15);color:#FF6B1A">A</div>
+        <span class="text-sm font-syne text-white">Admin</span>
+      </div>
+    </div>
+
+    <div class="p-8">
+
+      <!-- ─── DASHBOARD ─── -->
+      <div id="tab-dashboard" class="tab-panel active fade-in">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          <div class="p-6 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+            <div class="text-xs font-syne uppercase tracking-wider mb-3" style="color:#555">Total Videos</div>
+            <div id="stat-videos" class="font-bebas text-5xl" style="color:#FF6B1A">0</div>
+          </div>
+          <div class="p-6 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+            <div class="text-xs font-syne uppercase tracking-wider mb-3" style="color:#555">Testimonials</div>
+            <div id="stat-testimonials" class="font-bebas text-5xl" style="color:#FF6B1A">0</div>
+          </div>
+          <div class="p-6 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+            <div class="text-xs font-syne uppercase tracking-wider mb-3" style="color:#555">Clients</div>
+            <div id="stat-clients" class="font-bebas text-5xl" style="color:#FF6B1A">0</div>
+          </div>
+          <div class="p-6 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+            <div class="text-xs font-syne uppercase tracking-wider mb-3" style="color:#555">Projects</div>
+            <div id="stat-projects" class="font-bebas text-5xl" style="color:#FF6B1A">0</div>
+          </div>
+        </div>
+        <div class="p-6 rounded-2xl border" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-bold text-white mb-4">Quick Actions</h3>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="showTab('videos')" class="px-5 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">+ Add Video</button>
+            <button onclick="showTab('clients')" class="px-5 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-orange-400" style="border-color:#2a2a2a;color:#888">+ Add Client</button>
+            <button onclick="showTab('projects')" class="px-5 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-orange-400" style="border-color:#2a2a2a;color:#888">+ Add Project</button>
+            <button onclick="showTab('logo')" class="px-5 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-orange-400" style="border-color:#2a2a2a;color:#888">🖼 Update Logo</button>
+            <a href="index.html" target="_blank" class="px-5 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-orange-400 inline-flex items-center gap-2" style="border-color:#2a2a2a;color:#888">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> View Site
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── VIDEOS ─── -->
+      <div id="tab-videos" class="tab-panel fade-in">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-syne font-bold text-white text-lg">Portfolio Videos</h2>
+        </div>
+        <div class="p-6 rounded-2xl border mb-6" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-semibold text-white mb-5 text-sm uppercase tracking-wider">Add New Video</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Title</label><input id="v-title" type="text" placeholder="Video title"/></div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Category</label>
+              <select id="v-cat">
+                <option value="short">Short Form</option>
+                <option value="long">Long Form</option>
+                <option value="cinematic">Cinematic</option>
+                <option value="gaming">Gaming</option>
+                <option value="motion">Motion</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Video Source — Choose One</label>
+              <div class="flex gap-3 mb-3">
+                <button onclick="setVidMode('yt')" id="mode-yt" class="px-4 py-2 rounded-xl text-xs font-syne font-semibold transition-all" style="background:#FF6B1A;color:#000">YouTube ID</button>
+                <button onclick="setVidMode('mp4')" id="mode-mp4" class="px-4 py-2 rounded-xl text-xs font-syne font-semibold border transition-all" style="border-color:#2a2a2a;color:#888">Upload MP4</button>
+              </div>
+             <div id="yt-input-wrap"><input id="v-yt" type="text" placeholder="Paste full YouTube link or Video ID" oninput="extractYTId(this)"/></div>
+              <div id="mp4-input-wrap" class="hidden">
+                <input type="file" id="v-mp4file" accept="video/mp4,video/*" style="background:#161616;border:1px solid #2a2a2a;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;width:100%;" onchange="previewMP4(this)"/>
+                <div id="mp4-preview-wrap" class="hidden mt-3">
+                  <video id="mp4-preview" controls class="w-full rounded-xl" style="max-height:200px;background:#000;"></video>
+                  <div class="text-xs font-syne mt-2" style="color:#FF6B1A" id="mp4-size-label"></div>
+                </div>
+              </div>
+            </div>
+            <div class="md:col-span-2"><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Thumbnail URL (optional — auto from YouTube if blank)</label><input id="v-thumb" type="text" placeholder="Leave blank = auto from YouTube"/></div>
+          </div>
+          <button onclick="addVideo()" class="mt-4 px-6 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Add Video</button>
+        </div>
+        <div id="video-list" class="space-y-3"></div>
+      </div>
+
+      <!-- ─── TESTIMONIALS ─── -->
+      <div id="tab-testimonials" class="tab-panel fade-in">
+        <h2 class="font-syne font-bold text-white text-lg mb-6">Testimonials</h2>
+        <div class="p-6 rounded-2xl border mb-6" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-semibold text-white mb-5 text-sm uppercase tracking-wider">Add Testimonial</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Name</label><input id="t-name" type="text" placeholder="Client name"/></div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Subscribers / Followers</label><input id="t-sub" type="text" placeholder="e.g. 3.14M Subscribers"/></div>
+            <div class="md:col-span-2"><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Testimonial</label><textarea id="t-text" rows="3" placeholder="What they said..."></textarea></div>
+          </div>
+          <button onclick="addTestimonial()" class="mt-4 px-6 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Add Testimonial</button>
+        </div>
+        <div id="testimonial-list" class="space-y-3"></div>
+      </div>
+
+      <!-- ─── CLIENTS ─── -->
+      <div id="tab-clients" class="tab-panel fade-in">
+        <h2 class="font-syne font-bold text-white text-lg mb-6">Client Accounts</h2>
+        <div class="p-6 rounded-2xl border mb-6" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-semibold text-white mb-5 text-sm uppercase tracking-wider">Add New Client</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Name</label><input id="c-name" type="text" placeholder="Client name"/></div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Username</label><input id="c-user" type="text" placeholder="client123"/></div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Password</label><input id="c-pass" type="text" placeholder="Password for client"/></div>
+          </div>
+          <button onclick="addClient()" class="mt-4 px-6 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Add Client</button>
+        </div>
+        <div id="client-list" class="space-y-3"></div>
+      </div>
+
+      <!-- ─── PROJECTS ─── -->
+      <div id="tab-projects" class="tab-panel fade-in">
+        <h2 class="font-syne font-bold text-white text-lg mb-6">Projects</h2>
+        <div class="p-6 rounded-2xl border mb-6" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-semibold text-white mb-5 text-sm uppercase tracking-wider">Add Project</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Project Title</label><input id="p-title" type="text" placeholder="Project name"/></div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Assign to Client</label>
+              <select id="p-client"><option value="">Select client</option></select>
+            </div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Status</label>
+              <select id="p-status">
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="review">In Review</option>
+                <option value="done">Delivered</option>
+              </select>
+            </div>
+            <div><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Video Link (YouTube ID)</label><input id="p-video" type="text" placeholder="YouTube ID or URL"/></div>
+            <div class="md:col-span-2"><label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Notes</label><textarea id="p-notes" rows="2" placeholder="Project notes..."></textarea></div>
+          </div>
+          <button onclick="addProject()" class="mt-4 px-6 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Add Project</button>
+        </div>
+        <div id="project-list" class="space-y-3"></div>
+      </div>
+
+      <!-- ─── LOGO ─── -->
+      <div id="tab-logo" class="tab-panel fade-in">
+        <h2 class="font-syne font-bold text-white text-lg mb-6">Site Logo</h2>
+        <div class="p-6 rounded-2xl border mb-6" style="background:#111;border-color:#1f1f1f">
+          <h3 class="font-syne font-semibold text-white mb-5 text-sm uppercase tracking-wider">Upload Logo</h3>
+
+          <!-- Current logo preview -->
+          <div class="mb-6">
+            <div class="text-xs font-syne text-gray-500 mb-3 uppercase tracking-wider">Current Logo</div>
+            <div id="logo-preview-wrap" class="w-20 h-20 rounded-2xl border flex items-center justify-center overflow-hidden" style="background:#161616;border-color:#2a2a2a">
+              <img id="logo-preview" src="" alt="" class="w-full h-full object-cover hidden"/>
+              <span id="logo-preview-text" class="font-bebas text-2xl tracking-widest" style="color:#FF6B1A">NE</span>
+            </div>
+          </div>
+
+          <!-- Upload from device -->
+          <div class="mb-5">
+            <label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Upload from Device</label>
+            <input type="file" id="logo-file" accept="image/*" onchange="previewLogoFile(this)" style="background:#161616;border:1px solid #2a2a2a;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;width:100%;outline:none"/>
+          </div>
+
+          <!-- OR paste URL -->
+          <div class="mb-5">
+            <label class="block text-xs font-syne text-gray-500 mb-2 uppercase tracking-wider">Or Paste Image URL</label>
+            <input id="logo-url" type="text" placeholder="https://example.com/logo.png" oninput="previewLogoUrl(this.value)"/>
+          </div>
+
+          <div class="flex gap-3 flex-wrap">
+            <button onclick="saveLogo()" class="px-6 py-2.5 rounded-xl text-sm font-syne font-semibold transition-all hover:opacity-90" style="background:#FF6B1A;color:#000">Save Logo</button>
+            <button onclick="removeLogo()" class="px-6 py-2.5 rounded-xl text-sm font-syne font-semibold border transition-all hover:border-red-500 hover:text-red-400" style="border-color:#2a2a2a;color:#888">Remove Logo</button>
+          </div>
+          <p class="text-xs font-dm mt-4" style="color:#555">Logo appears in the navbar and footer on the main site. Recommended: square image, min 200×200px.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"></div>
+
+<script>
+lucide.createIcons();
+
+// Tab system
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('page-title').textContent = name.charAt(0).toUpperCase()+name.slice(1);
+  document.querySelectorAll('.sidebar-link').forEach(el=>{
+    el.classList.remove('active');
+    el.style.background='';el.style.color='#888';el.style.borderLeftColor='transparent';
+  });
+  const btn = document.querySelector(`[onclick="showTab('${name}')"]`);
+  if(btn){btn.style.background='rgba(255,107,26,0.1)';btn.style.color='#FF6B1A';btn.style.borderLeftColor='#FF6B1A';}
+  renderAll();
+  if(name==='logo') renderLogoTab();
+}
+
+function toast(msg){ const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2500);}
+
+// ─── Default data
+const defaultVideos=[
+  {id:'v1',title:'Tech Review · Cinematic Edit',category:'long',thumb:'',yt:'dQw4w9WgXcQ'},
+  {id:'v2',title:'Gaming Highlights Reel',category:'long',thumb:'',yt:'dQw4w9WgXcQ'},
+  {id:'v3',title:'Short Form · Instagram Reel',category:'short',thumb:'',yt:'dQw4w9WgXcQ'},
+  {id:'v4',title:'Motion Graphics Promo',category:'long',thumb:'',yt:'dQw4w9WgXcQ'},
+  {id:'v5',title:'YouTube Long-Form Edit',category:'long',thumb:'',yt:'dQw4w9WgXcQ'},
+  {id:'v6',title:'Brand Ad · Short Form',category:'short',thumb:'',yt:'dQw4w9WgXcQ'},
+];
+const defaultTestimonials=[
+  {id:'t1',name:'Technical Sagar',sub:'3.14M Subscribers',text:'Clean edits, fast delivery, smooth workflow.',avatar:'TS'},
+  {id:'t2',name:'I Love Jamnagar',sub:'429K Followers',text:'Really good experience, output quality was solid.',avatar:'IJ'},
+  {id:'t3',name:'Cyber Sagar',sub:'64.1K Subscribers',text:'Communication smooth, always on time.',avatar:'CS'},
+];
+
+function getVideos(){try{return JSON.parse(localStorage.getItem('noi_videos'))||defaultVideos;}catch{return defaultVideos;}}
+function saveVideos(v){localStorage.setItem('noi_videos',JSON.stringify(v));}
+function getTestimonials(){try{return JSON.parse(localStorage.getItem('noi_testimonials'))||defaultTestimonials;}catch{return defaultTestimonials;}}
+function saveTestimonials(v){localStorage.setItem('noi_testimonials',JSON.stringify(v));}
+function getClients(){try{return JSON.parse(localStorage.getItem('noi_clients'))||[];}catch{return[];}}
+function saveClients(v){localStorage.setItem('noi_clients',JSON.stringify(v));}
+function getProjects(){try{return JSON.parse(localStorage.getItem('noi_projects'))||[];}catch{return[];}}
+function saveProjects(v){localStorage.setItem('noi_projects',JSON.stringify(v));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+
+// ─── Logo tab
+let _pendingLogoData = '';
+
+function renderLogoTab(){
+  const saved = localStorage.getItem('noi_logo');
+  const img = document.getElementById('logo-preview');
+  const txt = document.getElementById('logo-preview-text');
+  if(saved){ img.src=saved; img.classList.remove('hidden'); txt.classList.add('hidden'); }
+  else { img.classList.add('hidden'); txt.classList.remove('hidden'); }
+  _pendingLogoData = saved||'';
+  document.getElementById('logo-url').value='';
+}
+
+function previewLogoFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    _pendingLogoData = e.target.result;
+    const img = document.getElementById('logo-preview');
+    const txt = document.getElementById('logo-preview-text');
+    img.src = _pendingLogoData;
+    img.classList.remove('hidden');
+    txt.classList.add('hidden');
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewLogoUrl(url){
+  if(!url) return;
+  _pendingLogoData = url;
+  const img = document.getElementById('logo-preview');
+  const txt = document.getElementById('logo-preview-text');
+  img.src = url;
+  img.classList.remove('hidden');
+  txt.classList.add('hidden');
+}
+
+function saveLogo(){
+  if(!_pendingLogoData){ toast('No logo selected'); return; }
+  localStorage.setItem('noi_logo', _pendingLogoData);
+  toast('✓ Logo saved — visible on site');
+}
+
+function removeLogo(){
+  localStorage.removeItem('noi_logo');
+  _pendingLogoData='';
+  const img = document.getElementById('logo-preview');
+  const txt = document.getElementById('logo-preview-text');
+  img.classList.add('hidden');
+  img.src='';
+  txt.classList.remove('hidden');
+  document.getElementById('logo-url').value='';
+  document.getElementById('logo-file').value='';
+  toast('Logo removed');
+}
+
+// ─── Video mode toggle
+let _vidMode = 'yt';
+let _mp4Data = '';
+function setVidMode(mode){
+  _vidMode = mode;
+  document.getElementById('yt-input-wrap').classList.toggle('hidden', mode!=='yt');
+  document.getElementById('mp4-input-wrap').classList.toggle('hidden', mode!=='mp4');
+  document.getElementById('mode-yt').style.background = mode==='yt'?'#FF6B1A':'';
+  document.getElementById('mode-yt').style.color = mode==='yt'?'#000':'#888';
+  document.getElementById('mode-yt').style.border = mode==='yt'?'none':'1px solid #2a2a2a';
+  document.getElementById('mode-mp4').style.background = mode==='mp4'?'#FF6B1A':'';
+  document.getElementById('mode-mp4').style.color = mode==='mp4'?'#000':'#888';
+  document.getElementById('mode-mp4').style.border = mode==='mp4'?'none':'1px solid #2a2a2a';
+}
+function previewMP4(input){
+  const file = input.files[0];
+  if(!file) return;
+  const sizeMB = (file.size/1024/1024).toFixed(1);
+  document.getElementById('mp4-size-label').textContent = `File size: ${sizeMB} MB — Note: Large files are stored in browser memory (localStorage). For production, use a CDN.`;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    _mp4Data = e.target.result;
+    const preview = document.getElementById('mp4-preview');
+    preview.src = _mp4Data;
+    document.getElementById('mp4-preview-wrap').classList.remove('hidden');
+  };
+  reader.readAsDataURL(file);
+  toast('Reading file... please wait');
+}
+
+// ─── Add Video
+function extractYTId(input){
+  const val = input.value.trim();
+  // Extract ID from any YouTube URL format
+  const match = val.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if(match){
+    input.value = match[1];
+    input.style.borderColor = '#FF6B1A';
+  } else {
+    input.style.borderColor = '';
+  }
+}
+function addVideo(){
+  const title=document.getElementById('v-title').value.trim();
+  const cat=document.getElementById('v-cat').value;
+  const thumb=document.getElementById('v-thumb').value.trim();
+  if(!title){toast('Enter a title');return;}
+  const videos=getVideos();
+  if(_vidMode==='yt'){
+    const yt=document.getElementById('v-yt').value.trim();
+    if(!yt){toast('Enter YouTube Video ID');return;}
+    videos.push({id:uid(),title,yt,category:cat,mp4:'',thumb:thumb||`https://img.youtube.com/vi/${yt}/maxresdefault.jpg`});
+  } else {
+    if(!_mp4Data){toast('Select an MP4 file first');return;}
+    videos.push({id:uid(),title,yt:'',category:cat,mp4:_mp4Data,thumb:thumb||''});
+    _mp4Data='';
+    document.getElementById('mp4-preview-wrap').classList.add('hidden');
+    document.getElementById('v-mp4file').value='';
+  }
+  saveVideos(videos);
+  document.getElementById('v-title').value='';
+  document.getElementById('v-yt').value='';
+  document.getElementById('v-thumb').value='';
+  renderVideos();toast('✓ Video added');
+}
+function deleteVideo(id){const v=getVideos().filter(x=>x.id!==id);saveVideos(v);renderVideos();toast('Video removed');}
+function renderVideos(){
+  const list=getVideos();
+  document.getElementById('video-list').innerHTML=list.length?list.map(v=>`
+    <div class="flex items-center gap-4 p-4 rounded-2xl border fade-in" style="background:#111;border-color:#1f1f1f">
+      ${v.mp4 ? `<video src="${v.mp4}" class="w-24 h-14 object-cover rounded-xl shrink-0" muted></video>` : `<img src="https://img.youtube.com/vi/${v.yt}/mqdefault.jpg" class="w-24 h-14 object-cover rounded-xl shrink-0"/>`}
+      <div class="flex-1 min-w-0">
+        <div class="font-syne font-semibold text-white text-sm truncate">${v.title}</div>
+        <div class="text-xs mt-1 flex gap-2" style="color:#FF6B1A">
+          <span>${v.category}</span>
+          <span style="color:#555">${v.mp4 ? '📁 MP4' : '▶ YouTube'}</span>
+        </div>
+      </div>
+      <button onclick="deleteVideo('${v.id}')" class="p-2 rounded-xl transition-all hover:bg-red-900/20 hover:text-red-400 shrink-0" style="color:#555"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+    </div>`).join(''):'<div class="text-center py-12 text-gray-600 font-syne">No videos yet</div>';
+  lucide.createIcons();
+}
+
+// ─── Testimonials
+function addTestimonial(){
+  const name=document.getElementById('t-name').value.trim();
+  const sub=document.getElementById('t-sub').value.trim();
+  const text=document.getElementById('t-text').value.trim();
+  if(!name||!text){toast('Fill name and testimonial');return;}
+  const list=getTestimonials();
+  list.push({id:uid(),name,sub,text,avatar:name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)});
+  saveTestimonials(list);
+  document.getElementById('t-name').value='';document.getElementById('t-sub').value='';document.getElementById('t-text').value='';
+  renderTestimonialsList();toast('✓ Testimonial added');
+}
+function deleteTestimonial(id){saveTestimonials(getTestimonials().filter(x=>x.id!==id));renderTestimonialsList();toast('Removed');}
+function renderTestimonialsList(){
+  const list=getTestimonials();
+  document.getElementById('testimonial-list').innerHTML=list.length?list.map(t=>`
+    <div class="flex items-start gap-4 p-5 rounded-2xl border fade-in" style="background:#111;border-color:#1f1f1f">
+      <div class="w-10 h-10 rounded-full flex items-center justify-center font-bebas text-sm shrink-0" style="background:rgba(255,107,26,0.15);color:#FF6B1A">${t.avatar}</div>
+      <div class="flex-1">
+        <div class="font-syne font-bold text-white text-sm">${t.name} <span class="font-dm font-normal text-xs" style="color:#555">· ${t.sub}</span></div>
+        <div class="text-gray-500 text-sm font-dm mt-1">"${t.text}"</div>
+      </div>
+      <button onclick="deleteTestimonial('${t.id}')" class="p-2 rounded-xl hover:bg-red-900/20 hover:text-red-400 shrink-0" style="color:#555"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+    </div>`).join(''):'<div class="text-center py-12 text-gray-600 font-syne">No testimonials yet</div>';
+  lucide.createIcons();
+}
+
+// ─── Clients
+function addClient(){
+  const name=document.getElementById('c-name').value.trim();
+  const username=document.getElementById('c-user').value.trim();
+  const password=document.getElementById('c-pass').value.trim();
+  if(!name||!username||!password){toast('Fill all fields');return;}
+  const clients=getClients();
+  if(clients.find(c=>c.username===username)){toast('Username taken');return;}
+  clients.push({id:uid(),name,username,password});
+  saveClients(clients);
+  document.getElementById('c-name').value='';document.getElementById('c-user').value='';document.getElementById('c-pass').value='';
+  renderClientList();toast('✓ Client added');
+}
+function deleteClient(id){saveClients(getClients().filter(x=>x.id!==id));renderClientList();toast('Client removed');}
+function renderClientList(){
+  const list=getClients();
+  document.getElementById('client-list').innerHTML=list.length?list.map(c=>`
+    <div class="flex items-center gap-4 p-5 rounded-2xl border fade-in" style="background:#111;border-color:#1f1f1f">
+      <div class="w-10 h-10 rounded-full flex items-center justify-center font-bebas text-sm shrink-0" style="background:rgba(255,107,26,0.15);color:#FF6B1A">${c.name.slice(0,2).toUpperCase()}</div>
+      <div class="flex-1">
+        <div class="font-syne font-bold text-white text-sm">${c.name}</div>
+        <div class="text-xs font-dm mt-0.5" style="color:#555">@${c.username}</div>
+      </div>
+      <button onclick="deleteClient('${c.id}')" class="p-2 rounded-xl hover:bg-red-900/20 hover:text-red-400 shrink-0" style="color:#555"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+    </div>`).join(''):'<div class="text-center py-12 text-gray-600 font-syne">No clients yet. Add your first client above.</div>';
+  lucide.createIcons();
+}
+
+// ─── Projects
+function addProject(){
+  const title=document.getElementById('p-title').value.trim();
+  const clientId=document.getElementById('p-client').value;
+  const status=document.getElementById('p-status').value;
+  const video=document.getElementById('p-video').value.trim();
+  const notes=document.getElementById('p-notes').value.trim();
+  if(!title||!clientId){toast('Fill title and select client');return;}
+  const projects=getProjects();
+  projects.push({id:uid(),title,clientId,status,video,notes,date:new Date().toLocaleDateString()});
+  saveProjects(projects);
+  document.getElementById('p-title').value='';document.getElementById('p-video').value='';document.getElementById('p-notes').value='';
+  renderProjectList();toast('✓ Project added');
+}
+function deleteProject(id){saveProjects(getProjects().filter(x=>x.id!==id));renderProjectList();toast('Project removed');}
+function updateStatus(id,status){
+  const p=getProjects();const idx=p.findIndex(x=>x.id===id);
+  if(idx>-1){p[idx].status=status;saveProjects(p);}toast('Status updated');
+}
+const statusColors={pending:'#888','in-progress':'#FF6B1A',review:'#F5A623',done:'#4CAF50'};
+function renderProjectList(){
+  const projects=getProjects();
+  const clients=getClients();
+  const clientName=id=>clients.find(c=>c.id===id)?.name||'Unknown';
+  document.getElementById('project-list').innerHTML=projects.length?projects.map(p=>`
+    <div class="p-5 rounded-2xl border fade-in" style="background:#111;border-color:#1f1f1f">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <div class="font-syne font-bold text-white">${p.title}</div>
+          <div class="text-xs font-dm mt-1" style="color:#555">Client: ${clientName(p.clientId)} · ${p.date}</div>
+          ${p.notes?`<div class="text-xs font-dm mt-1 text-gray-600">${p.notes}</div>`:''}
+        </div>
+        <div class="flex items-center gap-3">
+          <select onchange="updateStatus('${p.id}',this.value)" class="text-xs px-3 py-1.5 rounded-lg font-syne font-semibold" style="background:rgba(255,107,26,0.1);border:none;color:${statusColors[p.status]||'#888'};width:auto">
+            <option value="pending" ${p.status==='pending'?'selected':''}>Pending</option>
+            <option value="in-progress" ${p.status==='in-progress'?'selected':''}>In Progress</option>
+            <option value="review" ${p.status==='review'?'selected':''}>In Review</option>
+            <option value="done" ${p.status==='done'?'selected':''}>Delivered</option>
+          </select>
+          <button onclick="deleteProject('${p.id}')" class="p-2 rounded-xl hover:bg-red-900/20 hover:text-red-400" style="color:#555"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+      ${p.video?`<a href="https://youtu.be/${p.video}" target="_blank" class="inline-flex items-center gap-2 mt-3 text-xs font-syne hover:text-white transition-colors" style="color:#FF6B1A"><i data-lucide="play" class="w-3 h-3"></i> View Video</a>`:''}
+    </div>`).join(''):'<div class="text-center py-12 text-gray-600 font-syne">No projects yet</div>';
+  lucide.createIcons();
+}
+
+function renderAll(){
+  document.getElementById('stat-videos').textContent=getVideos().length;
+  document.getElementById('stat-testimonials').textContent=getTestimonials().length;
+  document.getElementById('stat-clients').textContent=getClients().length;
+  document.getElementById('stat-projects').textContent=getProjects().length;
+  renderVideos();renderTestimonialsList();renderClientList();renderProjectList();
+  const sel=document.getElementById('p-client');
+  const clients=getClients();
+  sel.innerHTML='<option value="">Select client</option>'+clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  lucide.createIcons();
+}
+
+function logout(){localStorage.removeItem('noi_role');localStorage.removeItem('noi_user');window.location.href='login.html';}
+
+renderAll();
+</script>
+</body>
+</html>
