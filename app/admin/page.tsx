@@ -19,7 +19,58 @@ type ProjectWithClient = Project & {
   client?: Client;
 };
 
+type ApiErrorResponse = {
+  error?: string;
+  details?: string;
+};
+
 const statusOptions = ["PENDING", "IN_PROGRESS", "REVIEW", "DONE"] as const;
+
+const normalizeYouTubeId = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  try {
+    const url = new URL(trimmed);
+    if (url.hostname.includes("youtu.be")) {
+      return url.pathname.split("/").filter(Boolean)[0] || "";
+    }
+    if (url.hostname.includes("youtube.com")) {
+      return url.searchParams.get("v") || url.pathname.split("/").filter(Boolean).pop() || "";
+    }
+  } catch {
+    // Plain YouTube IDs are not URLs, so keep them as entered.
+  }
+
+  return trimmed;
+};
+
+const getApiErrorMessage = async (response: Response, fallback: string) => {
+  let data: ApiErrorResponse | null = null;
+
+  try {
+    data = (await response.json()) as ApiErrorResponse;
+  } catch {
+    return fallback;
+  }
+
+  const details = `${data.error || ""} ${data.details || ""}`;
+  if (/can't reach database server|connect.*database|localhost:5432|p1001|econnrefused/i.test(details)) {
+    return "Database unavailable. Start Postgres or update DATABASE_URL.";
+  }
+  if (/relation .* does not exist|table .* does not exist|doesn't exist/i.test(details)) {
+    return "Database tables missing. Run prisma db push.";
+  }
+
+  return data.error || fallback;
+};
+
+const readJson = async <T,>(response: Response, fallback: string) => {
+  if (!response.ok) {
+    throw new Error(await getApiErrorMessage(response, fallback));
+  }
+  return (await response.json()) as T;
+};
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -43,7 +94,7 @@ export default function AdminPage() {
 
   const showToast = (message: string) => {
     setToast(message);
-    window.setTimeout(() => setToast(""), 2500);
+    window.setTimeout(() => setToast(""), message.length > 55 ? 6000 : 2500);
   };
 
   const load = async () => {
@@ -54,16 +105,18 @@ export default function AdminPage() {
       fetch("/api/projects", { cache: "no-store" }),
       fetch("/api/settings/logo", { cache: "no-store" })
     ]);
-    setVideos(await videoRes.json());
-    setTestimonials(await testimonialRes.json());
-    setClients(await clientRes.json());
-    setProjects(await projectRes.json());
-    const logoData = await logoRes.json();
+    setVideos(await readJson<VideoType[]>(videoRes, "Could not load videos"));
+    setTestimonials(await readJson<Testimonial[]>(testimonialRes, "Could not load testimonials"));
+    setClients(await readJson<Client[]>(clientRes, "Could not load clients"));
+    setProjects(await readJson<ProjectWithClient[]>(projectRes, "Could not load projects"));
+    const logoData = await readJson<{ value?: string }>(logoRes, "Could not load logo");
     setLogo(logoData.value || "");
   };
 
   useEffect(() => {
-    load().catch(() => undefined);
+    load().catch((error) => {
+      showToast(error instanceof Error ? error.message : "Could not load admin data");
+    });
   }, []);
 
   const statCards = useMemo(
@@ -78,12 +131,21 @@ export default function AdminPage() {
 
   const createVideo = async () => {
     if (!videoForm.title) return showToast("Enter a title");
+    const payload = {
+      ...videoForm,
+      title: videoForm.title.trim(),
+      yt: normalizeYouTubeId(videoForm.yt),
+      mp4: videoForm.mp4.trim(),
+      thumb: videoForm.thumb.trim()
+    };
+    if (!payload.yt && !payload.mp4) return showToast("Add a YouTube link/ID or MP4 URL");
+
     const response = await fetch("/api/videos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(videoForm)
+      body: JSON.stringify(payload)
     });
-    if (!response.ok) return showToast("Could not add video");
+    if (!response.ok) return showToast(await getApiErrorMessage(response, "Could not add video"));
     setVideoForm({ title: "", category: "short", thumb: "", yt: "", mp4: "" });
     await load();
     showToast("✓ Video added");
