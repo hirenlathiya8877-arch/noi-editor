@@ -90,7 +90,7 @@ export default function HomePage() {
       />
 
       {/* HERO */}
-      <section className="hero-gradient relative flex min-h-screen flex-col items-center px-6 pb-12 pt-52 text-center md:pt-32">
+      <section className="hero-gradient relative flex min-h-[80vh] flex-col items-center px-6 pb-12 pt-32 text-center md:pt-24">
         <div
           className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5"
           style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }}
@@ -140,7 +140,7 @@ export default function HomePage() {
       >
         <div className="marquee-track">
           <span className="inline-flex items-center gap-8 pr-8" style={{ whiteSpace: "nowrap" }}>
-            {Array.from({ length: 2 }).map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <span key={i} className="inline-flex items-center gap-8">
                 {[
                   { label: "After Effects", icon: "Ae" },
