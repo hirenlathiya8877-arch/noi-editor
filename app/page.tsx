@@ -170,13 +170,21 @@ export default function HomePage() {
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
           </div>
         </div>
-        <VideoCarousel
-          title="SHORT FORM"
-          tag="Reels · Shorts · TikTok"
-          videos={shortVideos.length ? shortVideos : site.videos}
-          isShort
-        />
-        <VideoCarousel title="LONG FORM" tag="YouTube · Documentary" videos={longVideos.length ? longVideos : site.videos} />
+        {shortVideos.length > 0 && (
+          <VideoCarousel
+            title="SHORT FORM"
+            tag="Reels · Shorts · TikTok"
+            videos={shortVideos}
+            isShort
+          />
+        )}
+        {longVideos.length > 0 && (
+          <VideoCarousel
+            title="LONG FORM"
+            tag="YouTube · Documentary"
+            videos={longVideos}
+          />
+        )}
       </section>
 
       <section id="services" className="stripe-bg bg-[#080808] px-6 py-32">
