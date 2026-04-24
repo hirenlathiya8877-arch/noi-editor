@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
 import { CustomCursor } from "@/components/site/custom-cursor";
@@ -41,12 +42,14 @@ const team = [
     name: "Hiren Lathiya",
     role: "FOUNDER",
     tag: "Video Editor",
+    image: "/img/hiren.jpg",
     ig: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag=="
   },
   {
     name: "Jadeja Krishnarajsinh",
-    role: "CO-FOUNDER & EDITOR",
+    role: "CO-FOUNDER",
     tag: "Video Editor",
+    image: "",
     ig: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk"
   }
 ];
@@ -143,7 +146,17 @@ export default function HomePage() {
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
         {/* Avatar */}
         <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
-          <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+          {person.image ? (
+            <Image
+              src={person.image}
+              alt={person.name}
+              fill
+              sizes="160px"
+              className="object-cover object-top"
+            />
+          ) : (
+            <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+          )}
         </div>
         {/* Badge */}
         <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
