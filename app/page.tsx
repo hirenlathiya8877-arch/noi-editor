@@ -25,6 +25,17 @@ const defaultState: SiteResponse = {
   logo: ""
 };
 
+const useScrollReveal = () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.classList.toggle("visible", e.isIntersecting)),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+};
+
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pricing, setPricing] = useState<"india" | "world">("india");
@@ -36,7 +47,8 @@ export default function HomePage() {
     projectType: "",
     message: ""
   });
-
+ useScrollReveal();
+ 
   useEffect(() => {
     const load = async () => {
       const response = await fetch("/api/site", { cache: "no-store" });
@@ -90,7 +102,7 @@ export default function HomePage() {
       />
 
       {/* HERO */}
-      <section className="hero-gradient relative flex min-h-[80vh] flex-col items-center px-6 pb-12 pt-32 text-center md:pt-24">
+      <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
         <div
           className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5"
           style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }}
