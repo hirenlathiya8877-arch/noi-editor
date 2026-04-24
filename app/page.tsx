@@ -59,18 +59,48 @@ export default function HomePage() {
   const [formData, setFormData] = useState({ name: "", email: "", projectType: "", message: "" });
   const [teamIdx, setTeamIdx] = useState(0);
   const [teamFlip, setTeamFlip] = useState(false);
-  const teamCardRef = useRef<HTMLDivElement>(null);
+  const [teamRotation, setTeamRotation] = useState(0);
+  const [teamFaces, setTeamFaces] = useState<[number, number]>([0, 1]);
+  const teamIdxRef = useRef(0);
+  const teamFlipRef = useRef(false);
+  const teamAnimatingRef = useRef(false);
+  const teamRotationRef = useRef(0);
+  const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
+
+  const flipTeamTo = (next: number) => {
+    if (teamAnimatingRef.current || next === teamIdxRef.current) return;
+
+    const hiddenFace = teamFlipRef.current ? 0 : 1;
+    const nextFlip = !teamFlipRef.current;
+    teamAnimatingRef.current = true;
+    teamFlipRef.current = nextFlip;
+    teamRotationRef.current += 180;
+
+    setTeamFaces((faces) => {
+      const updated: [number, number] = [faces[0], faces[1]];
+      updated[hiddenFace] = next;
+      return updated;
+    });
+    setTeamFlip(nextFlip);
+    setTeamRotation(teamRotationRef.current);
+
+    if (teamFlipTimeoutRef.current) clearTimeout(teamFlipTimeoutRef.current);
+    teamFlipTimeoutRef.current = setTimeout(() => {
+      teamIdxRef.current = next;
+      teamAnimatingRef.current = false;
+      setTeamIdx(next);
+    }, 850);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTeamFlip(true);
-      setTimeout(() => {
-        setTeamIdx((i) => (i + 1) % team.length);
-        setTeamFlip(false);
-      }, 400);
-    }, 2000);
-    return () => clearInterval(timer);
+      flipTeamTo((teamIdxRef.current + 1) % team.length);
+    }, 2400);
+    return () => {
+      clearInterval(timer);
+      if (teamFlipTimeoutRef.current) clearTimeout(teamFlipTimeoutRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -104,6 +134,33 @@ export default function HomePage() {
     setFormData({ name: "", email: "", projectType: "", message: "" });
     setMessage("✓ Message sent! We'll get back to you soon.");
   };
+
+  const renderTeamCard = (person: (typeof team)[number]) => (
+    <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
+      {/* Photo area */}
+      <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
+        {/* Arch */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
+        {/* Avatar */}
+        <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
+          <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+        </div>
+        {/* Badge */}
+        <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
+          {"\u2726"} {person.tag}
+        </div>
+        {/* Instagram only */}
+        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+          <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
+        </div>
+      </div>
+      {/* Name */}
+      <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(255,107,26,0.1)" }}>
+        <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{person.role}</p>
+        <h3 className="font-bebas text-2xl tracking-wide text-white">{person.name}</h3>
+      </div>
+    </div>
+  );
 
   return (
     <main className="bg-[#080808] text-[#F0EDE8]">
@@ -160,42 +217,32 @@ export default function HomePage() {
           </div>
           <div className="flex flex-col items-center reveal">
             <div
-              ref={teamCardRef}
               className="relative w-72"
-              style={{ perspective: "1000px" }}
+              style={{ perspective: "1200px" }}
               onMouseEnter={() => {}}
             >
               <div
+                data-flipped={teamFlip ? "true" : "false"}
                 style={{
                   transformStyle: "preserve-3d",
-                  transition: "transform 0.7s cubic-bezier(0.4,0,0.2,1)",
-                  transform: teamFlip ? "rotateY(90deg)" : "rotateY(0deg)",
-                  position: "relative"
+                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+                  transform: `rotateY(${teamRotation}deg)`,
+                  position: "relative",
+                  willChange: "transform"
                 }}
               >
-                <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
-                  {/* Photo area */}
-                  <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
-                    {/* Arch */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
-                    {/* Avatar */}
-                    <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
-                      <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{team[teamIdx].name[0]}</span>
-                    </div>
-                    {/* Badge */}
-                    <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
-                      {"\u2726"} {team[teamIdx].tag}
-                    </div>
-                    {/* Instagram only */}
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                      <a href={team[teamIdx].ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
-                    </div>
-                  </div>
-                  {/* Name */}
-                  <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(255,107,26,0.1)" }}>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{team[teamIdx].role}</p>
-                    <h3 className="font-bebas text-2xl tracking-wide text-white">{team[teamIdx].name}</h3>
-                  </div>
+                <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+                  {renderTeamCard(team[teamFaces[0]])}
+                </div>
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "rotateY(180deg)"
+                  }}
+                >
+                  {renderTeamCard(team[teamFaces[1]])}
                 </div>
               </div>
             </div>
@@ -207,7 +254,7 @@ export default function HomePage() {
                   key={i}
                   type="button"
                   aria-label={`Show ${team[i].name}`}
-                  onClick={() => setTeamIdx(i)}
+                  onClick={() => flipTeamTo(i)}
                   className="rounded-full transition-all"
                   style={{
                     width: i === teamIdx ? "20px" : "8px",
