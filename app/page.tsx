@@ -45,13 +45,15 @@ const team = [
   },
   {
     name: "Jadeja Krishnarajsinh",
-    role: "CO-FOUNDER & EDITOR",
+    role: "CO-FOUNDER,
     tag: "Video Editor",
     ig: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk"
   }
 ];
 
 export default function HomePage() {
+  const [teamIdx, setTeamIdx] = useState(0);
+  const [teamFlip, setTeamFlip] = useState(false); 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pricing, setPricing] = useState<"india" | "world">("india");
   const [site, setSite] = useState<SiteResponse>(defaultState);
@@ -74,7 +76,18 @@ export default function HomePage() {
     load().catch(() => undefined);
   }, []);
 
-  const shortVideos = useMemo(
+  useEffect(() => {
+  const timer = setInterval(() => {
+    setTeamFlip(true);
+    setTimeout(() => {
+      setTeamIdx((i) => (i + 1) % team.length);
+      setTeamFlip(false);
+    }, 400);
+  }, 2000);
+  return () => clearInterval(timer);
+}, []);
+  
+const shortVideos = useMemo(
     () => site.videos.filter((v) => v.category.toLowerCase() === "short"),
     [site.videos]
   );
