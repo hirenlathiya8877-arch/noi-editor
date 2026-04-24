@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { FaqList } from "@/components/site/faq-list";
@@ -57,7 +57,21 @@ export default function HomePage() {
   const [site, setSite] = useState<SiteResponse>(defaultState);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", projectType: "", message: "" });
+  const [teamIdx, setTeamIdx] = useState(0);
+  const [teamFlip, setTeamFlip] = useState(false);
+  const teamCardRef = useRef<HTMLDivElement>(null);
   useScrollReveal();
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTeamFlip(true);
+      setTimeout(() => {
+        setTeamIdx((i) => (i + 1) % team.length);
+        setTeamFlip(false);
+      }, 400);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -144,35 +158,65 @@ export default function HomePage() {
             <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
-            {team.map((person) => (
-              <div key={person.name} className="reveal relative w-72 group">
-                <div className="relative overflow-hidden rounded-[28px] border transition-all duration-500 group-hover:border-orange-400" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
+          <div className="flex flex-col items-center reveal">
+            <div
+              ref={teamCardRef}
+              className="relative w-72"
+              style={{ perspective: "1000px" }}
+              onMouseEnter={() => {}}
+            >
+              <div
+                style={{
+                  transformStyle: "preserve-3d",
+                  transition: "transform 0.7s cubic-bezier(0.4,0,0.2,1)",
+                  transform: teamFlip ? "rotateY(90deg)" : "rotateY(0deg)",
+                  position: "relative"
+                }}
+              >
+                <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
                   {/* Photo area */}
                   <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
                     {/* Arch */}
                     <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
                     {/* Avatar */}
                     <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
-                      <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+                      <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{team[teamIdx].name[0]}</span>
                     </div>
                     {/* Badge */}
                     <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
-                      ✦ {person.tag}
+                      {"\u2726"} {team[teamIdx].tag}
                     </div>
                     {/* Instagram only */}
                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                      <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
+                      <a href={team[teamIdx].ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
                     </div>
                   </div>
                   {/* Name */}
                   <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(255,107,26,0.1)" }}>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{person.role}</p>
-                    <h3 className="font-bebas text-2xl tracking-wide text-white">{person.name}</h3>
+                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{team[teamIdx].role}</p>
+                    <h3 className="font-bebas text-2xl tracking-wide text-white">{team[teamIdx].name}</h3>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Dots */}
+            <div className="flex gap-2 mt-6">
+              {team.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Show ${team[i].name}`}
+                  onClick={() => setTeamIdx(i)}
+                  className="rounded-full transition-all"
+                  style={{
+                    width: i === teamIdx ? "20px" : "8px",
+                    height: "8px",
+                    background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)"
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
