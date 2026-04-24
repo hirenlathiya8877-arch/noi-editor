@@ -36,6 +36,21 @@ const useScrollReveal = () => {
   }, []);
 };
 
+const team = [
+  {
+    name: "Hiren Lathiya",
+    role: "FOUNDER",
+    tag: "Video Editor",
+    ig: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag=="
+  },
+  {
+    name: "Jadeja Krishnarajsinh",
+    role: "CO-FOUNDER & EDITOR",
+    tag: "Video Editor",
+    ig: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk"
+  }
+];
+
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pricing, setPricing] = useState<"india" | "world">("india");
@@ -120,6 +135,47 @@ export default function HomePage() {
           </span>
         </div>
       </div>
+
+      {/* TEAM */}
+      <section id="team" className="px-6 py-24 bg-[#080808]">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
+            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
+            {team.map((person) => (
+              <div key={person.name} className="reveal relative w-72 group">
+                <div className="relative overflow-hidden rounded-[28px] border transition-all duration-500 group-hover:border-orange-400" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
+                  {/* Photo area */}
+                  <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
+                    {/* Arch */}
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
+                    {/* Avatar */}
+                    <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
+                      <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+                    </div>
+                    {/* Badge */}
+                    <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
+                      ✦ {person.tag}
+                    </div>
+                    {/* Instagram only */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
+                    </div>
+                  </div>
+                  {/* Name */}
+                  <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(255,107,26,0.1)" }}>
+                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{person.role}</p>
+                    <h3 className="font-bebas text-2xl tracking-wide text-white">{person.name}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
