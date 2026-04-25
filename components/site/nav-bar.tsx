@@ -20,7 +20,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
   }, [logo]);
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-8" style={{ overflow: "hidden" }}>
+    <nav className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-8" style={{ overflow: "hidden", width: "100%", maxWidth: "100vw" }}>  
       <div
         className="mx-auto hidden max-w-2xl items-center justify-between rounded-full px-3 py-2 md:flex"
         style={{

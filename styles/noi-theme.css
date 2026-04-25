@@ -84,6 +84,18 @@ body {
 .faq-content.open {
   max-height: 220px;
 }
+/* Existing ke upar add karo */
+.marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
 
 .marquee-track {
   display: flex;
@@ -133,7 +145,7 @@ body {
       height 0.2s;
   }
 
-  #cursor-ring {
+  #cursor-ring {  
     position: fixed;
     width: 36px;
     height: 36px;
