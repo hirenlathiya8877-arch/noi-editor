@@ -202,8 +202,7 @@ export default function HomePage() {
       </section>
 
       {/* TOOLS MARQUEE */}
-      <div className="overflow-hidden border-b border-t py-4" style={{ background:<div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>"linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)" }}>
-        <div className="marquee-track">
+        <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>        <div className="marquee-track">
           <span className="inline-flex items-center gap-8 pr-8" style={{ whiteSpace: "nowrap" }}>
             {Array.from({ length: 3 }).map((_, i) => (
               <span key={i} className="inline-flex items-center gap-8">
