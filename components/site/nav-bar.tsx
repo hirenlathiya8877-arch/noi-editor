@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 
 type NavBarProps = {
@@ -11,6 +12,13 @@ type NavBarProps = {
 };
 
 export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavBarProps) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const showLogo = Boolean(logo) && !logoFailed;
+
+  useEffect(() => {
+    setLogoFailed(false);
+  }, [logo]);
+
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-8" style={{ overflow: "hidden" }}>
       <div
@@ -27,7 +35,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
           className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full font-bebas text-xs leading-none tracking-wider"
           style={{ background: "#1c1c1c", border: "1.5px solid rgba(255,255,255,0.12)", color: "#fff" }}
         >
-          {logo ? <img src={logo} alt="NOI" className="h-full w-full object-cover" /> : <span>ne</span>}
+          {showLogo ? <img src={logo} alt="NOI" className="h-full w-full object-cover" onError={() => setLogoFailed(true)} /> : <span>ne</span>}
         </Link>
         <div className="flex items-center gap-5">
           <Link href="#work" className="font-syne text-sm text-gray-400 transition-colors hover:text-white">
@@ -64,8 +72,8 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
         }}
       >
         <Link href="#" className="flex items-center gap-2">
-          {logo ? (
-            <img src={logo} alt="NOI" className="h-8 w-8 rounded-full object-cover" />
+          {showLogo ? (
+            <img src={logo} alt="NOI" className="h-8 w-8 rounded-full object-cover" onError={() => setLogoFailed(true)} />
           ) : (
             <span className="font-bebas text-lg tracking-widest text-white">
               NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span>

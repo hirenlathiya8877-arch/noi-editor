@@ -13,6 +13,7 @@ import {
   Users,
   Video
 } from "lucide-react";
+import { normalizeImageUrl } from "@/lib/image-url";
 import type { Client, Project, Testimonial, Video as VideoType } from "@/lib/types";
 
 type ProjectWithClient = Project & {
@@ -79,6 +80,7 @@ export default function AdminPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [projects, setProjects] = useState<ProjectWithClient[]>([]);
   const [logo, setLogo] = useState("");
+  const [logoPreviewFailed, setLogoPreviewFailed] = useState(false);
   const [toast, setToast] = useState("");
 
   const [videoForm, setVideoForm] = useState({ title: "", category: "short", thumb: "", yt: "", mp4: "" });
@@ -118,6 +120,10 @@ export default function AdminPage() {
       showToast(error instanceof Error ? error.message : "Could not load admin data");
     });
   }, []);
+
+  useEffect(() => {
+    setLogoPreviewFailed(false);
+  }, [logo]);
 
   const statCards = useMemo(
     () => [
@@ -207,11 +213,14 @@ export default function AdminPage() {
   };
 
   const saveLogo = async () => {
-    await fetch("/api/settings/logo", {
+    const normalizedLogo = normalizeImageUrl(logo);
+    const response = await fetch("/api/settings/logo", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ value: logo })
+      body: JSON.stringify({ value: normalizedLogo })
     });
+    const saved = await readJson<{ value?: string }>(response, "Could not save logo");
+    setLogo(saved.value || normalizedLogo);
     showToast("✓ Logo saved");
   };
 
@@ -608,8 +617,8 @@ export default function AdminPage() {
                     className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border"
                     style={{ background: "#161616", borderColor: "#2a2a2a" }}
                   >
-                    {logo ? (
-                      <img src={logo} alt="Logo" className="h-full w-full object-cover" />
+                    {logo && !logoPreviewFailed ? (
+                      <img src={logo} alt="Logo" className="h-full w-full object-cover" onError={() => setLogoPreviewFailed(true)} />
                     ) : (
                       <span className="font-bebas text-2xl tracking-widest" style={{ color: "#FF6B1A" }}>
                         NE
@@ -624,6 +633,9 @@ export default function AdminPage() {
                   className="mb-5 w-full rounded-xl border px-4 py-3 text-sm text-white"
                   style={{ background: "#161616", borderColor: "#2a2a2a" }}
                 />
+                <p className="mb-5 text-xs leading-relaxed text-gray-500">
+                  Use a direct image URL, or local path like /img/logo.png. Google Drive and Dropbox share links are auto-converted when possible.
+                </p>
                 <div className="flex flex-wrap gap-3">
                   <button onClick={saveLogo} className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
                     Save Logo

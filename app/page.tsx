@@ -46,7 +46,7 @@ const team = [
     ig: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag=="
   },
   {
-    name: "Jadeja Krishnarajsinh",
+    name: "Krishnarajsinh Jadeja ",
     role: "CO-FOUNDER",
     tag: "Video Editor",
     image: "",
@@ -283,9 +283,9 @@ export default function HomePage() {
 
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
-        <div className="mb-16">
-          <div className="orange-line mb-4" />
-          <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-16 text-center">
+          <div className="orange-line mx-auto mb-4" />
+          <div className="flex flex-col items-center justify-center gap-3">
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR WORK</h2>
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
           </div>
@@ -419,7 +419,7 @@ export default function HomePage() {
       <footer className="border-t bg-[#080808] px-6 py-12" style={{ borderColor: "#1f1f1f" }}>
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-3">
-            {site.logo && <img src={site.logo} alt="Logo" className="h-8 w-8 rounded-full object-cover" />}
+            {site.logo && <img src={site.logo} alt="Logo" className="h-8 w-8 rounded-full object-cover" onError={(event) => { event.currentTarget.style.display = "none"; }} />}
             <div className="font-bebas text-2xl tracking-widest">NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span></div>
           </div>
           <div className="flex gap-6">

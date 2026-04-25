@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { defaultFaqs } from "@/lib/default-data";
+import { normalizeImageUrl } from "@/lib/image-url";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export async function GET() {
       videos,
       testimonials,
       faqs: defaultFaqs,
-      logo: logo?.value || ""
+      logo: normalizeImageUrl(logo?.value || "")
     });
   } catch (error) {
     console.error("Database connection error:", error);
