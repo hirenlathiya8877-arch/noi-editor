@@ -275,45 +275,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* TEAM */}
-      <section id="team" className="px-6 py-24 bg-[#080808]">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-16 text-center">
-            <div className="orange-line mx-auto mb-4" />
-            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
-          </div>
-          <div className="flex flex-col items-center reveal">
-            <div className="relative w-72" style={{ perspective: "1200px" }} onMouseEnter={() => {}}>
-              <div
-                data-flipped={teamFlip ? "true" : "false"}
-                style={{
-                  transformStyle: "preserve-3d",
-                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-                  transform: `rotateY(${teamRotation}deg)`,
-                  position: "relative",
-                  willChange: "transform"
-                }}
-              >
-                <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
-                  {renderTeamCard(team[teamFaces[0]])}
-                </div>
-                <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
-                  {renderTeamCard(team[teamFaces[1]])}
-                </div>
-              </div>
-            </div>
-            {/* Dots */}
-            <div className="flex gap-2 mt-6">
-              {team.map((_, i) => (
-                <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
-                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)" }} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
         <div className="mb-16 text-center">
@@ -360,6 +321,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TEAM */}
+      <section id="team" className="px-6 py-24 bg-[#080808]">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
+            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
+          </div>
+          <div className="flex flex-col items-center reveal">
+            <div className="relative w-72" style={{ perspective: "1200px" }} onMouseEnter={() => {}}>
+              <div
+                data-flipped={teamFlip ? "true" : "false"}
+                style={{
+                  transformStyle: "preserve-3d",
+                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+                  transform: `rotateY(${teamRotation}deg)`,
+                  position: "relative",
+                  willChange: "transform"
+                }}
+              >
+                <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+                  {renderTeamCard(team[teamFaces[0]])}
+                </div>
+                <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+                  {renderTeamCard(team[teamFaces[1]])}
+                </div>
+              </div>
+            </div>
+            {/* Dots */}
+            <div className="flex gap-2 mt-6">
+              {team.map((_, i) => (
+                <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
+                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)" }} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* TESTIMONIALS */}
       <section id="testimonials" className="px-6 py-32">
         <div className="mx-auto max-w-7xl">
