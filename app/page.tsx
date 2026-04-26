@@ -79,21 +79,22 @@ const useCountUp = (end: number, duration = 2000, suffix = "") => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
-          let startTime: number | null = null;
+          observer.disconnect();
+
+          const startTime = performance.now();
           const tick = (now: number) => {
-            if (!startTime) startTime = now;
-            const progress = Math.min((now - startTime) / duration, 1);
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(eased * end);
+            const current = Math.round(eased * end);
             setCount(current);
             if (progress < 1) {
               requestAnimationFrame(tick);
-            } else {
-              setCount(end);
             }
           };
           requestAnimationFrame(tick);
@@ -101,9 +102,10 @@ const useCountUp = (end: number, duration = 2000, suffix = "") => {
       },
       { threshold: 0.1 }
     );
+
     observer.observe(el);
     return () => observer.disconnect();
-  }, [end, duration]);
+  }, []);
 
   return { ref, display: `${count}${suffix}` };
 };
