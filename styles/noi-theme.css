@@ -131,6 +131,33 @@ body {
 }
 
 @media (max-width: 767px) {
+  .noi-mobile-brand {
+    align-items: center;
+    display: flex;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .noi-mobile-mark {
+    flex: 0 0 auto;
+    height: 30px;
+    width: 46px;
+    filter: drop-shadow(0 0 12px rgba(255, 107, 26, 0.18));
+  }
+
+  .noi-mobile-brand-text {
+    color: #f0ede8;
+    font-family: "Bebas Neue", cursive;
+    font-size: 19px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .noi-mobile-brand-text span {
+    color: #ff6b1a;
+  }
+
   .mobile-menu-trigger {
     align-items: center;
     background: rgba(255, 107, 26, 0.12);
