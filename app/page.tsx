@@ -180,26 +180,85 @@ export default function HomePage() {
       <CustomCursor />
       <NavBar logo={site.logo} mobileOpen={mobileMenuOpen} onToggleMobile={() => setMobileMenuOpen((o) => !o)} onCloseMobile={() => setMobileMenuOpen(false)} />
 
-      {/* HERO */}
-      <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
-        <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
-        <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
-          Available for New Projects
+     {/* HERO */}
+<section className="hero-gradient relative px-6 pb-16 pt-32 md:pt-24">
+  <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
+  <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
+
+  {/* Mobile: centered, Desktop: 2-column */}
+  <div className="mx-auto max-w-7xl flex flex-col items-center text-center md:flex-row md:items-center md:text-left md:gap-12">
+    
+    {/* Left: Hero Text */}
+    <div className="flex-1 flex flex-col items-center md:items-start">
+      <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
+        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
+        Available for New Projects
+      </div>
+      <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,10vw,9rem)" }}>
+        RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
+      </h1>
+      <p className="mb-10 max-w-sm text-base tracking-wide text-gray-400">
+        <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
+        <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
+      </p>
+      <div className="flex flex-wrap justify-center md:justify-start gap-4">
+        <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
+        <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
+      </div>
+    </div>
+
+    {/* Right: Team Card — PC only */}
+    <div className="hidden md:flex flex-col items-center shrink-0">
+      <div
+        className="relative w-72"
+        style={{ perspective: "1200px" }}
+      >
+        <div
+          data-flipped={teamFlip ? "true" : "false"}
+          style={{
+            transformStyle: "preserve-3d",
+            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: `rotateY(${teamRotation}deg)`,
+            position: "relative",
+            willChange: "transform"
+          }}
+        >
+          <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+            {renderTeamCard(team[teamFaces[0]])}
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              transform: "rotateY(180deg)"
+            }}
+          >
+            {renderTeamCard(team[teamFaces[1]])}
+          </div>
         </div>
-        <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
-          RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
-        </h1>
-        <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
-          <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
-          <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
-          <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
-        </div>
-      </section>
+      </div>
+      {/* Dots */}
+      <div className="flex gap-2 mt-6">
+        {team.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Show ${team[i].name}`}
+            onClick={() => flipTeamTo(i)}
+            className="rounded-full transition-all"
+            style={{
+              width: i === teamIdx ? "20px" : "8px",
+              height: "8px",
+              background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)"
+            }}
+          />
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* TOOLS MARQUEE */}
         <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>        <div className="marquee-track">
@@ -219,66 +278,43 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* TEAM */}
-      <section id="team" className="px-6 py-24 bg-[#080808]">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-16 text-center">
-            <div className="orange-line mx-auto mb-4" />
-            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
+      {/* TEAM — Mobile only (PC me hero ke saath hai) */}
+<section id="team" className="px-6 py-24 bg-[#080808] md:hidden">
+  <div className="mx-auto max-w-5xl">
+    <div className="mb-16 text-center">
+      <div className="orange-line mx-auto mb-4" />
+      <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
+    </div>
+    <div className="flex flex-col items-center reveal">
+      <div className="relative w-72" style={{ perspective: "1200px" }}>
+        <div
+          data-flipped={teamFlip ? "true" : "false"}
+          style={{
+            transformStyle: "preserve-3d",
+            transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: `rotateY(${teamRotation}deg)`,
+            position: "relative",
+            willChange: "transform"
+          }}
+        >
+          <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+            {renderTeamCard(team[teamFaces[0]])}
           </div>
-          <div className="flex flex-col items-center reveal">
-            <div
-              className="relative w-72"
-              style={{ perspective: "1200px" }}
-              onMouseEnter={() => {}}
-            >
-              <div
-                data-flipped={teamFlip ? "true" : "false"}
-                style={{
-                  transformStyle: "preserve-3d",
-                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-                  transform: `rotateY(${teamRotation}deg)`,
-                  position: "relative",
-                  willChange: "transform"
-                }}
-              >
-                <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
-                  {renderTeamCard(team[teamFaces[0]])}
-                </div>
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    WebkitBackfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)"
-                  }}
-                >
-                  {renderTeamCard(team[teamFaces[1]])}
-                </div>
-              </div>
-            </div>
-
-            {/* Dots */}
-            <div className="flex gap-2 mt-6">
-              {team.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Show ${team[i].name}`}
-                  onClick={() => flipTeamTo(i)}
-                  className="rounded-full transition-all"
-                  style={{
-                    width: i === teamIdx ? "20px" : "8px",
-                    height: "8px",
-                    background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)"
-                  }}
-                />
-              ))}
-            </div>
+          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+            {renderTeamCard(team[teamFaces[1]])}
           </div>
         </div>
-      </section>
+      </div>
+      <div className="flex gap-2 mt-6">
+        {team.map((_, i) => (
+          <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
+            style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)" }} />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
