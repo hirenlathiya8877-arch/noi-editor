@@ -226,20 +226,20 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
-        <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
-        <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
+        <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
+        <div className="pointer-events-none absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
+        <div className="float tag relative z-10 mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
           Available for New Projects
         </div>
-        <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
+        <h1 className="section-title text-glow animate-pulse-slow relative z-10 mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
           RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
         </h1>
-        <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
+        <p className="relative z-10 mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
           <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
           <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
         </p>
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full">
+        <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 mb-12 sm:flex-row">
           <a href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black text-center w-64 active:opacity-80" style={{ background: "#FF6B1A" }}>See Our Work ↓</a>
           <a href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</a>
         </div>
