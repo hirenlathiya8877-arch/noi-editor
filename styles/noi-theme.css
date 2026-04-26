@@ -134,7 +134,7 @@ body {
   .noi-mobile-brand {
     align-items: center;
     display: flex;
-    gap: 9px;
+    gap: 8px;
     min-width: 0;
   }
 
@@ -142,10 +142,10 @@ body {
     align-items: center;
     display: flex;
     flex: 0 0 auto;
-    height: 28px;
+    height: 24px;
     justify-content: center;
     overflow: hidden;
-    width: 40px;
+    width: 34px;
   }
 
   .noi-mobile-logo-frame img {
@@ -160,8 +160,8 @@ body {
   .noi-mobile-brand-text {
     color: #f0ede8;
     font-family: "Bebas Neue", cursive;
-    font-size: 19px;
-    letter-spacing: 0.08em;
+    font-size: 18px;
+    letter-spacing: 0.045em;
     line-height: 1;
     white-space: nowrap;
   }
