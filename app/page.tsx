@@ -336,7 +336,7 @@ export default function HomePage() {
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
             <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {[
               { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts." },
               { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
@@ -351,7 +351,7 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-5">
+          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
             {[Gamepad2, Clapperboard, Clock, RefreshCw, Camera].map((Icon, i) => (
               <div key={i} className="flex items-center gap-3 rounded-xl border p-5 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
                 <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
