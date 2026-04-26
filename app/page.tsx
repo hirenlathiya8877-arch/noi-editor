@@ -37,6 +37,50 @@ const useScrollReveal = () => {
   }, []);
 };
 
+// ✅ BAHAR HAI - HomePage ke andar NAHI
+const useCountUp = (end: number, duration = 2000) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          observer.disconnect();
+          const startTime = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(eased * end));
+            if (progress < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  return { ref, count };
+};
+
+// ✅ BAHAR HAI - HomePage ke andar NAHI
+const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: string }) => {
+  const { ref, count } = useCountUp(end, 2000);
+  return (
+    <div ref={ref} className="text-center">
+      <div className="font-bebas text-5xl" style={{ color: "#FF6B1A" }}>{count}{suffix}</div>
+      <div className="text-xs uppercase tracking-widest mt-1" style={{ color: "rgba(240,237,232,0.45)" }}>{label}</div>
+    </div>
+  );
+};
+
 const team = [
   {
     name: "Hiren Lathiya",
@@ -70,54 +114,7 @@ export default function HomePage() {
   const teamRotationRef = useRef(0);
   const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
-  
-const useCountUp = (end: number, duration = 2000, suffix = "") => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          observer.disconnect();
-
-          const startTime = performance.now();
-          const tick = (now: number) => {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(eased * end);
-            setCount(current);
-            if (progress < 1) {
-              requestAnimationFrame(tick);
-            }
-          };
-          requestAnimationFrame(tick);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, display: `${count}${suffix}` };
-};
-const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: string }) => {
-  const { ref, display } = useCountUp(end, 2000, suffix);
-  return (
-    <div ref={ref} className="text-center">
-      <div className="font-bebas text-5xl" style={{ color: "#FF6B1A" }}>{display}</div>
-      <div className="text-xs uppercase tracking-widest mt-1" style={{ color: "rgba(240,237,232,0.45)" }}>{label}</div>
-    </div>
-  );
-};
   const flipTeamTo = (next: number) => {
     if (teamAnimatingRef.current || next === teamIdxRef.current) return;
 
@@ -227,40 +224,41 @@ const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: 
       <CustomCursor />
       <NavBar logo={site.logo} mobileOpen={mobileMenuOpen} onToggleMobile={() => setMobileMenuOpen((o) => !o)} onCloseMobile={() => setMobileMenuOpen(false)} />
 
-     {/* HERO */}
-<section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-  <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
-  <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
-  <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
-    <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
-    Available for New Projects
-  </div>
-  <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
-    RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
-  </h1>
-  <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
-    <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
-    <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
-  </p>
-  <div className="flex flex-wrap justify-center gap-4 mb-12">
-    <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
-    <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
-  </div>
-  {/* STATS */}
-  <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
-    {[
-      { end: 200, suffix: "+", label: "VIDEOS EDITED" },
-      { end: 50, suffix: "+", label: "HAPPY CLIENTS" },
-      { end: 3, suffix: "+", label: "YEARS EXP" },
-      { end: 24, suffix: "H", label: "FAST DELIVERY" },
-    ].map((stat) => (
-      <StatItem key={stat.label} end={stat.end} suffix={stat.suffix} label={stat.label} />
-    ))}
-  </div>
-</section>
+      {/* HERO */}
+      <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
+        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
+        <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
+        <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
+          Available for New Projects
+        </div>
+        <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
+          RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
+        </h1>
+        <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
+          <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
+          <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
+        </p>
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
+          <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
+        </div>
+        {/* STATS */}
+        <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
+          {[
+            { end: 200, suffix: "+", label: "VIDEOS EDITED" },
+            { end: 50, suffix: "+", label: "HAPPY CLIENTS" },
+            { end: 3, suffix: "+", label: "YEARS EXP" },
+            { end: 24, suffix: "H", label: "FAST DELIVERY" },
+          ].map((stat) => (
+            <StatItem key={stat.label} end={stat.end} suffix={stat.suffix} label={stat.label} />
+          ))}
+        </div>
+      </section>
 
       {/* TOOLS MARQUEE */}
-        <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>        <div className="marquee-track">
+      <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>
+        <div className="marquee-track">
           <span className="inline-flex items-center gap-8 pr-8" style={{ whiteSpace: "nowrap" }}>
             {Array.from({ length: 3 }).map((_, i) => (
               <span key={i} className="inline-flex items-center gap-8">
@@ -286,11 +284,7 @@ const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: 
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
           </div>
           <div className="flex flex-col items-center reveal">
-            <div
-              className="relative w-72"
-              style={{ perspective: "1200px" }}
-              onMouseEnter={() => {}}
-            >
+            <div className="relative w-72" style={{ perspective: "1200px" }} onMouseEnter={() => {}}>
               <div
                 data-flipped={teamFlip ? "true" : "false"}
                 style={{
@@ -304,34 +298,16 @@ const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: 
                 <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
                   {renderTeamCard(team[teamFaces[0]])}
                 </div>
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    WebkitBackfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)"
-                  }}
-                >
+                <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
                   {renderTeamCard(team[teamFaces[1]])}
                 </div>
               </div>
             </div>
-
             {/* Dots */}
             <div className="flex gap-2 mt-6">
               {team.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Show ${team[i].name}`}
-                  onClick={() => flipTeamTo(i)}
-                  className="rounded-full transition-all"
-                  style={{
-                    width: i === teamIdx ? "20px" : "8px",
-                    height: "8px",
-                    background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)"
-                  }}
-                />
+                <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
+                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)" }} />
               ))}
             </div>
           </div>
