@@ -140,23 +140,21 @@ body {
 
   .noi-mobile-logo-frame {
     align-items: center;
-    background: #f3f1ec;
-    border-radius: 10px;
-    box-shadow: 0 0 16px rgba(255, 107, 26, 0.14);
     display: flex;
     flex: 0 0 auto;
     height: 34px;
     justify-content: center;
     overflow: hidden;
-    padding: 4px;
-    width: 46px;
+    width: 48px;
   }
 
   .noi-mobile-logo-frame img {
     display: block;
     height: 100%;
-    mix-blend-mode: multiply;
     object-fit: contain;
+    object-position: left center;
+    opacity: 0.96;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 26, 0.16));
     width: 100%;
   }
 

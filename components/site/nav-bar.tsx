@@ -14,7 +14,7 @@ function NoiMobileLogo() {
   return (
     <span className="noi-mobile-brand" aria-label="NOI Editors">
       <span className="noi-mobile-logo-frame">
-        <img src="/img/noi-original-logo-cropped.png" alt="" aria-hidden="true" />
+        <img src="/img/noi-logo-white.png" alt="" aria-hidden="true" />
       </span>
       <span className="noi-mobile-brand-text">
         NOI <span>EDITORS</span>
