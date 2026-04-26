@@ -54,11 +54,47 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
   };
 
   const currentReal = videos[index];
+  const carouselClassName = isShort ? "mb-14 md:mb-24" : "mb-6 md:mb-24";
+  const trackClassName = isShort
+    ? "grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-3"
+    : "grid w-[calc(100vw-1.5rem)] max-w-xl grid-cols-1 gap-5 md:w-full md:max-w-6xl md:grid-cols-3";
+  const dotsClassName = isShort ? "mt-8 flex justify-center gap-2" : "mt-4 flex justify-center gap-2 md:mt-8";
+
+  const renderArrow = (dir: -1 | 1, className = "") => {
+    const Icon = dir === -1 ? ChevronLeft : ChevronRight;
+    const label = dir === -1 ? "Previous video" : "Next video";
+
+    return (
+      <button
+        type="button"
+        aria-label={label}
+        onClick={() => move(dir)}
+        disabled={animating}
+        className={`z-20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border md:h-9 md:w-9 ${className}`}
+        style={{
+          borderColor: "rgba(255,107,26,0.3)",
+          color: "#999",
+          background: "#111",
+          transition: "border-color 200ms ease, color 200ms ease",
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B1A";
+          (e.currentTarget as HTMLButtonElement).style.color = "#FF6B1A";
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,107,26,0.3)";
+          (e.currentTarget as HTMLButtonElement).style.color = "#999";
+        }}
+      >
+        <Icon className="h-5 w-5" />
+      </button>
+    );
+  };
 
   return (
-    <div className="mb-24">
+    <div className={carouselClassName}>
       {/* Header */}
-      <div className="mb-10 flex items-center gap-3">
+      <div className="mb-8 flex items-center gap-3 md:mb-10">
         <span className="font-bebas text-3xl tracking-wider text-white">{title}</span>
         <span className="tag rounded-full px-3 py-1 text-xs font-syne">{tag}</span>
       </div>
@@ -70,30 +106,10 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
         onMouseLeave={() => setHovered(false)}
       >
         {/* Left arrow */}
-        <button
-          onClick={() => move(-1)}
-          disabled={animating}
-          className="z-20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border"
-          style={{
-            borderColor: "rgba(255,107,26,0.3)",
-            color: "#999",
-            background: "#111",
-            transition: "border-color 200ms ease, color 200ms ease",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B1A";
-            (e.currentTarget as HTMLButtonElement).style.color = "#FF6B1A";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,107,26,0.3)";
-            (e.currentTarget as HTMLButtonElement).style.color = "#999";
-          }}
-        >
-          <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
-        </button>
+        {renderArrow(-1, "hidden md:flex")}
 
         {/* Cards grid */}
-        <div className="grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-3">
+        <div className={trackClassName}>
           {visible.map(({ video }, i) => {
             const center = i === 1;
             const isPlaying = playingId === video.id;
@@ -227,31 +243,16 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
         </div>
 
         {/* Right arrow */}
-        <button
-          onClick={() => move(1)}
-          disabled={animating}
-          className="z-20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border"
-          style={{
-            borderColor: "rgba(255,107,26,0.3)",
-            color: "#999",
-            background: "#111",
-            transition: "border-color 200ms ease, color 200ms ease",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B1A";
-            (e.currentTarget as HTMLButtonElement).style.color = "#FF6B1A";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,107,26,0.3)";
-            (e.currentTarget as HTMLButtonElement).style.color = "#999";
-          }}
-        >
-          <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
-        </button>
+        {renderArrow(1, "hidden md:flex")}
+      </div>
+
+      <div className="mt-5 flex justify-center gap-4 md:hidden">
+        {renderArrow(-1)}
+        {renderArrow(1)}
       </div>
 
       {/* Dot indicators */}
-      <div className="mt-8 flex justify-center gap-2">
+      <div className={dotsClassName}>
         {videos.map((video) => (
           <button
             key={video.id}

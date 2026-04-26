@@ -276,7 +276,7 @@ export default function HomePage() {
       </div>
 
       {/* OUR WORK */}
-      <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
+      <section id="work" className="mx-auto max-w-7xl px-6 pb-8 pt-12 md:pb-32 md:pt-16">
         <div className="mb-16 text-center">
          <div className="orange-line mx-auto mb-4" />
           <div className="flex flex-col items-center justify-center gap-3">
@@ -290,7 +290,7 @@ export default function HomePage() {
        
        
        {/* TEAM */}
-      <section id="team" className="px-6 py-24 bg-[#080808]">
+      <section id="team" className="bg-[#080808] px-6 pb-20 pt-8 md:py-24">
         <div className="mx-auto max-w-5xl">
           <div className="mb-16 text-center">
             <div className="orange-line mx-auto mb-4" />
