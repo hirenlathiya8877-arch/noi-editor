@@ -25,3 +25,13 @@ html {
   overflow-x: hidden;  /* ADD */
   max-width: 100%;     /* ADD */
 }
+@media (max-width: 768px) {
+  * {
+    cursor: auto !important;
+  }
+  
+  a, button {
+    -webkit-tap-highlight-color: rgba(255, 107, 26, 0.2);
+    touch-action: manipulation;
+  }
+}
