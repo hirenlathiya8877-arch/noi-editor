@@ -240,8 +240,8 @@ export default function HomePage() {
           <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full">
-          <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
-          <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
+          <a href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black text-center w-64 active:opacity-80" style={{ background: "#FF6B1A" }}>See Our Work ↓</a>
+          <a href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</a>
         </div>
         {/* STATS */}
         <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
