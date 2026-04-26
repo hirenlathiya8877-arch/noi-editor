@@ -63,7 +63,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
       </div>
 
       <div
-        className="flex items-center justify-between rounded-2xl px-4 py-3 md:hidden"
+        className="flex items-center justify-between rounded-[26px] px-4 py-3 md:hidden"
         style={{
           background: "rgba(13,13,13,0.96)",
           backdropFilter: "blur(20px)",

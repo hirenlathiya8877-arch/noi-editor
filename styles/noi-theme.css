@@ -138,7 +138,7 @@ body {
     border-radius: 16px;
     color: #ff6b1a;
     display: flex;
-    height: 48px;
+    height: 36px;
     justify-content: center;
     overflow: hidden;
     position: relative;
@@ -147,7 +147,7 @@ body {
       border-color 0.28s ease,
       box-shadow 0.28s ease,
       transform 0.28s ease;
-    width: 48px;
+    width: 36px;
   }
 
   .mobile-menu-trigger:active {
@@ -187,9 +187,9 @@ body {
   .mobile-menu-lines {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     position: relative;
-    width: 21px;
+    width: 18px;
     z-index: 1;
   }
 
@@ -215,7 +215,7 @@ body {
   }
 
   .mobile-menu-trigger.is-open .mobile-menu-lines span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
   }
 
   .mobile-menu-trigger.is-open .mobile-menu-lines span:nth-child(2) {
@@ -224,7 +224,7 @@ body {
   }
 
   .mobile-menu-trigger.is-open .mobile-menu-lines span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .mobile-menu-panel {
