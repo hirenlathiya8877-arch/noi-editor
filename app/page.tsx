@@ -158,10 +158,8 @@ export default function HomePage() {
             <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
           )}
         </div>
-        {/* Badge */}
-        <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
-          {"\u2726"} {person.tag}
-        </div>
+
+  
         {/* Instagram only */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
           <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
@@ -182,8 +180,6 @@ export default function HomePage() {
 
      {/* HERO */}
 <section className="hero-gradient relative min-h-[90vh] flex items-center px-6 pb-8 pt-28 md:pt-20 overflow-hidden">
-  <div className="absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-3" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(80px)" }} />
-  <div className="absolute bottom-1/4 right-1/3 h-64 w-64 rounded-full opacity-3" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
 
   <div className="mx-auto w-full max-w-7xl flex flex-col md:flex-row md:items-center md:justify-between gap-8">
 
@@ -207,17 +203,17 @@ export default function HomePage() {
     </div>
 
     {/* RIGHT: Team Card — PC only */}
-    <div className="hidden md:flex flex-col items-center relative shrink-0 self-stretch justify-center" style={{ width: "380px" }}>
+    <div className="hidden md:flex flex-col items-center relative shrink-0 self-stretch justify-center" style={{ width: "420px" }}>
 
-      {/* Floating badge */}
-      <div className="absolute top-6 left-0 z-20">
+      {/* Floating badge - sirf ek, bahar */}
+      <div className="absolute top-8 left-4 z-20">
         <div className="rounded-full px-4 py-2 text-xs font-semibold backdrop-blur-sm float" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.35)", color: "#FF6B1A" }}>
           ✦ Video Editor
         </div>
       </div>
 
       {/* Card container */}
-      <div className="relative w-full" style={{ perspective: "1200px", height: "440px" }}>
+      <div className="relative w-full" style={{ perspective: "1200px", height: "520px" }}>
         <div
           style={{
             transformStyle: "preserve-3d",
