@@ -130,6 +130,21 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+.carousel-slide-card {
+  backface-visibility: hidden;
+}
+
+@keyframes carousel-card-in {
+  from {
+    opacity: var(--carousel-start-opacity, 0.6);
+    transform: translate3d(var(--carousel-slide-from, 24px), 0, 0) scale(var(--carousel-start-scale, 0.96));
+  }
+  to {
+    opacity: var(--carousel-final-opacity, 1);
+    transform: translate3d(0, 0, 0) scale(var(--carousel-final-scale, 1));
+  }
+}
+
 @media (max-width: 767px) {
   .noi-mobile-brand {
     align-items: center;
