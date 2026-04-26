@@ -139,9 +139,9 @@ export default function HomePage() {
   };
 
   const renderTeamCard = (person: (typeof team)[number]) => (
-    <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[28px] border h-full flex flex-col" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
       {/* Photo area */}
-      <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
+      <div className="relative flex-1 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
         {/* Arch */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
         {/* Avatar */}
@@ -181,49 +181,54 @@ export default function HomePage() {
       <NavBar logo={site.logo} mobileOpen={mobileMenuOpen} onToggleMobile={() => setMobileMenuOpen((o) => !o)} onCloseMobile={() => setMobileMenuOpen(false)} />
 
      {/* HERO */}
-<section className="hero-gradient relative px-6 pb-16 pt-32 md:pt-24">
+<section className="hero-gradient relative min-h-[90vh] flex items-center px-6 pb-8 pt-28 md:pt-20 overflow-hidden">
   <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
   <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
 
-  {/* Mobile: centered, Desktop: 2-column */}
-  <div className="mx-auto max-w-7xl flex flex-col items-center text-center md:flex-row md:items-center md:text-left md:gap-12">
-    
-    {/* Left: Hero Text */}
-    <div className="flex-1 flex flex-col items-center md:items-start">
+  <div className="mx-auto w-full max-w-7xl flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+
+    {/* LEFT: Hero Text */}
+    <div className="flex flex-col items-start flex-1 z-10">
       <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
         <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
         Available for New Projects
       </div>
-      <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,10vw,9rem)" }}>
+      <h1 className="section-title text-glow animate-pulse-slow mb-6 leading-none" style={{ fontSize: "clamp(3.2rem,9vw,9rem)" }}>
         RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
       </h1>
       <p className="mb-10 max-w-sm text-base tracking-wide text-gray-400">
         <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
         <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
       </p>
-      <div className="flex flex-wrap justify-center md:justify-start gap-4">
+      <div className="flex flex-wrap gap-4">
         <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
         <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
       </div>
     </div>
 
-    {/* Right: Team Card — PC only */}
-    <div className="hidden md:flex flex-col items-center shrink-0">
-      <div
-        className="relative w-72"
-        style={{ perspective: "1200px" }}
-      >
+    {/* RIGHT: Team Card — PC only */}
+    <div className="hidden md:flex flex-col items-center relative shrink-0 self-stretch justify-end" style={{ width: "340px" }}>
+
+      {/* Floating badges on top */}
+      <div className="absolute top-6 left-0 z-20">
+        <div className="rounded-full px-4 py-2 text-xs font-semibold backdrop-blur-sm float" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.35)", color: "#FF6B1A" }}>
+          ✦ Video Editor
+        </div>
+      </div>
+
+      {/* Card container - tall */}
+      <div className="relative w-full" style={{ perspective: "1200px", height: "480px" }}>
         <div
-          data-flipped={teamFlip ? "true" : "false"}
           style={{
             transformStyle: "preserve-3d",
             transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
             transform: `rotateY(${teamRotation}deg)`,
             position: "relative",
+            height: "100%",
             willChange: "transform"
           }}
         >
-          <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+          <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", height: "100%" }}>
             {renderTeamCard(team[teamFaces[0]])}
           </div>
           <div
@@ -231,15 +236,17 @@ export default function HomePage() {
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
-              transform: "rotateY(180deg)"
+              transform: "rotateY(180deg)",
+              height: "100%"
             }}
           >
             {renderTeamCard(team[teamFaces[1]])}
           </div>
         </div>
       </div>
-      {/* Dots */}
-      <div className="flex gap-2 mt-6">
+
+      {/* Dots below card */}
+      <div className="flex gap-2 mt-5">
         {team.map((_, i) => (
           <button
             key={i}
