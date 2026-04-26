@@ -278,13 +278,14 @@ export default function HomePage() {
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
         <div className="mb-16 text-center">
+         <div className="orange-line mx-auto mb-4" />
           <div className="flex flex-col items-center justify-center gap-3">
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR WORK</h2>
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
           </div>
         </div>
-        {shortVideos.length > 0 && <VideoCarousel title="SHORT FORM" tag="Reels · Shorts · TikTok" videos={shortVideos} isShort />}
-        {longVideos.length > 0 && <VideoCarousel title="LONG FORM" tag="YouTube · Documentary" videos={longVideos} />}
+        {shortVideos.length > 0 && <VideoCarousel title="SHORT FORM" tag="Reels · Shorts" videos={shortVideos} isShort />}
+        {longVideos.length > 0 && <VideoCarousel title="LONG FORM" tag="YouTube " videos={longVideos} />}
       </section>
        
        
@@ -337,7 +338,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts & TikToks." },
+              { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts." },
               { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
               { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
               { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." }
