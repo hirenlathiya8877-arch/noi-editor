@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { Camera, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { FaqList } from "@/components/site/faq-list";
 import { NavBar } from "@/components/site/nav-bar";
@@ -341,7 +341,8 @@ export default function HomePage() {
               { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts." },
               { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
               { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
-              { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." }
+              { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." },
+              { title: "Shooting", icon: <Camera className="h-5 w-5" />, copy: "Provided only in Jamnagar, Gujarat." }
             ].map((service) => (
               <div key={service.title} className="card-hover rounded-2xl border p-8 reveal" style={{ background: "#111111", borderColor: "#1f1f1f" }}>
                 <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}>{service.icon}</div>
@@ -350,11 +351,11 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[Gamepad2, Clapperboard, Clock, RefreshCw].map((Icon, i) => (
+          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-5">
+            {[Gamepad2, Clapperboard, Clock, RefreshCw, Camera].map((Icon, i) => (
               <div key={i} className="flex items-center gap-3 rounded-xl border p-5 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
                 <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
-                <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions"][i]}</span>
+                <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions", "Professional Shoot"][i]}</span>
               </div>
             ))}
           </div>
