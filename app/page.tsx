@@ -329,9 +329,9 @@ export default function HomePage() {
       </section>
 
       {/* SERVICES */}
-      <section id="services" className="stripe-bg bg-[#080808] px-6 py-32">
+      <section id="services" className="stripe-bg bg-[#080808] px-6 pb-16 pt-20 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 text-center">
+          <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
             <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
@@ -342,7 +342,7 @@ export default function HomePage() {
               { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
               { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
               { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." },
-              { title: "Shooting", icon: <Camera className="h-5 w-5" />, copy: "Provided only in Jamnagar, Gujarat." }
+              { title: "Shooting", icon: <Camera className="h-5 w-5" />, copy: "Exclusive shooting services in Jamnagar, Gujarat covering events, brands, and commercial spaces. Please note, wedding shoots are not part of our services." }
             ].map((service) => (
               <div key={service.title} className="card-hover rounded-2xl border p-8 reveal" style={{ background: "#111111", borderColor: "#1f1f1f" }}>
                 <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}>{service.icon}</div>
@@ -353,7 +353,11 @@ export default function HomePage() {
           </div>
           <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
             {[Gamepad2, Clapperboard, Clock, RefreshCw, Camera].map((Icon, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border p-5 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+              <div
+                key={i}
+                className={`flex items-center gap-3 rounded-xl border p-5 reveal ${i === 4 ? "col-span-2 mx-auto w-[calc(50%-0.5rem)] md:col-span-1 md:mx-0 md:w-auto" : ""}`}
+                style={{ background: "#111", borderColor: "#1f1f1f" }}
+              >
                 <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
                 <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions", "Professional Shoot"][i]}</span>
               </div>
@@ -365,9 +369,9 @@ export default function HomePage() {
       
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="px-6 py-32">
+      <section id="testimonials" className="px-6 py-20 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 text-center">
+          <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
           </div>
@@ -376,9 +380,9 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="stripe-bg bg-[#080808] px-6 py-32">
+      <section id="pricing" className="stripe-bg bg-[#080808] px-6 py-20 md:py-32">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-16 text-center">
+          <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING PLANS</h2>
           </div>
@@ -403,9 +407,9 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="px-6 py-32">
+      <section id="faq" className="px-6 py-20 md:py-32">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-16 text-center">
+          <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>FAQs</h2>
           </div>
@@ -414,9 +418,9 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="px-6 py-32">
+      <section id="contact" className="px-6 py-20 md:py-32">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-16 text-center">
+          <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S WORK</h2>
           </div>
