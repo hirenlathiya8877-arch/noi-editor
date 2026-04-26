@@ -246,8 +246,8 @@ export default function HomePage() {
         {/* STATS */}
         <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
           {[
-            { end: 200, suffix: "+", label: "VIDEOS EDITED" },
-            { end: 50, suffix: "+", label: "HAPPY CLIENTS" },
+            { end: 364, suffix: "+", label: "VIDEOS EDITED" },
+            { end: 15, suffix: "+", label: "HAPPY CLIENTS" },
             { end: 3, suffix: "+", label: "YEARS EXP" },
             { end: 24, suffix: "H", label: "FAST DELIVERY" },
           ].map((stat) => (
