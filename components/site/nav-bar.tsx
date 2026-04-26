@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
 
 type NavBarProps = {
   logo?: string;
@@ -81,17 +80,24 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
           )}
         </Link>
         <button
+          type="button"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
           onClick={onToggleMobile}
-          className="flex h-9 w-9 items-center justify-center rounded-xl"
-          style={{ background: "rgba(255,107,26,0.12)", color: "#FF6B1A" }}
+          className={`mobile-menu-trigger ${mobileOpen ? "is-open" : ""}`}
         >
-          <Menu className="h-5 w-5" />
+          <span className="mobile-menu-trigger__shine" aria-hidden="true" />
+          <span className="mobile-menu-lines" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
         </button>
       </div>
 
       {!mobileOpen ? null : (
         <div
-          className="mt-2 overflow-hidden rounded-2xl md:hidden"
+          className="mobile-menu-panel relative mt-2 overflow-hidden rounded-2xl md:hidden"
           style={{
             background: "rgba(13,13,13,0.98)",
             backdropFilter: "blur(20px)",
@@ -99,12 +105,13 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
           }}
         >
           <div className="flex flex-col gap-1 p-3">
-            {["work", "services", "pricing", "contact"].map((item) => (
+            {["work", "services", "pricing", "contact"].map((item, index) => (
               <Link
                 key={item}
                 href={`#${item}`}
                 onClick={onCloseMobile}
-                className="rounded-xl px-4 py-3 font-syne text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white"
+                className="mobile-menu-link rounded-xl px-4 py-3 font-syne text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white"
+                style={{ animationDelay: `${90 + index * 55}ms` }}
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </Link>
@@ -112,7 +119,8 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
             <Link
               href="/login"
               onClick={onCloseMobile}
-              className="rounded-xl px-4 py-3 font-syne text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white"
+              className="mobile-menu-link rounded-xl px-4 py-3 font-syne text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white"
+              style={{ animationDelay: "310ms" }}
             >
               Client Login
             </Link>
@@ -120,8 +128,8 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
               <Link
                 href="#contact"
                 onClick={onCloseMobile}
-                className="flex justify-center rounded-xl py-3 text-sm font-semibold text-black"
-                style={{ background: "#FF6B1A" }}
+                className="mobile-menu-link flex justify-center rounded-xl py-3 text-sm font-semibold text-black"
+                style={{ background: "#FF6B1A", animationDelay: "365ms" }}
               >
                 Get In Touch
               </Link>
