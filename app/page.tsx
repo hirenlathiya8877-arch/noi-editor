@@ -278,7 +278,6 @@ export default function HomePage() {
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pt-16 pb-32">
         <div className="mb-16 text-center">
-          <div className="orange-line mx-auto mb-4" />
           <div className="flex flex-col items-center justify-center gap-3">
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR WORK</h2>
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
@@ -287,41 +286,9 @@ export default function HomePage() {
         {shortVideos.length > 0 && <VideoCarousel title="SHORT FORM" tag="Reels · Shorts · TikTok" videos={shortVideos} isShort />}
         {longVideos.length > 0 && <VideoCarousel title="LONG FORM" tag="YouTube · Documentary" videos={longVideos} />}
       </section>
-
-      {/* SERVICES */}
-      <section id="services" className="stripe-bg bg-[#080808] px-6 py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 text-center">
-            <div className="orange-line mx-auto mb-4" />
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
-            <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts & TikToks." },
-              { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
-              { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
-              { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." }
-            ].map((service) => (
-              <div key={service.title} className="card-hover rounded-2xl border p-8 reveal" style={{ background: "#111111", borderColor: "#1f1f1f" }}>
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}>{service.icon}</div>
-                <h3 className="mb-3 text-lg font-bold text-white">{service.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{service.copy}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[Gamepad2, Clapperboard, Clock, RefreshCw].map((Icon, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border p-5 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-                <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
-                <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions"][i]}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TEAM */}
+       
+       
+       {/* TEAM */}
       <section id="team" className="px-6 py-24 bg-[#080808]">
         <div className="mx-auto max-w-5xl">
           <div className="mb-16 text-center">
@@ -359,7 +326,42 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* SERVICES */}
+      <section id="services" className="stripe-bg bg-[#080808] px-6 py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center">
+            <div className="orange-line mx-auto mb-4" />
+            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
+            <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: "Short Form", icon: <Zap className="h-5 w-5" />, copy: "Scroll-stopping Reels, Shorts & TikToks." },
+              { title: "Long Form", icon: <Film className="h-5 w-5" />, copy: "Story-driven YouTube videos with clean pacing." },
+              { title: "Motion Graphics", icon: <Sparkles className="h-5 w-5" />, copy: "Dynamic animations and visual effects." },
+              { title: "Promo Ads", icon: <Megaphone className="h-5 w-5" />, copy: "High-converting promotional ad edits." }
+            ].map((service) => (
+              <div key={service.title} className="card-hover rounded-2xl border p-8 reveal" style={{ background: "#111111", borderColor: "#1f1f1f" }}>
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}>{service.icon}</div>
+                <h3 className="mb-3 text-lg font-bold text-white">{service.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{service.copy}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {[Gamepad2, Clapperboard, Clock, RefreshCw].map((Icon, i) => (
+              <div key={i} className="flex items-center gap-3 rounded-xl border p-5 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+                <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
+                <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions"][i]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       
+
       {/* TESTIMONIALS */}
       <section id="testimonials" className="px-6 py-32">
         <div className="mx-auto max-w-7xl">
