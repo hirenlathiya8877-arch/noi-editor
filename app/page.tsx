@@ -70,7 +70,48 @@ export default function HomePage() {
   const teamRotationRef = useRef(0);
   const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
+  
+  const useCountUp = (end: number, duration = 2000, suffix = "") => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
 
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(eased * end));
+            if (progress < 1) requestAnimationFrame(tick);
+            else setCount(end);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  return { ref, display: `${count}${suffix}` };
+};
+
+const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: string }) => {
+  const { ref, display } = useCountUp(end, 2000, suffix);
+  return (
+    <div ref={ref} className="text-center">
+      <div className="font-bebas text-5xl" style={{ color: "#FF6B1A" }}>{display}</div>
+      <div className="text-xs uppercase tracking-widest mt-1" style={{ color: "rgba(240,237,232,0.45)" }}>{label}</div>
+    </div>
+  );
+};
   const flipTeamTo = (next: number) => {
     if (teamAnimatingRef.current || next === teamIdxRef.current) return;
 
@@ -180,26 +221,37 @@ export default function HomePage() {
       <CustomCursor />
       <NavBar logo={site.logo} mobileOpen={mobileMenuOpen} onToggleMobile={() => setMobileMenuOpen((o) => !o)} onCloseMobile={() => setMobileMenuOpen(false)} />
 
-      {/* HERO */}
-      <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
-        <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
-        <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
-          Available for New Projects
-        </div>
-        <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
-          RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
-        </h1>
-        <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
-          <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
-          <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
-          <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
-        </div>
-      </section>
+     {/* HERO */}
+<section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
+  <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
+  <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
+  <div className="float tag mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
+    <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
+    Available for New Projects
+  </div>
+  <h1 className="section-title text-glow animate-pulse-slow mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
+    RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
+  </h1>
+  <p className="mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
+    <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
+    <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
+  </p>
+  <div className="flex flex-wrap justify-center gap-4 mb-12">
+    <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
+    <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
+  </div>
+  {/* STATS */}
+  <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
+    {[
+      { end: 200, suffix: "+", label: "VIDEOS EDITED" },
+      { end: 50, suffix: "+", label: "HAPPY CLIENTS" },
+      { end: 3, suffix: "+", label: "YEARS EXP" },
+      { end: 24, suffix: "H", label: "FAST DELIVERY" },
+    ].map((stat) => (
+      <StatItem key={stat.label} end={stat.end} suffix={stat.suffix} label={stat.label} />
+    ))}
+  </div>
+</section>
 
       {/* TOOLS MARQUEE */}
         <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>        <div className="marquee-track">
