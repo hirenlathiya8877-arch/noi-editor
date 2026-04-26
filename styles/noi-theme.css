@@ -134,7 +134,7 @@ body {
   .noi-mobile-brand {
     align-items: center;
     display: flex;
-    gap: 10px;
+    gap: 9px;
     min-width: 0;
   }
 
@@ -142,10 +142,10 @@ body {
     align-items: center;
     display: flex;
     flex: 0 0 auto;
-    height: 34px;
+    height: 28px;
     justify-content: center;
     overflow: hidden;
-    width: 48px;
+    width: 40px;
   }
 
   .noi-mobile-logo-frame img {
@@ -153,8 +153,7 @@ body {
     height: 100%;
     object-fit: contain;
     object-position: left center;
-    opacity: 0.96;
-    filter: drop-shadow(0 0 10px rgba(255, 107, 26, 0.16));
+    opacity: 1;
     width: 100%;
   }
 
