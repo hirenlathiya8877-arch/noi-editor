@@ -13,38 +13,9 @@ type NavBarProps = {
 function NoiMobileLogo() {
   return (
     <span className="noi-mobile-brand" aria-label="NOI Editors">
-      <svg className="noi-mobile-mark" viewBox="0 0 86 54" aria-hidden="true">
-        <defs>
-          <linearGradient id="noi-mobile-mark-gradient" x1="8" y1="6" x2="76" y2="48" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#f0ede8" />
-            <stop offset="0.52" stopColor="#2c2c2c" />
-            <stop offset="1" stopColor="#ff6b1a" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M10 45V27C10 14 20 7 33 7s23 9 23 25v13"
-          fill="none"
-          stroke="url(#noi-mobile-mark-gradient)"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="10"
-        />
-        <path
-          d="M54 22c5-9 15-13 24-7 8 5 8 19-1 27-7 6-18 8-28 3-8-4-13-12-12-22"
-          fill="none"
-          stroke="url(#noi-mobile-mark-gradient)"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="10"
-        />
-        <path
-          d="M52 31h24"
-          fill="none"
-          stroke="#ff6b1a"
-          strokeLinecap="round"
-          strokeWidth="8"
-        />
-      </svg>
+      <span className="noi-mobile-logo-frame">
+        <img src="/img/noi-original-logo-cropped.png" alt="" aria-hidden="true" />
+      </span>
       <span className="noi-mobile-brand-text">
         NOI <span>EDITORS</span>
       </span>

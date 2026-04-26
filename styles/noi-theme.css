@@ -134,15 +134,30 @@ body {
   .noi-mobile-brand {
     align-items: center;
     display: flex;
-    gap: 9px;
+    gap: 10px;
     min-width: 0;
   }
 
-  .noi-mobile-mark {
+  .noi-mobile-logo-frame {
+    align-items: center;
+    background: #f3f1ec;
+    border-radius: 10px;
+    box-shadow: 0 0 16px rgba(255, 107, 26, 0.14);
+    display: flex;
     flex: 0 0 auto;
-    height: 30px;
+    height: 34px;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4px;
     width: 46px;
-    filter: drop-shadow(0 0 12px rgba(255, 107, 26, 0.18));
+  }
+
+  .noi-mobile-logo-frame img {
+    display: block;
+    height: 100%;
+    mix-blend-mode: multiply;
+    object-fit: contain;
+    width: 100%;
   }
 
   .noi-mobile-brand-text {
