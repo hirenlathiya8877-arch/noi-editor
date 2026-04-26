@@ -71,7 +71,7 @@ export default function HomePage() {
   const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
   
-  const useCountUp = (end: number, duration = 2000, suffix = "") => {
+const useCountUp = (end: number, duration = 2000, suffix = "") => {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
@@ -83,18 +83,23 @@ export default function HomePage() {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
-          const start = performance.now();
+          let startTime: number | null = null;
           const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1);
+            if (!startTime) startTime = now;
+            const progress = Math.min((now - startTime) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(eased * end));
-            if (progress < 1) requestAnimationFrame(tick);
-            else setCount(end);
+            const current = Math.floor(eased * end);
+            setCount(current);
+            if (progress < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              setCount(end);
+            }
           };
           requestAnimationFrame(tick);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -102,7 +107,6 @@ export default function HomePage() {
 
   return { ref, display: `${count}${suffix}` };
 };
-
 const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: string }) => {
   const { ref, display } = useCountUp(end, 2000, suffix);
   return (
