@@ -239,7 +239,7 @@ export default function HomePage() {
           <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
           <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
         </p>
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full">
           <Link href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black transition-all hover:scale-105" style={{ background: "#FF6B1A" }}>See Our Work ↓</Link>
           <Link href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white transition-all hover:border-orange-accent hover:text-orange-accent" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</Link>
         </div>
@@ -248,7 +248,7 @@ export default function HomePage() {
           {[
             { end: 450, suffix: "+", label: "VIDEOS EDITED" },
             { end: 18, suffix: "+", label: "HAPPY CLIENTS" },
-            { end: 3.5, suffix: "+", label: "YEARS EXP" },
+            { end: 3, suffix: "+", label: "YEARS EXP" },
             { end: 24, suffix: "H", label: "FAST DELIVERY" },
           ].map((stat) => (
             <StatItem key={stat.label} end={stat.end} suffix={stat.suffix} label={stat.label} />
