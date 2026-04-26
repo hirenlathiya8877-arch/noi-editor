@@ -106,7 +106,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
         onMouseLeave={() => setHovered(false)}
       >
         {/* Left arrow */}
-        {renderArrow(-1, "hidden md:flex")}
+        {renderArrow(-1, isShort ? "flex" : "hidden md:flex")}
 
         {/* Cards grid */}
         <div className={trackClassName}>
@@ -243,13 +243,15 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
         </div>
 
         {/* Right arrow */}
-        {renderArrow(1, "hidden md:flex")}
+        {renderArrow(1, isShort ? "flex" : "hidden md:flex")}
       </div>
 
-      <div className="mt-5 flex justify-center gap-4 md:hidden">
-        {renderArrow(-1)}
-        {renderArrow(1)}
-      </div>
+      {!isShort && (
+        <div className="mt-5 flex justify-center gap-4 md:hidden">
+          {renderArrow(-1)}
+          {renderArrow(1)}
+        </div>
+      )}
 
       {/* Dot indicators */}
       <div className={dotsClassName}>
