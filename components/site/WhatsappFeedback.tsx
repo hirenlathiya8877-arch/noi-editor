@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const screenshots = [
   { src: "/img/feedback/ss1.jpg", alt: "Client feedback 1" },
@@ -30,12 +30,39 @@ export function WhatsappFeedback() {
     globalIndex: number;
   }) => {
     const isActive = activeIndex === globalIndex;
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    // har card ka apna reveal observer
+    useEffect(() => {
+      const el = cardRef.current;
+      if (!el) return;
+
+      // initial hidden state
+      el.style.opacity = "0";
+      el.style.translate = "0 40px";
+      el.style.transition = `opacity 0.6s ease ${globalIndex * 0.1}s, translate 0.6s ease ${globalIndex * 0.1}s`;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            el.style.opacity = "1";
+            el.style.translate = "0 0";
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.15 }
+      );
+
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, [globalIndex]);
 
     const baseTransform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
     const activeTransform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-14px) scale(1.04)`;
 
     return (
       <div
+        ref={cardRef}
         style={{
           position: "relative",
           borderRadius: 28,
@@ -45,7 +72,6 @@ export function WhatsappFeedback() {
           marginTop: i === 0 ? 0 : -36,
           zIndex: isActive ? 20 : i + 1,
           transform: isActive ? activeTransform : baseTransform,
-          transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
           willChange: "transform",
           cursor: "pointer",
           WebkitTapHighlightColor: "transparent",
