@@ -19,8 +19,6 @@ export function WhatsappFeedback() {
   const col1 = screenshots.filter((_, i) => i % 2 === 0);
   const col2 = screenshots.filter((_, i) => i % 2 !== 0);
 
-  const isMobile = () => !window.matchMedia("(hover: hover)").matches;
-
   const Card = ({ item, i, globalIndex }: { item: typeof screenshots[0]; i: number; globalIndex: number }) => {
     const isActive = activeIndex === globalIndex;
 
@@ -40,27 +38,22 @@ export function WhatsappFeedback() {
           transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
           cursor: "pointer",
         }}
-        onClick={() => {
-          // Sirf mobile pe click toggle kaam karega
-          if (isMobile()) {
-            setActiveIndex(isActive ? null : globalIndex);
-          }
-        }}
         onMouseEnter={(e) => {
-          // Sirf PC pe hover kaam karega
-          if (!isMobile()) {
+          if (!window.matchMedia("(hover: none)").matches) {
             const el = e.currentTarget as HTMLDivElement;
             el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
             el.style.zIndex = "20";
           }
         }}
         onMouseLeave={(e) => {
-          // Sirf PC pe hover wapas kaam karega
-          if (!isMobile()) {
+          if (!window.matchMedia("(hover: none)").matches) {
             const el = e.currentTarget as HTMLDivElement;
             el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
             el.style.zIndex = String(i + 1);
           }
+        }}
+        onTouchEnd={() => {
+          setActiveIndex(isActive ? null : globalIndex);
         }}
       >
         <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)", opacity: 0.75 }} />
