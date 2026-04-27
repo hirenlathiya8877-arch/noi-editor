@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Camera, CheckCheck, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Camera, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { FaqList } from "@/components/site/faq-list";
 import { NavBar } from "@/components/site/nav-bar";
@@ -97,102 +97,6 @@ const team = [
     ig: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk"
   }
 ];
-
-const whatsappFeedbackShots = [
-  {
-    client: "Creator DM",
-    status: "Online",
-    time: "8:50 am",
-    frameClass: "feedback-shot--one",
-    messages: [
-      { text: "very very nice work bhai", time: "8:49 am" },
-      { text: "bohot he achhi edit ki hai video", time: "8:50 am" }
-    ]
-  },
-  {
-    client: "YouTube Client",
-    status: "Typing...",
-    time: "12:06 am",
-    frameClass: "feedback-shot--two",
-    messages: [
-      { text: "Awesome work bhai", time: "12:06 am" },
-      { text: "Thank you", time: "12:06 am", sent: true }
-    ]
-  },
-  {
-    client: "Reel Client",
-    status: "Delivered",
-    time: "9:18 pm",
-    frameClass: "feedback-shot--three",
-    messages: [
-      { text: "Checking", time: "4:35 pm" },
-      { text: "awesome work bhai", time: "9:18 pm" }
-    ]
-  },
-  {
-    client: "Brand Shoot",
-    status: "Seen",
-    time: "1:42 pm",
-    frameClass: "feedback-shot--four",
-    messages: [
-      { text: "Perfect video bhai, thanks", time: "1:42 pm" },
-      { text: "Next video du?", time: "1:42 pm" }
-    ]
-  },
-  {
-    client: "Drive Review",
-    status: "Project link",
-    time: "11:06 am",
-    frameClass: "feedback-shot--five",
-    messages: [
-      { text: "Reel no 5 healthy snacking.mp4", time: "10:43 am", sent: true },
-      { text: "drive.google.com/file/final-edit", time: "10:43 am", link: true, sent: true },
-      { text: "Awesome bro", time: "11:06 am" }
-    ]
-  }
-];
-
-const WhatsAppFeedbackWall = () => (
-  <div className="feedback-wall reveal" aria-label="WhatsApp client feedback screenshots">
-    <div className="feedback-wall__glow feedback-wall__glow--left" />
-    <div className="feedback-wall__glow feedback-wall__glow--right" />
-    <div className="feedback-wall__line" />
-
-    {whatsappFeedbackShots.map((shot, index) => (
-      <div
-        key={shot.client}
-        className={`feedback-shot ${shot.frameClass}`}
-        style={{ "--feedback-delay": `${index * 0.16}s` } as CSSProperties}
-      >
-        <div className="feedback-shot__screen">
-          <div className="feedback-shot__bar">
-            <div className="feedback-shot__avatar">{shot.client.charAt(0)}</div>
-            <div className="min-w-0">
-              <div className="truncate text-[11px] font-bold text-white">{shot.client}</div>
-              <div className="truncate text-[9px] uppercase tracking-[0.18em] text-white/35">{shot.status}</div>
-            </div>
-            <div className="ml-auto text-[10px] text-white/45">{shot.time}</div>
-          </div>
-
-          <div className="feedback-shot__messages">
-            {shot.messages.map((message) => (
-              <div
-                key={`${shot.client}-${message.text}`}
-                className={`feedback-message ${message.sent ? "is-sent" : ""} ${message.link ? "is-link" : ""}`}
-              >
-                <span>{message.text}</span>
-                <span className="feedback-message__meta">
-                  {message.time}
-                  {message.sent && <CheckCheck className="h-3 w-3" />}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-);
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -470,14 +374,8 @@ export default function HomePage() {
           <div className="mb-10 text-center md:mb-16">
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
-            <p className="mx-auto mt-4 max-w-xl text-sm text-gray-500 reveal">Real chat reactions from creators and brands after delivery.</p>
           </div>
-          <WhatsAppFeedbackWall />
-          {site.testimonials.length > 0 && (
-            <div className="mt-12 md:mt-16">
-              <TestimonialGrid testimonials={site.testimonials} />
-            </div>
-          )}
+          <TestimonialGrid testimonials={site.testimonials} />
         </div>
       </section>
 
