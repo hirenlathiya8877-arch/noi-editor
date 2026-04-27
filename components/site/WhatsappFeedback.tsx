@@ -19,8 +19,19 @@ export function WhatsappFeedback() {
   const col1 = screenshots.filter((_, i) => i % 2 === 0);
   const col2 = screenshots.filter((_, i) => i % 2 !== 0);
 
-  const Card = ({ item, i, globalIndex }: { item: typeof screenshots[0]; i: number; globalIndex: number }) => {
+  const Card = ({
+    item,
+    i,
+    globalIndex,
+  }: {
+    item: (typeof screenshots)[0];
+    i: number;
+    globalIndex: number;
+  }) => {
     const isActive = activeIndex === globalIndex;
+
+    const baseTransform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
+    const activeTransform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-14px) scale(1.04)`;
 
     return (
       <div
@@ -32,56 +43,107 @@ export function WhatsappFeedback() {
           overflow: "hidden",
           marginTop: i === 0 ? 0 : -36,
           zIndex: isActive ? 20 : i + 1,
-          transform: isActive
-            ? `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`
-            : `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`,
-          transition: "transform 0.5s cubic-bezier(0.34,1.56,0.64,1)",
+          transform: isActive ? activeTransform : baseTransform,
+          transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
+          willChange: "transform",
           cursor: "pointer",
+          WebkitTapHighlightColor: "transparent", // remove tap flash on iOS
+          touchAction: "manipulation",            // prevents 300ms tap delay
         }}
         onMouseEnter={(e) => {
-          if (!window.matchMedia("(hover: none)").matches) {
-            const el = e.currentTarget as HTMLDivElement;
-            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
-            el.style.zIndex = "20";
-          }
+          if (window.matchMedia("(hover: none)").matches) return;
+          const el = e.currentTarget as HTMLDivElement;
+          el.style.transform = activeTransform;
+          el.style.zIndex = "20";
         }}
         onMouseLeave={(e) => {
-          if (!window.matchMedia("(hover: none)").matches) {
-            const el = e.currentTarget as HTMLDivElement;
-            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
-            el.style.zIndex = String(i + 1);
-          }
+          if (window.matchMedia("(hover: none)").matches) return;
+          const el = e.currentTarget as HTMLDivElement;
+          el.style.transform = baseTransform;
+          el.style.zIndex = String(i + 1);
         }}
         onTouchStart={(e) => {
+          e.preventDefault(); // scroll interference band karo
           const el = e.currentTarget as HTMLDivElement;
-          if (!isActive) {
-            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
-            el.style.zIndex = "20";
-          } else {
-            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
-            el.style.zIndex = String(i + 1);
-          }
+          // requestAnimationFrame se GPU ko ek frame pehle batao
+          requestAnimationFrame(() => {
+            el.style.transition = "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)";
+            el.style.transform = !isActive ? activeTransform : baseTransform;
+            el.style.zIndex = !isActive ? "20" : String(i + 1);
+          });
         }}
         onTouchEnd={() => {
           setActiveIndex(isActive ? null : globalIndex);
         }}
       >
-        <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)", opacity: 0.75 }} />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "rgba(240,237,232,0.45)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#25D366", display: "inline-block" }} />
+        {/* top accent line */}
+        <div
+          style={{
+            height: 3,
+            background:
+              "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)",
+            opacity: 0.75,
+          }}
+        />
+
+        {/* header row */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 16px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 11,
+              color: "rgba(240,237,232,0.45)",
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: "#25D366",
+                display: "inline-block",
+              }}
+            />
             WhatsApp
           </div>
-          <span style={{ background: "rgba(255,107,26,0.12)", border: "1px solid rgba(255,107,26,0.28)", color: "#FF6B1A", fontSize: 10, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
+          <span
+            style={{
+              background: "rgba(255,107,26,0.12)",
+              border: "1px solid rgba(255,107,26,0.28)",
+              color: "#FF6B1A",
+              fontSize: 10,
+              fontWeight: 600,
+              padding: "3px 10px",
+              borderRadius: 20,
+            }}
+          >
             CLIENT SS
           </span>
         </div>
+
+        {/* screenshot image */}
         <Image
           src={item.src}
           alt={item.alt}
           width={360}
           height={220}
-          style={{ width: "100%", height: "auto", display: "block", borderRadius: "0 0 26px 26px" }}
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+            borderRadius: "0 0 26px 26px",
+          }}
         />
       </div>
     );
@@ -92,7 +154,13 @@ export function WhatsappFeedback() {
       {/* DESKTOP */}
       <div
         className="hidden md:grid"
-        style={{ gridTemplateColumns: "1fr 1fr", gap: "0 48px", maxWidth: 780, margin: "0 auto", alignItems: "start" }}
+        style={{
+          gridTemplateColumns: "1fr 1fr",
+          gap: "0 48px",
+          maxWidth: 780,
+          margin: "0 auto",
+          alignItems: "start",
+        }}
       >
         <div style={{ position: "relative" }}>
           {col1.map((item, i) => (
