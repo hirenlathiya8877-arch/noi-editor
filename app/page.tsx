@@ -7,9 +7,9 @@ import { Camera, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, 
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { FaqList } from "@/components/site/faq-list";
 import { NavBar } from "@/components/site/nav-bar";
-import { TestimonialGrid } from "@/components/site/testimonial-grid";
 import { VideoCarousel } from "@/components/site/video-carousel";
 import { defaultFaqs } from "@/lib/default-data";
+import { WhatsappFeedback } from "@/components/site/WhatsappFeedback";
 import type { FAQ, Testimonial, Video } from "@/lib/types";
 
 type SiteResponse = {
@@ -375,7 +375,7 @@ export default function HomePage() {
             <div className="orange-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
           </div>
-          <TestimonialGrid testimonials={site.testimonials} />
+          <WhatsappFeedback />
         </div>
       </section>
 
