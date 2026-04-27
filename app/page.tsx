@@ -289,16 +289,18 @@ export default function HomePage() {
       </section>
        
 
-        {/* TESTIMONIALS */}
-      <section id="testimonials" className="px-6 py-20 md:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 text-center md:mb-16">
-            <div className="orange-line mx-auto mb-4" />
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
-          </div>
-          <WhatsappFeedback />
-        </div>
-      </section>
+       {/* TESTIMONIALS */}
+  <section id="testimonials" className="px-6 py-20 md:py-32">
+  <div className="mx-auto max-w-7xl">
+    <div className="mb-10 text-center md:mb-16">
+      <div className="orange-line mx-auto mb-4" />
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
+    </div>
+    <div className="reveal">
+      <WhatsappFeedback />
+    </div>
+  </div>
+</section>
        
        {/* TEAM */}
       <section id="team" className="bg-[#080808] px-6 pb-20 pt-8 md:py-24">

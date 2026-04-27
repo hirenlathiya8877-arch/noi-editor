@@ -45,8 +45,7 @@ export function WhatsappFeedback() {
           marginTop: i === 0 ? 0 : -36,
           zIndex: isActive ? 20 : i + 1,
           transform: isActive ? activeTransform : baseTransform,
-          // smooth easing — enter fast, leave slow
-          transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), z-index 0s",
+          transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
           willChange: "transform",
           cursor: "pointer",
           WebkitTapHighlightColor: "transparent",
@@ -55,7 +54,6 @@ export function WhatsappFeedback() {
         onMouseEnter={(e) => {
           if (window.matchMedia("(hover: none)").matches) return;
           const el = e.currentTarget as HTMLDivElement;
-          // sirf DOM mutate karo — NO setState, no re-render
           el.style.transition = "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)";
           el.style.transform = activeTransform;
           el.style.zIndex = "20";
@@ -164,14 +162,15 @@ export function WhatsappFeedback() {
           maxWidth: 780,
           margin: "0 auto",
           alignItems: "start",
+          overflow: "visible",
         }}
       >
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", overflow: "visible" }}>
           {col1.map((item, i) => (
             <Card key={i} item={item} i={i} globalIndex={i * 2} />
           ))}
         </div>
-        <div style={{ position: "relative", marginTop: 80 }}>
+        <div style={{ position: "relative", marginTop: 80, overflow: "visible" }}>
           {col2.map((item, i) => (
             <Card key={i} item={item} i={i} globalIndex={i * 2 + 1} />
           ))}
@@ -181,7 +180,7 @@ export function WhatsappFeedback() {
       {/* MOBILE */}
       <div
         className="md:hidden"
-        style={{ position: "relative", maxWidth: 360, margin: "0 auto" }}
+        style={{ position: "relative", maxWidth: 360, margin: "0 auto", overflow: "visible" }}
       >
         {screenshots.map((item, i) => (
           <Card key={i} item={item} i={i} globalIndex={i} />
