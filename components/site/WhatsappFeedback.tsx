@@ -35,7 +35,7 @@ export function WhatsappFeedback() {
           transform: isActive
             ? `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`
             : `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`,
-          transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
+          transition: "transform 0.5s cubic-bezier(0.34,1.56,0.64,1)",
           cursor: "pointer",
         }}
         onMouseEnter={(e) => {
@@ -48,6 +48,16 @@ export function WhatsappFeedback() {
         onMouseLeave={(e) => {
           if (!window.matchMedia("(hover: none)").matches) {
             const el = e.currentTarget as HTMLDivElement;
+            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
+            el.style.zIndex = String(i + 1);
+          }
+        }}
+        onTouchStart={(e) => {
+          const el = e.currentTarget as HTMLDivElement;
+          if (!isActive) {
+            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
+            el.style.zIndex = "20";
+          } else {
             el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
             el.style.zIndex = String(i + 1);
           }
