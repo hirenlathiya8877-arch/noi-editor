@@ -7,12 +7,12 @@ const screenshots = [
   { src: "/img/feedback/ss2.jpg", alt: "Client feedback 2" },
   { src: "/img/feedback/ss3.jpg", alt: "Client feedback 3" },
   { src: "/img/feedback/ss4.jpg", alt: "Client feedback 4" },
+  { src: "/img/feedback/ss5.jpg", alt: "Client feedback 5" },
 ];
 
 export function WhatsappFeedback() {
-  const rotations = ["-3deg", "1.5deg", "-1.2deg", "0.8deg"];
-  const tx = ["-10px", "14px", "-6px", "8px"];
-
+  const rotations = ["-3deg", "1.5deg", "-1.2deg", "0.8deg", "-2deg"];
+  const tx = ["-10px", "14px", "-6px", "8px", "-12px"];
   return (
     <div style={{ position: "relative", maxWidth: 360, margin: "0 auto" }}>
       {screenshots.map((item, i) => (
