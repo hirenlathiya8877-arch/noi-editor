@@ -47,25 +47,30 @@ export function WhatsappFeedback() {
           transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
           willChange: "transform",
           cursor: "pointer",
-          WebkitTapHighlightColor: "transparent", // remove tap flash on iOS
-          touchAction: "manipulation",            // prevents 300ms tap delay
+          WebkitTapHighlightColor: "transparent",
+          touchAction: "manipulation",
         }}
         onMouseEnter={(e) => {
           if (window.matchMedia("(hover: none)").matches) return;
           const el = e.currentTarget as HTMLDivElement;
-          el.style.transform = activeTransform;
-          el.style.zIndex = "20";
+          requestAnimationFrame(() => {
+            el.style.transform = activeTransform;
+            el.style.zIndex = "20";
+          });
+          setActiveIndex(globalIndex);
         }}
         onMouseLeave={(e) => {
           if (window.matchMedia("(hover: none)").matches) return;
           const el = e.currentTarget as HTMLDivElement;
-          el.style.transform = baseTransform;
-          el.style.zIndex = String(i + 1);
+          requestAnimationFrame(() => {
+            el.style.transform = baseTransform;
+            el.style.zIndex = String(i + 1);
+          });
+          setActiveIndex(null);
         }}
         onTouchStart={(e) => {
-          e.preventDefault(); // scroll interference band karo
+          e.preventDefault();
           const el = e.currentTarget as HTMLDivElement;
-          // requestAnimationFrame se GPU ko ek frame pehle batao
           requestAnimationFrame(() => {
             el.style.transition = "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)";
             el.style.transform = !isActive ? activeTransform : baseTransform;
