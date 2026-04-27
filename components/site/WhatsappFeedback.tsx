@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 const screenshots = [
   { src: "/img/feedback/ss1.jpg", alt: "Client feedback 1" },
@@ -14,68 +15,78 @@ const rotations = ["-3deg", "1.5deg", "-1.2deg", "0.8deg", "-2deg"];
 const tx = ["-10px", "14px", "-6px", "8px", "-12px"];
 
 export function WhatsappFeedback() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const col1 = screenshots.filter((_, i) => i % 2 === 0);
   const col2 = screenshots.filter((_, i) => i % 2 !== 0);
 
-  const Card = ({ item, i, globalIndex }: { item: typeof screenshots[0]; i: number; globalIndex: number }) => (
-    <div
-      style={{
-        position: "relative",
-        borderRadius: 28,
-        border: "1.5px solid rgba(255,107,26,0.22)",
-        background: "#131313",
-        overflow: "hidden",
-        marginTop: i === 0 ? 0 : -36,
-        zIndex: i + 1,
-        transform: `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`,
-        transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
-        cursor: "pointer",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
-        el.style.zIndex = "20";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
-        el.style.zIndex = String(i + 1);
-      }}
-      onTouchStart={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
-        el.style.zIndex = "20";
-      }}
-      onTouchEnd={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        setTimeout(() => {
-          el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
-          el.style.zIndex = String(i + 1);
-        }, 400);
-      }}
-    >
-      <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)", opacity: 0.75 }} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "rgba(240,237,232,0.45)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#25D366", display: "inline-block" }} />
-          WhatsApp
+  const isMobile = () => !window.matchMedia("(hover: hover)").matches;
+
+  const Card = ({ item, i, globalIndex }: { item: typeof screenshots[0]; i: number; globalIndex: number }) => {
+    const isActive = activeIndex === globalIndex;
+
+    return (
+      <div
+        style={{
+          position: "relative",
+          borderRadius: 28,
+          border: "1.5px solid rgba(255,107,26,0.22)",
+          background: "#131313",
+          overflow: "hidden",
+          marginTop: i === 0 ? 0 : -36,
+          zIndex: isActive ? 20 : i + 1,
+          transform: isActive
+            ? `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`
+            : `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`,
+          transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          // Sirf mobile pe click toggle kaam karega
+          if (isMobile()) {
+            setActiveIndex(isActive ? null : globalIndex);
+          }
+        }}
+        onMouseEnter={(e) => {
+          // Sirf PC pe hover kaam karega
+          if (!isMobile()) {
+            const el = e.currentTarget as HTMLDivElement;
+            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]}) translateY(-10px) scale(1.03)`;
+            el.style.zIndex = "20";
+          }
+        }}
+        onMouseLeave={(e) => {
+          // Sirf PC pe hover wapas kaam karega
+          if (!isMobile()) {
+            const el = e.currentTarget as HTMLDivElement;
+            el.style.transform = `rotate(${rotations[globalIndex]}) translateX(${tx[globalIndex]})`;
+            el.style.zIndex = String(i + 1);
+          }
+        }}
+      >
+        <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)", opacity: 0.75 }} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "rgba(240,237,232,0.45)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#25D366", display: "inline-block" }} />
+            WhatsApp
+          </div>
+          <span style={{ background: "rgba(255,107,26,0.12)", border: "1px solid rgba(255,107,26,0.28)", color: "#FF6B1A", fontSize: 10, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
+            CLIENT SS
+          </span>
         </div>
-        <span style={{ background: "rgba(255,107,26,0.12)", border: "1px solid rgba(255,107,26,0.28)", color: "#FF6B1A", fontSize: 10, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
-          CLIENT SS
-        </span>
+        <Image
+          src={item.src}
+          alt={item.alt}
+          width={360}
+          height={220}
+          style={{ width: "100%", height: "auto", display: "block", borderRadius: "0 0 26px 26px" }}
+        />
       </div>
-      <Image
-        src={item.src}
-        alt={item.alt}
-        width={360}
-        height={220}
-        style={{ width: "100%", height: "auto", display: "block", borderRadius: "0 0 26px 26px" }}
-      />
-    </div>
-  );
+    );
+  };
 
   return (
     <>
+      {/* DESKTOP */}
       <div
         className="hidden md:grid"
         style={{ gridTemplateColumns: "1fr 1fr", gap: "0 48px", maxWidth: 780, margin: "0 auto", alignItems: "start" }}
@@ -92,6 +103,7 @@ export function WhatsappFeedback() {
         </div>
       </div>
 
+      {/* MOBILE */}
       <div
         className="md:hidden"
         style={{ position: "relative", maxWidth: 360, margin: "0 auto" }}
