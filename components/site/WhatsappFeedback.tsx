@@ -9,10 +9,11 @@ const screenshots = [
   { src: "/img/feedback/ss3.jpg", alt: "Client feedback 3" },
   { src: "/img/feedback/ss4.jpg", alt: "Client feedback 4" },
   { src: "/img/feedback/ss5.jpg", alt: "Client feedback 5" },
+  { src: "/img/feedback/ss6.jpg", alt: "Client feedback 6" },
 ];
 
-const rotations = ["-3deg", "1.5deg", "-1.2deg", "0.8deg", "-2deg"];
-const tx = ["-10px", "14px", "-6px", "8px", "-12px"];
+const rotations = ["-3deg", "1.5deg", "-1.2deg", "0.8deg", "-2deg", "2.5deg"];
+const tx = ["-10px", "14px", "-6px", "8px", "-12px", "6px"];
 
 export function WhatsappFeedback() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -44,7 +45,8 @@ export function WhatsappFeedback() {
           marginTop: i === 0 ? 0 : -36,
           zIndex: isActive ? 20 : i + 1,
           transform: isActive ? activeTransform : baseTransform,
-          transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
+          // smooth easing — enter fast, leave slow
+          transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), z-index 0s",
           willChange: "transform",
           cursor: "pointer",
           WebkitTapHighlightColor: "transparent",
@@ -53,20 +55,17 @@ export function WhatsappFeedback() {
         onMouseEnter={(e) => {
           if (window.matchMedia("(hover: none)").matches) return;
           const el = e.currentTarget as HTMLDivElement;
-          requestAnimationFrame(() => {
-            el.style.transform = activeTransform;
-            el.style.zIndex = "20";
-          });
-          setActiveIndex(globalIndex);
+          // sirf DOM mutate karo — NO setState, no re-render
+          el.style.transition = "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)";
+          el.style.transform = activeTransform;
+          el.style.zIndex = "20";
         }}
         onMouseLeave={(e) => {
           if (window.matchMedia("(hover: none)").matches) return;
           const el = e.currentTarget as HTMLDivElement;
-          requestAnimationFrame(() => {
-            el.style.transform = baseTransform;
-            el.style.zIndex = String(i + 1);
-          });
-          setActiveIndex(null);
+          el.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
+          el.style.transform = baseTransform;
+          el.style.zIndex = String(i + 1);
         }}
         onTouchStart={(e) => {
           e.preventDefault();
