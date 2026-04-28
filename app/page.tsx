@@ -427,50 +427,52 @@ export default function HomePage() {
     </div>
     <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
 
-      {/* LEFT - Contact Cards */}
-      <div className="space-y-6">
+     {/* LEFT - Contact Cards */}
+<div className="space-y-4 md:space-y-6">
 
-        {/* Email Card */}
-        <div className="group relative overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "160px" }}>
-          <svg className="absolute top-5 right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
-            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
-          </svg>
-          <div className="transition-opacity duration-300 group-hover:opacity-0">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
-              <Mail className="h-5 w-5" style={{ color: "#FF6B1A" }} />
-            </div>
-            <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Contact</div>
-            <div className="mt-1 text-lg font-semibold text-white">Email Us</div>
-          </div>
-          <div className="absolute bottom-5 right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0" style={{ color: "#333" }}>hover to reveal →</div>
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
-            <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>Email</span>
-            <span className="text-sm font-bold text-black">noieditorswork@gmail.com</span>
-            <Link href="mailto:noieditorswork@gmail.com" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Mail →</Link>
-          </div>
-        </div>
-
-        {/* WhatsApp Card */}
-        <div className="group relative overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "160px" }}>
-          <svg className="absolute top-5 right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
-            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
-          </svg>
-          <div className="transition-opacity duration-300 group-hover:opacity-0">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
-              <MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} />
-            </div>
-            <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Instant Chat</div>
-            <div className="mt-1 text-lg font-semibold text-white">WhatsApp</div>
-          </div>
-          <div className="absolute bottom-5 right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0" style={{ color: "#333" }}>hover to reveal →</div>
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
-            <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>WhatsApp</span>
-            <span className="text-sm font-bold text-black">+91 88494 38871</span>
-            <Link href="https://wa.me/918849438871" target="_blank" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Chat →</Link>
-          </div>
-        </div>
-
+  {/* WhatsApp Card - PEHLE */}
+  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
+    <svg className="absolute top-4 right-4 md:top-5 md:right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
+      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+    </svg>
+    <div className="transition-opacity duration-300 group-hover:opacity-0">
+      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
+        <MessageCircle className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#FF6B1A" }} />
       </div>
+      <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Instant Chat</div>
+      <div className="mt-0.5 md:mt-1 text-base md:text-lg font-semibold text-white">WhatsApp</div>
+    </div>
+    <div className="absolute bottom-4 md:bottom-5 right-4 md:right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 hidden md:block" style={{ color: "#333" }}>hover to reveal →</div>
+    <div className="absolute bottom-4 right-4 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 md:hidden" style={{ color: "#333" }}>tap to reveal →</div>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+      <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>WhatsApp</span>
+      <span className="text-sm font-bold text-black">+91 88494 38871</span>
+      <Link href="https://wa.me/918849438871" target="_blank" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Chat →</Link>
+    </div>
+  </div>
+
+  {/* Email Card - BAAD ME */}
+  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
+    <svg className="absolute top-4 right-4 md:top-5 md:right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
+      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+    </svg>
+    <div className="transition-opacity duration-300 group-hover:opacity-0">
+      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
+        <Mail className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#FF6B1A" }} />
+      </div>
+      <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Contact</div>
+      <div className="mt-0.5 md:mt-1 text-base md:text-lg font-semibold text-white">Email Us</div>
+    </div>
+    <div className="absolute bottom-4 md:bottom-5 right-4 md:right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 hidden md:block" style={{ color: "#333" }}>hover to reveal →</div>
+    <div className="absolute bottom-4 right-4 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 md:hidden" style={{ color: "#333" }}>tap to reveal →</div>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+      <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>Email</span>
+      <span className="text-sm font-bold text-black">noieditorswork@gmail.com</span>
+      <Link href="mailto:noieditorswork@gmail.com" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Mail →</Link>
+    </div>
+  </div>
+
+</div>
 
       {/* RIGHT - Contact Form (original untouched) */}
       <div className="rounded-2xl border p-8 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
