@@ -17,7 +17,7 @@ type LoginResponse = {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [tab, setTab] = useState<"client" | "admin">("client");
+ const [tab] = useState<"client" | "admin">("client");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
@@ -78,23 +78,7 @@ export default function LoginPage() {
         </div>
 
         <div className="rounded-2xl border p-8" style={{ background: "#111", borderColor: "#1f1f1f", boxShadow: "0 0 60px rgba(255,107,26,0.2)" }}>
-          <div className="mb-8 flex rounded-xl p-1" style={{ background: "#161616" }}>
-            <button
-              onClick={() => setTab("client")}
-              className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
-              style={{ background: tab === "client" ? "#FF6B1A" : "transparent", color: tab === "client" ? "#000" : "#888" }}
-            >
-              Client
-            </button>
-            <button
-              onClick={() => setTab("admin")}
-              className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
-              style={{ background: tab === "admin" ? "#FF6B1A" : "transparent", color: tab === "admin" ? "#000" : "#888" }}
-            >
-              Admin
-            </button>
-          </div>
-
+    
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-xs uppercase tracking-wider text-gray-500">Username</label>
@@ -146,9 +130,7 @@ export default function LoginPage() {
             </button>
           </div>
           <div className="mt-6 border-t pt-6 text-center text-xs text-gray-500" style={{ borderColor: "#1f1f1f" }}>
-            {tab === "admin"
-              ? "Admin login — for NOI EDITORS team only"
-              : "Client login — use your credentials provided by NOI EDITORS"}
+            Client login — use your credentials provided by NOI EDITORS
           </div>
         </div>
       </div>
