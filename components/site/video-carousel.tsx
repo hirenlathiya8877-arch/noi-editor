@@ -20,6 +20,9 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
   const [slideDir, setSlideDir] = useState<-1 | 1>(1);
   const animRef = useRef(false);
   const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mp4Refs = useRef<Record<string, HTMLVideoElement | null>>({});
+  const youtubeRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
+  const [embedOrigin, setEmbedOrigin] = useState("");
 
   const total = videos.length;
 
@@ -66,6 +69,39 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
       if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    setEmbedOrigin(window.location.origin);
+  }, []);
+
+  const sendYouTubeCommand = useCallback((id: string, command: "mute" | "unMute") => {
+    youtubeRefs.current[id]?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args: [],
+      }),
+      "https://www.youtube.com"
+    );
+  }, []);
+
+  const toggleMute = useCallback((video: Video, isMuted: boolean) => {
+    const nextMuted = !isMuted;
+    setMutedMap((current) => ({
+      ...current,
+      [video.id]: nextMuted,
+    }));
+
+    const mp4 = mp4Refs.current[video.id];
+    if (mp4) {
+      mp4.muted = nextMuted;
+      if (!nextMuted) mp4.volume = 1;
+    }
+
+    if (video.yt && !video.mp4) {
+      sendYouTubeCommand(video.id, nextMuted ? "mute" : "unMute");
+    }
+  }, [sendYouTubeCommand]);
 
   const currentReal = videos[index];
   const carouselClassName = isShort ? "mb-14 md:mb-24" : "mb-6 md:mb-24";
@@ -166,19 +202,29 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                   <div className={`relative ${aspectClass}`}>
                     {video.mp4 ? (
                       <video
+                        ref={(element) => {
+                          mp4Refs.current[video.id] = element;
+                        }}
                         src={video.mp4}
                         muted={isMuted}
                         controls={false}
                         className="absolute inset-0 h-full w-full object-cover"
                         autoPlay={isPlaying}
                         loop
+                        playsInline
                       />
                     ) : isPlaying && video.yt ? (
                       <iframe
+                        ref={(element) => {
+                          youtubeRefs.current[video.id] = element;
+                        }}
                         className="absolute inset-0 h-full w-full"
-                        src={`https://www.youtube.com/embed/${video.yt}?autoplay=1&rel=0&modestbranding=1`}
+                        src={`https://www.youtube.com/embed/${video.yt}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&playsinline=1${
+                          embedOrigin ? `&origin=${encodeURIComponent(embedOrigin)}` : ""
+                        }`}
                         title={video.title}
                         allow="autoplay; encrypted-media; fullscreen"
+                        onLoad={() => sendYouTubeCommand(video.id, isMuted ? "mute" : "unMute")}
                       />
                     ) : (
                       <img
@@ -235,12 +281,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                           style={{ transition: "color 150ms ease" }}
                           onMouseEnter={(e) => (e.currentTarget.style.color = "#FF6B1A")}
                           onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
-                          onClick={() =>
-                            setMutedMap((current) => ({
-                              ...current,
-                              [video.id]: !current[video.id],
-                            }))
-                          }
+                          onClick={() => toggleMute(video, isMuted)}
                         >
                           {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                         </button>
