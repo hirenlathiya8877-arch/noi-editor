@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Camera, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { Camera, Clapperboard, Clock, Film, Gamepad2, Megaphone, MessageCircle, RefreshCw, Sparkles, Zap, Mail } from "lucide-react";
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { FaqList } from "@/components/site/faq-list";
 import { NavBar } from "@/components/site/nav-bar";
@@ -419,43 +419,112 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="px-6 py-20 md:py-32">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-10 text-center md:mb-16">
-            <div className="orange-line mx-auto mb-4" />
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S WORK</h2>
+<section id="contact" className="px-6 py-20 md:py-32">
+  <div className="mx-auto max-w-5xl">
+    <div className="mb-10 text-center md:mb-16">
+      <div className="orange-line mx-auto mb-4" />
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S WORK</h2>
+    </div>
+    <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
+
+      {/* LEFT - Contact Cards */}
+      <div className="space-y-6">
+
+        {/* Email Card */}
+        <div className="group relative overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "160px" }}>
+          <svg className="absolute top-5 right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+          <div className="transition-opacity duration-300 group-hover:opacity-0">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
+              <Mail className="h-5 w-5" style={{ color: "#FF6B1A" }} />
+            </div>
+            <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Contact</div>
+            <div className="mt-1 text-lg font-semibold text-white">Email Us</div>
           </div>
-          <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
-            <div className="space-y-6">
-              <Link href="mailto:noieditorswork@gmail.com" className="group flex items-center gap-4 rounded-2xl border p-5 transition-all hover:border-orange-accent reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all group-hover:bg-orange-accent" style={{ background: "rgba(255,107,26,0.1)" }}><MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} /></div>
-                <div><div className="text-xs uppercase tracking-wider text-gray-500">Email</div><div className="mt-0.5 font-semibold text-white">noieditorswork@gmail.com</div></div>
-              </Link>
-              <Link href="https://wa.me/918849438871" target="_blank" className="group flex items-center gap-4 rounded-2xl border p-5 transition-all hover:border-orange-accent reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all group-hover:bg-orange-accent" style={{ background: "rgba(255,107,26,0.1)" }}><MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} /></div>
-                <div><div className="text-xs uppercase tracking-wider text-gray-500">WhatsApp</div><div className="mt-0.5 font-semibold text-white">+91 88494 38871</div></div>
-              </Link>
-            </div>
-            <div className="rounded-2xl border p-8 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-              <div className="space-y-4">
-                <input value={formData.name} onChange={(e) => setFormData((c) => ({ ...c, name: e.target.value }))} placeholder="Your Name" className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none" style={{ background: "#161616", borderColor: "#2a2a2a" }} />
-                <input value={formData.email} onChange={(e) => setFormData((c) => ({ ...c, email: e.target.value }))} placeholder="Email" type="email" className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none" style={{ background: "#161616", borderColor: "#2a2a2a" }} />
-                <select value={formData.projectType} onChange={(e) => setFormData((c) => ({ ...c, projectType: e.target.value }))} className="w-full rounded-xl border px-4 py-3 text-sm text-white outline-none" style={{ background: "#161616", borderColor: "#2a2a2a" }}>
-                  <option value="">Select Type</option>
-                  <option>Short Form (Reels/Shorts)</option>
-                  <option>Long Form (YouTube)</option>
-                  <option>Motion Graphics</option>
-                  <option>Promo Ad</option>
-                  <option>Custom Package</option>
-                </select>
-                <textarea rows={4} value={formData.message} onChange={(e) => setFormData((c) => ({ ...c, message: e.target.value }))} placeholder="Tell us about your project..." className="w-full resize-none rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none" style={{ background: "#161616", borderColor: "#2a2a2a" }} />
-                <button onClick={submitContact} className="w-full rounded-xl py-4 text-sm font-bold text-black transition-all hover:scale-[1.01] hover:opacity-90" style={{ background: "#FF6B1A" }}>Send Message →</button>
-                {message && <div className="py-2 text-center text-sm text-orange-accent">{message}</div>}
-              </div>
-            </div>
+          <div className="absolute bottom-5 right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0" style={{ color: "#333" }}>hover to reveal →</div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+            <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>Email</span>
+            <span className="text-sm font-bold text-black">noieditorswork@gmail.com</span>
+            <Link href="mailto:noieditorswork@gmail.com" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Mail →</Link>
           </div>
         </div>
-      </section>
+
+        {/* WhatsApp Card */}
+        <div className="group relative overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "160px" }}>
+          <svg className="absolute top-5 right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+          <div className="transition-opacity duration-300 group-hover:opacity-0">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
+              <MessageCircle className="h-5 w-5" style={{ color: "#FF6B1A" }} />
+            </div>
+            <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Instant Chat</div>
+            <div className="mt-1 text-lg font-semibold text-white">WhatsApp</div>
+          </div>
+          <div className="absolute bottom-5 right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0" style={{ color: "#333" }}>hover to reveal →</div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+            <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>WhatsApp</span>
+            <span className="text-sm font-bold text-black">+91 88494 38871</span>
+            <Link href="https://wa.me/918849438871" target="_blank" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Chat →</Link>
+          </div>
+        </div>
+
+      </div>
+
+      {/* RIGHT - Contact Form (original untouched) */}
+      <div className="rounded-2xl border p-8 reveal" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+        <div className="space-y-4">
+          <input
+            value={formData.name}
+            onChange={(e) => setFormData((c) => ({ ...c, name: e.target.value }))}
+            placeholder="Your Name"
+            className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+            style={{ background: "#161616", borderColor: "#2a2a2a" }}
+          />
+          <input
+            value={formData.email}
+            onChange={(e) => setFormData((c) => ({ ...c, email: e.target.value }))}
+            placeholder="Email"
+            type="email"
+            className="w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+            style={{ background: "#161616", borderColor: "#2a2a2a" }}
+          />
+          <select
+            value={formData.projectType}
+            onChange={(e) => setFormData((c) => ({ ...c, projectType: e.target.value }))}
+            className="w-full rounded-xl border px-4 py-3 text-sm text-white outline-none"
+            style={{ background: "#161616", borderColor: "#2a2a2a" }}
+          >
+            <option value="">Select Type</option>
+            <option>Short Form (Reels/Shorts)</option>
+            <option>Long Form (YouTube)</option>
+            <option>Motion Graphics</option>
+            <option>Promo Ad</option>
+            <option>Custom Package</option>
+          </select>
+          <textarea
+            rows={4}
+            value={formData.message}
+            onChange={(e) => setFormData((c) => ({ ...c, message: e.target.value }))}
+            placeholder="Tell us about your project..."
+            className="w-full resize-none rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-600 outline-none"
+            style={{ background: "#161616", borderColor: "#2a2a2a" }}
+          />
+          <button
+            onClick={submitContact}
+            className="w-full rounded-xl py-4 text-sm font-bold text-black transition-all hover:scale-[1.01] hover:opacity-90"
+            style={{ background: "#FF6B1A" }}
+          >
+            Send Message →
+          </button>
+          {message && <div className="py-2 text-center text-sm text-orange-accent">{message}</div>}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* FOOTER */}
       <footer className="border-t bg-[#080808] px-6 py-12" style={{ borderColor: "#1f1f1f" }}>
