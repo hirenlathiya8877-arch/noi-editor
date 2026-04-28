@@ -17,12 +17,24 @@ type LoginResponse = {
 
 export default function LoginPage() {
   const router = useRouter();
- const [tab] = useState<"client" | "admin">("client");
+  const [tab, setTab] = useState<"client" | "admin">("client");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [secretClicks, setSecretClicks] = useState(0);
+  const [showAdminHint, setShowAdminHint] = useState(false);
+
+  const handleSecretClick = () => {
+    const next = secretClicks + 1;
+    setSecretClicks(next);
+    if (next >= 7) {
+      setTab("admin");
+      setShowAdminHint(true);
+      setSecretClicks(0);
+    }
+  };
 
   const submit = async () => {
     setError("");
@@ -71,14 +83,43 @@ export default function LoginPage() {
       />
       <div className="w-full max-w-md">
         <div className="mb-10 text-center">
-          <Link href="/" className="font-bebas text-3xl tracking-widest text-white">
+          {/* 7 baar click karo title pe — admin mode unlock hoga */}
+          <button
+            onClick={handleSecretClick}
+            className="font-bebas text-3xl tracking-widest text-white cursor-default select-none"
+            style={{ background: "none", border: "none" }}
+          >
             NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span>
-          </Link>
+          </button>
           <p className="mt-2 text-sm text-gray-600">Welcome back. Please login.</p>
+          {showAdminHint && (
+            <p className="mt-1 text-xs" style={{ color: "rgba(255,107,26,0.5)" }}>
+              — admin mode —
+            </p>
+          )}
         </div>
 
         <div className="rounded-2xl border p-8" style={{ background: "#111", borderColor: "#1f1f1f", boxShadow: "0 0 60px rgba(255,107,26,0.2)" }}>
-    
+          
+          {/* Sirf admin mode mein tab dikhega */}
+          {tab === "admin" && (
+            <div className="mb-8 flex rounded-xl p-1" style={{ background: "#161616" }}>
+              <button
+                onClick={() => { setTab("client"); setShowAdminHint(false); }}
+                className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
+                style={{ background: "transparent", color: "#888" }}
+              >
+                Client
+              </button>
+              <button
+                className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
+                style={{ background: "#FF6B1A", color: "#000" }}
+              >
+                Admin
+              </button>
+            </div>
+          )}
+
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-xs uppercase tracking-wider text-gray-500">Username</label>
@@ -96,30 +137,25 @@ export default function LoginPage() {
                 <input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") submit();
-                  }}
+                  onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
                   type={showPwd ? "text" : "password"}
                   className="w-full rounded-xl border px-4 py-3 pr-12 text-sm text-white placeholder-gray-700"
                   style={{ background: "#161616", borderColor: "#2a2a2a" }}
                   placeholder="Enter password"
                 />
                 <button
-                  onClick={() => setShowPwd((current) => !current)}
+                  onClick={() => setShowPwd((c) => !c)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400"
                 >
                   <Eye className="h-4 w-4" />
                 </button>
               </div>
             </div>
-            {error ? (
-              <div
-                className="rounded-lg border px-4 py-2 text-xs"
-                style={{ background: "rgba(255,100,100,0.1)", color: "#ff6b6b", borderColor: "rgba(255,100,100,0.2)" }}
-              >
+            {error && (
+              <div className="rounded-lg border px-4 py-2 text-xs" style={{ background: "rgba(255,100,100,0.1)", color: "#ff6b6b", borderColor: "rgba(255,100,100,0.2)" }}>
                 {error}
               </div>
-            ) : null}
+            )}
             <button
               onClick={submit}
               disabled={loading}
@@ -130,7 +166,9 @@ export default function LoginPage() {
             </button>
           </div>
           <div className="mt-6 border-t pt-6 text-center text-xs text-gray-500" style={{ borderColor: "#1f1f1f" }}>
-            Client login — use your credentials provided by NOI EDITORS
+            {tab === "admin"
+              ? "Admin login — for NOI EDITORS team only"
+              : "Client login — use your credentials provided by NOI EDITORS"}
           </div>
         </div>
       </div>
