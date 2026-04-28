@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const [videos, testimonials, logo] = await Promise.all([
-      prisma.video.findMany({ orderBy: { createdAt: "asc" } }),
+      prisma.video.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }] }),
       prisma.testimonial.findMany({ orderBy: { createdAt: "asc" } }),
       prisma.siteSetting.findUnique({ where: { key: "logo" } })
     ]);

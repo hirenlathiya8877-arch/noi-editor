@@ -31,7 +31,7 @@ const isDatabaseUnavailable = (error: unknown) =>
 export async function GET() {
   try {
     const videos = await prisma.video.findMany({
-      orderBy: { createdAt: "asc" }
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }]
     });
     return NextResponse.json(videos);
   } catch (error) {
@@ -56,14 +56,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Add a YouTube link/ID or MP4 URL" }, { status: 400 });
     }
 
-    const video = await prisma.video.create({
-      data: {
-        title,
-        category,
-        thumb: thumb || null,
-        yt: yt || null,
-        mp4: mp4 || null
-      }
+    const video = await prisma.$transaction(async (tx) => {
+      const firstVideo = await tx.video.findFirst({
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+        select: { sortOrder: true }
+      });
+
+      return tx.video.create({
+        data: {
+          title,
+          category,
+          thumb: thumb || null,
+          yt: yt || null,
+          mp4: mp4 || null,
+          sortOrder: firstVideo ? firstVideo.sortOrder - 1 : 0
+        }
+      });
     });
     return NextResponse.json(video, { status: 201 });
   } catch (error) {

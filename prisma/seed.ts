@@ -7,7 +7,10 @@ async function main() {
   const videosCount = await prisma.video.count();
   if (videosCount === 0) {
     await prisma.video.createMany({
-      data: defaultVideos
+      data: defaultVideos.map((video, index) => ({
+        ...video,
+        sortOrder: index
+      }))
     });
   }
 

@@ -5,6 +5,7 @@ export type Video = {
   thumb?: string | null;
   yt?: string | null;
   mp4?: string | null;
+  sortOrder: number;
 };
 
 export type Testimonial = {

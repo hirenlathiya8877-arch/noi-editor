@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type DragEvent } from "react";
 import Link from "next/link";
 import {
+  ArrowDown,
+  ArrowUp,
   ExternalLink,
   FolderOpen,
+  GripVertical,
   Image as ImageIcon,
   LayoutDashboard,
+  Loader2,
   LogOut,
   Star,
   Trash2,
@@ -82,6 +86,8 @@ export default function AdminPage() {
   const [logo, setLogo] = useState("");
   const [logoPreviewFailed, setLogoPreviewFailed] = useState(false);
   const [toast, setToast] = useState("");
+  const [draggedVideoId, setDraggedVideoId] = useState<string | null>(null);
+  const [reorderingVideos, setReorderingVideos] = useState(false);
 
   const [videoForm, setVideoForm] = useState({ title: "", category: "short", thumb: "", yt: "", mp4: "" });
   const [testimonialForm, setTestimonialForm] = useState({ name: "", sub: "", text: "" });
@@ -155,6 +161,66 @@ export default function AdminPage() {
     setVideoForm({ title: "", category: "short", thumb: "", yt: "", mp4: "" });
     await load();
     showToast("✓ Video added");
+  };
+
+  const saveVideoOrder = async (orderedVideos: VideoType[]) => {
+    const optimisticVideos = orderedVideos.map((video, sortOrder) => ({ ...video, sortOrder }));
+    setVideos(optimisticVideos);
+    setReorderingVideos(true);
+
+    try {
+      const response = await fetch("/api/videos/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: optimisticVideos.map((video) => video.id) })
+      });
+
+      if (!response.ok) {
+        throw new Error(await getApiErrorMessage(response, "Could not save video order"));
+      }
+
+      setVideos(await readJson<VideoType[]>(response, "Could not save video order"));
+      showToast("Video order saved");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "Could not save video order");
+      await load().catch(() => undefined);
+    } finally {
+      setReorderingVideos(false);
+    }
+  };
+
+  const moveVideo = (id: string, direction: -1 | 1) => {
+    if (reorderingVideos) return;
+
+    const currentIndex = videos.findIndex((video) => video.id === id);
+    const targetIndex = currentIndex + direction;
+    if (currentIndex < 0 || targetIndex < 0 || targetIndex >= videos.length) return;
+
+    const orderedVideos = [...videos];
+    [orderedVideos[currentIndex], orderedVideos[targetIndex]] = [orderedVideos[targetIndex], orderedVideos[currentIndex]];
+    void saveVideoOrder(orderedVideos);
+  };
+
+  const handleVideoDragStart = (event: DragEvent<HTMLDivElement>, id: string) => {
+    setDraggedVideoId(id);
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", id);
+  };
+
+  const handleVideoDrop = (event: DragEvent<HTMLDivElement>, targetId: string) => {
+    event.preventDefault();
+    const sourceId = draggedVideoId || event.dataTransfer.getData("text/plain");
+    setDraggedVideoId(null);
+    if (!sourceId || sourceId === targetId || reorderingVideos) return;
+
+    const sourceIndex = videos.findIndex((video) => video.id === sourceId);
+    const targetIndex = videos.findIndex((video) => video.id === targetId);
+    if (sourceIndex < 0 || targetIndex < 0) return;
+
+    const orderedVideos = [...videos];
+    const [movedVideo] = orderedVideos.splice(sourceIndex, 1);
+    orderedVideos.splice(targetIndex, 0, movedVideo);
+    void saveVideoOrder(orderedVideos);
   };
 
   const createTestimonial = async () => {
@@ -398,8 +464,33 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-3">
-                  {videos.map((video) => (
-                    <div key={video.id} className="flex items-center gap-4 rounded-2xl border p-4" style={{ background: "#111", borderColor: "#1f1f1f" }}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Video Order</h3>
+                    {reorderingVideos ? (
+                      <span className="inline-flex items-center gap-2 text-xs" style={{ color: "#FF6B1A" }}>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        Saving
+                      </span>
+                    ) : null}
+                  </div>
+                  {videos.map((video, index) => (
+                    <div
+                      key={video.id}
+                      draggable={!reorderingVideos}
+                      onDragStart={(event) => handleVideoDragStart(event, video.id)}
+                      onDragOver={(event) => event.preventDefault()}
+                      onDragEnd={() => setDraggedVideoId(null)}
+                      onDrop={(event) => handleVideoDrop(event, video.id)}
+                      className="flex items-center gap-4 rounded-2xl border p-4 transition-opacity"
+                      style={{
+                        background: "#111",
+                        borderColor: draggedVideoId === video.id ? "#FF6B1A" : "#1f1f1f",
+                        opacity: draggedVideoId === video.id ? 0.6 : 1
+                      }}
+                    >
+                      <div className="flex h-12 w-8 shrink-0 cursor-grab items-center justify-center rounded-lg text-gray-600 active:cursor-grabbing" title="Drag to reorder">
+                        <GripVertical className="h-5 w-5" />
+                      </div>
                       <img
                         src={video.thumb || `https://img.youtube.com/vi/${video.yt}/mqdefault.jpg`}
                         alt={video.title}
@@ -411,6 +502,24 @@ export default function AdminPage() {
                           <span>{video.category}</span>
                           <span style={{ color: "#555" }}>{video.mp4 ? "📁 MP4" : "▶ YouTube"}</span>
                         </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => moveVideo(video.id, -1)}
+                          disabled={index === 0 || reorderingVideos}
+                          title="Move up"
+                          className="rounded-xl p-2 text-gray-500 transition hover:bg-white/5 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <ArrowUp className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => moveVideo(video.id, 1)}
+                          disabled={index === videos.length - 1 || reorderingVideos}
+                          title="Move down"
+                          className="rounded-xl p-2 text-gray-500 transition hover:bg-white/5 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <ArrowDown className="h-4 w-4" />
+                        </button>
                       </div>
                       <button onClick={() => remove("videos", video.id)} className="rounded-xl p-2 text-gray-500 hover:bg-red-900/20 hover:text-red-400">
                         <Trash2 className="h-4 w-4" />
