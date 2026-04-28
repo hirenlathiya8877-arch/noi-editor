@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getOrderedVideos, parseVideoOrder, serializeVideoOrder, VIDEO_ORDER_KEY, videoSelect } from "@/lib/video-order";
 
 export const dynamic = "force-dynamic";
 
@@ -30,9 +31,7 @@ const isDatabaseUnavailable = (error: unknown) =>
 
 export async function GET() {
   try {
-    const videos = await prisma.video.findMany({
-      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }]
-    });
+    const videos = await getOrderedVideos();
     return NextResponse.json(videos);
   } catch (error) {
     const status = isDatabaseUnavailable(error) ? 503 : 500;
@@ -57,21 +56,42 @@ export async function POST(request: Request) {
     }
 
     const video = await prisma.$transaction(async (tx) => {
-      const firstVideo = await tx.video.findFirst({
-        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-        select: { sortOrder: true }
+      const orderSetting = await tx.siteSetting.findUnique({
+        where: { key: VIDEO_ORDER_KEY },
+        select: { value: true }
       });
+      const savedOrder = parseVideoOrder(orderSetting?.value);
 
-      return tx.video.create({
+      const createdVideo = await tx.video.create({
         data: {
           title,
           category,
           thumb: thumb || null,
           yt: yt || null,
-          mp4: mp4 || null,
-          sortOrder: firstVideo ? firstVideo.sortOrder - 1 : 0
-        }
+          mp4: mp4 || null
+        },
+        select: videoSelect
       });
+      const currentVideos = await tx.video.findMany({
+        select: { id: true },
+        orderBy: [{ createdAt: "desc" }, { id: "asc" }]
+      });
+      const savedOrderSet = new Set(savedOrder);
+      const nextOrder = [
+        createdVideo.id,
+        ...savedOrder.filter((id) => id !== createdVideo.id),
+        ...currentVideos
+          .map((currentVideo) => currentVideo.id)
+          .filter((id) => id !== createdVideo.id && !savedOrderSet.has(id))
+      ];
+
+      await tx.siteSetting.upsert({
+        where: { key: VIDEO_ORDER_KEY },
+        update: { value: serializeVideoOrder(nextOrder) },
+        create: { key: VIDEO_ORDER_KEY, value: serializeVideoOrder(nextOrder) }
+      });
+
+      return createdVideo;
     });
     return NextResponse.json(video, { status: 201 });
   } catch (error) {

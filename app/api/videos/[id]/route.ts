@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { parseVideoOrder, serializeVideoOrder, VIDEO_ORDER_KEY, videoSelect } from "@/lib/video-order";
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -12,7 +13,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         thumb: body.thumb ?? null,
         yt: body.yt ?? null,
         mp4: body.mp4 ?? null
-      }
+      },
+      select: videoSelect
     });
     return NextResponse.json(video);
   } catch (error) {
@@ -22,8 +24,24 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
 export async function DELETE(_: Request, { params }: { params: { id: string } }) {
   try {
-    await prisma.video.delete({
-      where: { id: params.id }
+    await prisma.$transaction(async (tx) => {
+      await tx.video.delete({
+        where: { id: params.id }
+      });
+
+      const orderSetting = await tx.siteSetting.findUnique({
+        where: { key: VIDEO_ORDER_KEY },
+        select: { value: true }
+      });
+      const savedOrder = parseVideoOrder(orderSetting?.value);
+      const nextOrder = savedOrder.filter((id) => id !== params.id);
+
+      if (orderSetting && nextOrder.length !== savedOrder.length) {
+        await tx.siteSetting.update({
+          where: { key: VIDEO_ORDER_KEY },
+          data: { value: serializeVideoOrder(nextOrder) }
+        });
+      }
     });
     return NextResponse.json({ ok: true });
   } catch (error) {

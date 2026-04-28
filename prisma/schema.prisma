@@ -15,11 +15,8 @@ model Video {
   thumb     String?
   yt        String?
   mp4       String?
-  sortOrder Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([sortOrder, createdAt])
 }
 
 model Testimonial {

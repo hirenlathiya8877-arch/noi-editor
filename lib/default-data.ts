@@ -1,6 +1,6 @@
 import type { FAQ, Testimonial, Video } from "@/lib/types";
 
-export const defaultVideos: Omit<Video, "id" | "sortOrder">[] = [
+export const defaultVideos: Omit<Video, "id">[] = [
   {
     title: "Tech Review | Cinematic Edit",
     category: "long",

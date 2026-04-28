@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getOrderedVideos, serializeVideoOrder, VIDEO_ORDER_KEY } from "@/lib/video-order";
 
 export const dynamic = "force-dynamic";
-
-const orderedVideosQuery = {
-  orderBy: [{ sortOrder: "asc" as const }, { createdAt: "desc" as const }]
-};
 
 export async function PATCH(request: Request) {
   try {
@@ -24,24 +21,24 @@ export async function PATCH(request: Request) {
     }
 
     const existingVideos = await prisma.video.findMany({
-      where: { id: { in: uniqueIds } },
-      select: { id: true }
+      select: { id: true },
+      orderBy: [{ createdAt: "desc" }, { id: "asc" }]
     });
+    const existingIds = existingVideos.map((video) => video.id);
+    const existingIdSet = new Set(existingIds);
 
-    if (existingVideos.length !== uniqueIds.length) {
+    if (uniqueIds.some((id) => !existingIdSet.has(id))) {
       return NextResponse.json({ error: "Video order contains an unknown video" }, { status: 400 });
     }
 
-    await prisma.$transaction(
-      uniqueIds.map((id, sortOrder) =>
-        prisma.video.update({
-          where: { id },
-          data: { sortOrder }
-        })
-      )
-    );
+    const nextOrder = [...uniqueIds, ...existingIds.filter((id) => !uniqueIds.includes(id))];
+    await prisma.siteSetting.upsert({
+      where: { key: VIDEO_ORDER_KEY },
+      update: { value: serializeVideoOrder(nextOrder) },
+      create: { key: VIDEO_ORDER_KEY, value: serializeVideoOrder(nextOrder) }
+    });
 
-    const videos = await prisma.video.findMany(orderedVideosQuery);
+    const videos = await getOrderedVideos();
     return NextResponse.json(videos);
   } catch (error) {
     return NextResponse.json({ error: "Failed to save video order", details: String(error) }, { status: 400 });

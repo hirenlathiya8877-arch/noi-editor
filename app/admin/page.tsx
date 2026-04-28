@@ -60,8 +60,15 @@ const getApiErrorMessage = async (response: Response, fallback: string) => {
   }
 
   const details = `${data.error || ""} ${data.details || ""}`;
-  if (/can't reach database server|connect.*database|localhost:5432|p1001|econnrefused|tls connection|security package|channel_binding/i.test(details)) {
-    return "Database unavailable. Start Postgres or update DATABASE_URL.";
+  if (
+    /can't reach database server|requested endpoint could not be found|don't have access|connect.*database|localhost:5432|p1001|econnrefused|tls connection|security package|channel_binding/i.test(
+      details
+    )
+  ) {
+    return "Database unavailable. Check DATABASE_URL or Neon endpoint access.";
+  }
+  if (/column .* does not exist|not available.*does not exist/i.test(details)) {
+    return "Database schema mismatch. Update Prisma schema or database.";
   }
   if (/relation .* does not exist|table .* does not exist|doesn't exist/i.test(details)) {
     return "Database tables missing. Run prisma db push.";
@@ -164,15 +171,14 @@ export default function AdminPage() {
   };
 
   const saveVideoOrder = async (orderedVideos: VideoType[]) => {
-    const optimisticVideos = orderedVideos.map((video, sortOrder) => ({ ...video, sortOrder }));
-    setVideos(optimisticVideos);
+    setVideos(orderedVideos);
     setReorderingVideos(true);
 
     try {
       const response = await fetch("/api/videos/reorder", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: optimisticVideos.map((video) => video.id) })
+        body: JSON.stringify({ ids: orderedVideos.map((video) => video.id) })
       });
 
       if (!response.ok) {
