@@ -128,7 +128,13 @@ export default function AdminPage() {
     setLogo(logoData.value || "");
   };
 
-  useEffect(() => {
+ useEffect(() => {
+    // Auth check
+    const role = localStorage.getItem("noi_role");
+    if (role !== "admin") {
+      window.location.href = "/login";
+      return;
+    }
     load().catch((error) => {
       showToast(error instanceof Error ? error.message : "Could not load admin data");
     });
