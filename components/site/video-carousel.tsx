@@ -189,12 +189,14 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                       />
                     )}
 
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4">
-                      <span className="tag inline-block rounded px-2 py-0.5 text-xs font-syne">
-                        {isShort ? "Short Form" : "Long Form"}
-                      </span>
-                      <div className="mt-2 text-sm font-semibold text-white">{video.title}</div>
-                    </div>
+                    {!isPlaying ? (
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4">
+                        <span className="tag inline-block rounded px-2 py-0.5 text-xs font-syne">
+                          {isShort ? "Short Form" : "Long Form"}
+                        </span>
+                        <div className="mt-2 text-sm font-semibold text-white">{video.title}</div>
+                      </div>
+                    ) : null}
 
                     {!isPlaying ? (
                       <button
