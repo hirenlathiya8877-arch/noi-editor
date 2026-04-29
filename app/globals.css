@@ -239,3 +239,12 @@ html {
     animation: none;
   }
 }
+@keyframes stark-check-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(120,194,255,0.2); }
+  50% { box-shadow: 0 0 10px rgba(120,194,255,0.7), 0 0 18px rgba(120,194,255,0.3); }
+}
+
+@keyframes targ-check-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(255,107,26,0.2); }
+  50% { box-shadow: 0 0 10px rgba(255,107,26,0.8), 0 0 18px rgba(255,107,26,0.3); }
+}
