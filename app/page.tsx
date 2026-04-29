@@ -423,8 +423,6 @@ export default function HomePage() {
         }}
       />
     </div>
-
-    <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #3a4a5a", color: "#6a8aaa" }}>SHORT FORM</span>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
     <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "#445566" }}>"Winter is Coming — and so is your content."</p>
     <div className="mb-5 h-px" style={{ background: "#1e2a34" }} />
@@ -485,8 +483,6 @@ export default function HomePage() {
     <div className="flex justify-center mb-4">
       <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain opacity-95" />
     </div>
-
-    <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid rgba(255,107,26,0.4)", color: "#FF6B1A" }}>LONG FORM</span>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1 text-white">Targaryen Pack</h3>
     <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "#7a4a20" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
     <div className="mb-5 h-px" style={{ background: "rgba(255,107,26,0.2)" }} />
