@@ -397,7 +397,7 @@ export default function HomePage() {
     <div className="mb-12 flex justify-center">
       <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
         <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India 🇮🇳</button>
-        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India 🌍</button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India</button>
       </div>
     </div>
 
@@ -413,7 +413,16 @@ export default function HomePage() {
         </div>
         <div className="got-price-content rounded-2xl p-7" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
           <div className="flex justify-center mb-4">
-            <img src="/targaryen-dragon.png" alt="House Stark" className="got-house-sigil got-house-sigil--stark h-24 w-auto object-contain opacity-95" />
+            <img
+              src="/targaryen-dragon.png"
+              alt="House Stark"
+              className="got-house-sigil--stark h-24 w-auto object-contain"
+              style={{
+                animation: "got-sigil-breathe 4.8s ease-in-out infinite",
+                filter:
+                  "brightness(0) saturate(100%) invert(88%) sepia(18%) saturate(400%) hue-rotate(185deg) brightness(1.15) contrast(1.05) drop-shadow(0 0 10px rgba(120,194,255,0.65)) drop-shadow(0 0 28px rgba(160,220,255,0.25))",
+              }}
+            />
           </div>
           <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #3a4a5a", color: "#6a8aaa" }}>SHORT FORM</span>
           <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>

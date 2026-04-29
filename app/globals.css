@@ -22,8 +22,8 @@
 }
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;  /* ADD */
-  max-width: 100%;     /* ADD */
+  overflow-x: hidden;
+  max-width: 100%;
 }
 @media (max-width: 768px) {
   * {
@@ -90,8 +90,30 @@ html {
   z-index: 2;
 }
 
+/* ── Targaryen sigil — orange fire (unchanged) ── */
 .got-house-sigil {
   animation: got-sigil-breathe 4.8s ease-in-out infinite;
+}
+
+/* ── Stark wolf — icy blue/white ── */
+.got-house-sigil--stark {
+  max-width: 126px;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(88%)
+    sepia(18%)
+    saturate(400%)
+    hue-rotate(185deg)
+    brightness(1.15)
+    contrast(1.05)
+    drop-shadow(0 0 10px rgba(120, 194, 255, 0.65))
+    drop-shadow(0 0 28px rgba(160, 220, 255, 0.25));
+}
+
+/* ── Targaryen dragon — orange fire ── */
+.got-house-sigil--targaryen {
+  max-width: 118px;
   filter:
     brightness(0)
     saturate(100%)
@@ -103,14 +125,6 @@ html {
     contrast(103%)
     drop-shadow(0 0 14px rgba(255, 107, 26, 0.42))
     drop-shadow(0 0 34px rgba(255, 107, 26, 0.16));
-}
-
-.got-house-sigil--stark {
-  max-width: 126px;
-}
-
-.got-house-sigil--targaryen {
-  max-width: 118px;
 }
 
 .got-price-particles {
@@ -188,10 +202,13 @@ html {
     transform: translate3d(0, -12px, 0) scale(0.75);
   }
   12% {
-    opacity: 0.9;
+    opacity: 0.75;   /* ← badhaya: pehle 0.9 tha but keyframe se sirf yahan dikhta tha */
+  }
+  50% {
+    opacity: 0.6;
   }
   88% {
-    opacity: 0.75;
+    opacity: 0.55;   /* ← badhaya: pehle 0.75 tha */
   }
   100% {
     opacity: 0;
