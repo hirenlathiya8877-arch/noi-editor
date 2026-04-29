@@ -381,31 +381,75 @@ export default function HomePage() {
 
 
       {/* PRICING */}
-      <section id="pricing" className="stripe-bg bg-[#080808] px-6 py-20 md:py-32">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-10 text-center md:mb-16">
-            <div className="orange-line mx-auto mb-4" />
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING PLANS</h2>
+<section id="pricing" className="bg-[#080808] px-6 py-20 md:py-32" style={{
+  backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,107,26,0.025) 60px,rgba(255,107,26,0.025) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,107,26,0.025) 60px,rgba(255,107,26,0.025) 61px)`
+}}>
+  <div className="mx-auto max-w-5xl">
+    <div className="mb-10 text-center md:mb-16">
+      <div className="orange-line mx-auto mb-4" />
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING PLANS</h2>
+    </div>
+
+    {/* Toggle */}
+    <div className="mb-12 flex justify-center">
+      <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
+        <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India 🇮🇳</button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India 🌍</button>
+      </div>
+    </div>
+
+    {/* Cards */}
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+      {/* STARK PACK */}
+      <div className="relative rounded-2xl p-px hover:-translate-y-1 transition-transform" style={{ background: "#0e1215", border: "1px solid #3a4a5a" }}>
+        <div className="rounded-2xl p-7" style={{ background: "linear-gradient(160deg,#0e1215 0%,#0a0d10 100%)" }}>
+          <div className="flex justify-center mb-4">
+            <img src="/stark-wolf.png" alt="House Stark" className="h-24 w-auto object-contain opacity-90" style={{ filter: "drop-shadow(0 2px 8px rgba(100,150,200,0.25))" }} />
           </div>
-          <div className="mb-12 flex justify-center">
-            <div className="flex rounded-full border p-1" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-              <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-sm font-semibold transition-all" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#999" }}>India 🇮🇳</button>
-              <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-sm font-semibold transition-all" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#999" }}>Outside India 🌍</button>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {["SHORT", "LONG", "CUSTOM"].map((name, i) => (
-              <div key={name} className={`card-hover rounded-2xl border p-8 reveal ${i === 1 ? "popular-card relative" : ""}`} style={{ background: i === 1 ? undefined : "#111", borderColor: i === 1 ? undefined : "#1f1f1f" }}>
-                {i === 1 && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-xs font-bold" style={{ background: "#FF6B1A", color: "#000" }}>MOST POPULAR</div>}
-                <div className="tag mb-6 inline-block rounded-full px-3 py-1 text-xs">{name === "CUSTOM" ? "CUSTOM" : `${name} FORM`}</div>
-                <h3 className="mb-1 font-bebas text-4xl text-white">{name}</h3>
-                <div className="mb-6 text-2xl font-bold" style={{ color: "#FF6B1A" }}>{name === "CUSTOM" ? "Let's Talk" : `${pricing === "india" ? "₹" : "$"} As per project`}</div>
-                <Link href="#contact" className="block rounded-full py-3 text-center text-sm font-semibold transition-all hover:opacity-90" style={{ background: i === 1 ? "#FF6B1A" : "transparent", color: i === 1 ? "#000" : "#888", border: i === 1 ? "none" : "1px solid #2a2a2a" }}>Get In Touch</Link>
-              </div>
-            ))}
-          </div>
+          <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #3a4a5a", color: "#6a8aaa" }}>SHORT FORM</span>
+          <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
+          <p className="text-sm font-semibold mb-4" style={{ color: "#6a8aaa" }}>{pricing === "india" ? "₹" : "$"} As per project</p>
+          <div className="mb-4 h-px" style={{ background: "#1e2a34" }} />
+          <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#445566" }}>"Winter is Coming — and so is your content."</p>
+          <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:border-[#6a8aaa] hover:text-[#c8d8e8]" style={{ border: "1px solid #2a3a4a", color: "#6a8aaa" }}>GET IN TOUCH</Link>
         </div>
-      </section>
+      </div>
+
+      {/* TARGARYEN PACK — Most Popular */}
+      <div className="relative rounded-2xl hover:-translate-y-1 transition-transform mt-0 md:-mt-2" style={{ border: "1px solid #FF6B1A", background: "linear-gradient(160deg,#150d06 0%,#0e0a04 100%)", boxShadow: "0 0 40px rgba(255,107,26,0.1)" }}>
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "#FF6B1A", color: "#000" }}>⚔ MOST POPULAR ⚔</div>
+        <div className="rounded-2xl p-7 pt-9">
+          <div className="flex justify-center mb-4">
+            <img src="/targaryen-dragon.jpg" alt="House Targaryen" className="h-20 w-auto object-contain" style={{ filter: "drop-shadow(0 2px 12px rgba(255,107,26,0.4)) brightness(0) invert(1)", opacity: 0.85 }} />
+          </div>
+          <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid rgba(255,107,26,0.4)", color: "#FF6B1A" }}>LONG FORM</span>
+          <h3 className="font-cinzel-decorative text-xl font-bold mb-1 text-white">Targaryen Pack</h3>
+          <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>{pricing === "india" ? "₹" : "$"} As per project</p>
+          <div className="mb-4 h-px" style={{ background: "rgba(255,107,26,0.2)" }} />
+          <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#7a4a20" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
+          <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff8040]" style={{ background: "#FF6B1A", color: "#000" }}>GET IN TOUCH</Link>
+        </div>
+      </div>
+
+      {/* CUSTOM */}
+      <div className="relative rounded-2xl hover:-translate-y-1 transition-transform" style={{ background: "#0e0e0e", border: "1px solid #222" }}>
+        <div className="rounded-2xl p-7">
+          <div className="flex justify-center items-center mb-4 h-24">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ border: "1px solid #333", opacity: 0.5 }}>⚜</div>
+          </div>
+          <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #2a2a2a", color: "#555" }}>CUSTOM</span>
+          <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
+          <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
+          <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
+          <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#444" }}>"All men must serve — let's forge your strategy together."</p>
+          <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all" style={{ border: "1px solid #252525", color: "#555" }}>GET IN TOUCH</Link>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* FAQ */}
       <section id="faq" className="px-6 py-20 md:py-32">
