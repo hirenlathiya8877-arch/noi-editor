@@ -396,8 +396,8 @@ export default function HomePage() {
     {/* Toggle */}
     <div className="mb-12 flex justify-center">
       <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
-        <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India 🇮🇳</button>
-        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India 3</button>
+        <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India</button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India </button>
       </div>
     </div>
 
@@ -455,19 +455,36 @@ export default function HomePage() {
       </div>
 
       {/* CUSTOM */}
-      <div className="relative rounded-2xl hover:-translate-y-1 transition-transform" style={{ background: "#0e0e0e", border: "1px solid #222" }}>
-        <div className="rounded-2xl p-7">
-          <div className="flex justify-center items-center mb-4 h-24">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ border: "1px solid #333", opacity: 0.5 }}>⚜</div>
-          </div>
-          <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #2a2a2a", color: "#555" }}>CUSTOM</span>
-          <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
-          <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
-          <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
-          <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#444" }}>"All men must serve — let's forge your strategy together."</p>
-          <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all" style={{ border: "1px solid #252525", color: "#555" }}>GET IN TOUCH</Link>
-        </div>
-      </div>
+<div className="relative rounded-2xl hover:-translate-y-1 transition-transform overflow-hidden" style={{ background: "#0e0e0e", border: "1px solid #222" }}>
+  
+  {/* Background Video */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 w-full h-full object-cover z-0"
+    style={{ opacity: 0.18 }}
+  >
+    <source src="/custom-bg.mp4" type="video/mp4" />
+  </video>
+
+  {/* Dark overlay */}
+  <div className="absolute inset-0 z-[1]" style={{ background: "rgba(8,8,8,0.72)" }} />
+
+  {/* Content */}
+  <div className="relative z-[2] rounded-2xl p-7">
+    <div className="flex justify-center items-center mb-4 h-24">
+      <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ border: "1px solid #333", opacity: 0.5 }}>⚜</div>
+    </div>
+    <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #2a2a2a", color: "#555" }}>CUSTOM</span>
+    <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
+    <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
+    <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
+    <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#444" }}>"All men must serve — let's forge your strategy together."</p>
+    <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all" style={{ border: "1px solid #252525", color: "#555" }}>GET IN TOUCH</Link>
+  </div>
+</div>
 
     </div>
   </div>
