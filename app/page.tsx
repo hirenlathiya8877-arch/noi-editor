@@ -464,7 +464,7 @@ export default function HomePage() {
     muted
     playsInline
     className="absolute inset-0 w-full h-full object-cover z-0"
-    style={{ opacity: 0.18 }}
+    style={{ opacity: 0.25 }}
   >
     <source src="/custom-bg.mp4" type="video/mp4" />
   </video>
