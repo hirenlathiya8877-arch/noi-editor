@@ -414,7 +414,7 @@ export default function HomePage() {
   <div className="got-price-content rounded-2xl p-7 flex flex-col" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
     <div className="flex justify-center mb-4">
       <img
-        src="/stark-wolf.png"
+        src="/targaryen-dragon.png"
         alt="House Stark"
         className="got-house-sigil--stark h-24 w-auto object-contain"
         style={{
@@ -483,7 +483,7 @@ export default function HomePage() {
   <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "#FF6B1A", color: "#000" }}>⚔ MOST POPULAR ⚔</div>
   <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col">
     <div className="flex justify-center mb-4">
-      <img src="/targaryen-dragon.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain opacity-95" />
+      <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain opacity-95" />
     </div>
 
     <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid rgba(255,107,26,0.4)", color: "#FF6B1A" }}>LONG FORM</span>
@@ -535,7 +535,7 @@ export default function HomePage() {
 </div>
 
 {/* CUSTOM */}
-<div className="relative rounded-2xl hover:-translate-y-1 transition-transform overflow-hidden" style={{ background: "#0e0e0e", border: "1px solid #222", minHeight: "340px" }}>
+<div className="relative rounded-2xl hover:-translate-y-1 transition-transform overflow-hidden" style={{ background: "#0e0e0e", border: "1px solid #222", minHeight: "420px" }}>
   
   {/* Background Video */}
   <video
@@ -553,7 +553,7 @@ export default function HomePage() {
   <div className="absolute inset-0 z-[1]" style={{ background: "rgba(8,8,8,0.72)" }} />
 
   {/* Content — neeche push kiya */}
-  <div className="relative z-[2] rounded-2xl p-7 flex flex-col justify-end" style={{ minHeight: "340px" }}>
+  <div className="relative z-[2] rounded-2xl p-7 flex flex-col justify-end" style={{ minHeight: "420px" }}>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
     <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
     <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
