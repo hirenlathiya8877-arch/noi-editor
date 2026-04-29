@@ -23,8 +23,11 @@ const config: Config = {
       },
       fontFamily: {
         bebas: ["Bebas Neue", "cursive"],
+        cinzel: ["Cinzel", "serif"],
+        "cinzel-decorative": ["Cinzel Decorative", "serif"],
         syne: ["Syne", "sans-serif"],
-        dm: ["DM Sans", "sans-serif"]
+        dm: ["DM Sans", "sans-serif"],
+        fell: ["IM Fell English", "serif"]
       }
     }
   },

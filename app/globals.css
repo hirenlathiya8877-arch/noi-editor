@@ -35,3 +35,190 @@ html {
     touch-action: manipulation;
   }
 }
+
+.got-price-card {
+  isolation: isolate;
+}
+
+.got-price-card::before {
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  opacity: 0.88;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.got-price-card::after {
+  border-radius: inherit;
+  content: "";
+  inset: 1px;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.got-price-card--stark::before {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(126, 190, 255, 0.18), transparent 30%),
+    linear-gradient(180deg, rgba(222, 242, 255, 0.06), transparent 42%);
+}
+
+.got-price-card--stark::after {
+  box-shadow:
+    inset 0 0 34px rgba(95, 158, 210, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.got-price-card--targaryen::before {
+  background:
+    radial-gradient(circle at 50% 13%, rgba(255, 107, 26, 0.28), transparent 32%),
+    radial-gradient(circle at 18% 90%, rgba(255, 184, 67, 0.14), transparent 25%),
+    linear-gradient(180deg, rgba(255, 107, 26, 0.08), transparent 50%);
+}
+
+.got-price-card--targaryen::after {
+  box-shadow:
+    inset 0 0 42px rgba(255, 107, 26, 0.2),
+    inset 0 1px 0 rgba(255, 185, 120, 0.16);
+}
+
+.got-price-content {
+  min-height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.got-house-sigil {
+  animation: got-sigil-breathe 4.8s ease-in-out infinite;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(52%)
+    sepia(93%)
+    saturate(2550%)
+    hue-rotate(348deg)
+    brightness(103%)
+    contrast(103%)
+    drop-shadow(0 0 14px rgba(255, 107, 26, 0.42))
+    drop-shadow(0 0 34px rgba(255, 107, 26, 0.16));
+}
+
+.got-house-sigil--stark {
+  max-width: 126px;
+}
+
+.got-house-sigil--targaryen {
+  max-width: 118px;
+}
+
+.got-price-particles {
+  border-radius: inherit;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.got-price-particles span {
+  animation-delay: var(--delay);
+  animation-duration: var(--duration);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  border-radius: 999px;
+  left: var(--x);
+  opacity: 0;
+  position: absolute;
+}
+
+.got-price-particles span:nth-child(1) { --x: 7%; --delay: -0.2s; --duration: 7.4s; --drift: 34px; --size: 3px; }
+.got-price-particles span:nth-child(2) { --x: 14%; --delay: -3.8s; --duration: 8.8s; --drift: -22px; --size: 2px; }
+.got-price-particles span:nth-child(3) { --x: 21%; --delay: -1.4s; --duration: 6.7s; --drift: 28px; --size: 4px; }
+.got-price-particles span:nth-child(4) { --x: 29%; --delay: -5.1s; --duration: 9.1s; --drift: -18px; --size: 3px; }
+.got-price-particles span:nth-child(5) { --x: 36%; --delay: -2.6s; --duration: 7.8s; --drift: 26px; --size: 2px; }
+.got-price-particles span:nth-child(6) { --x: 43%; --delay: -6.2s; --duration: 8.5s; --drift: -30px; --size: 4px; }
+.got-price-particles span:nth-child(7) { --x: 51%; --delay: -1s; --duration: 6.9s; --drift: 18px; --size: 2px; }
+.got-price-particles span:nth-child(8) { --x: 58%; --delay: -4.6s; --duration: 8.2s; --drift: -24px; --size: 3px; }
+.got-price-particles span:nth-child(9) { --x: 64%; --delay: -2.1s; --duration: 7.2s; --drift: 32px; --size: 3px; }
+.got-price-particles span:nth-child(10) { --x: 70%; --delay: -5.8s; --duration: 9.4s; --drift: -16px; --size: 2px; }
+.got-price-particles span:nth-child(11) { --x: 76%; --delay: -0.8s; --duration: 7.6s; --drift: 22px; --size: 4px; }
+.got-price-particles span:nth-child(12) { --x: 82%; --delay: -3.2s; --duration: 8.9s; --drift: -28px; --size: 2px; }
+.got-price-particles span:nth-child(13) { --x: 88%; --delay: -6.8s; --duration: 7.1s; --drift: 19px; --size: 3px; }
+.got-price-particles span:nth-child(14) { --x: 94%; --delay: -4s; --duration: 9.6s; --drift: -34px; --size: 2px; }
+.got-price-particles span:nth-child(15) { --x: 18%; --delay: -7.1s; --duration: 8s; --drift: 36px; --size: 3px; }
+.got-price-particles span:nth-child(16) { --x: 47%; --delay: -3.5s; --duration: 9s; --drift: -21px; --size: 2px; }
+.got-price-particles span:nth-child(17) { --x: 67%; --delay: -6.1s; --duration: 7.7s; --drift: 27px; --size: 4px; }
+.got-price-particles span:nth-child(18) { --x: 91%; --delay: -1.8s; --duration: 8.4s; --drift: -25px; --size: 3px; }
+
+.got-price-particles--snow span {
+  animation-name: got-snow-fall;
+  background: rgba(236, 248, 255, 0.96);
+  box-shadow: 0 0 10px rgba(120, 194, 255, 0.9);
+  height: var(--size);
+  top: -14px;
+  width: var(--size);
+}
+
+.got-price-particles--fire span {
+  animation-name: got-fire-rise;
+  background: radial-gradient(circle, #ffd27a 0%, #ff6b1a 48%, rgba(255, 58, 0, 0.12) 72%);
+  box-shadow:
+    0 0 12px rgba(255, 107, 26, 0.75),
+    0 0 24px rgba(255, 58, 0, 0.25);
+  bottom: -18px;
+  height: calc(var(--size) + 3px);
+  width: calc(var(--size) + 2px);
+}
+
+@keyframes got-sigil-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.035);
+  }
+}
+
+@keyframes got-snow-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  12% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift), 390px, 0) scale(1.08);
+  }
+}
+
+@keyframes got-fire-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.45) rotate(0deg);
+  }
+  14% {
+    opacity: 0.95;
+  }
+  72% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift), -360px, 0) scale(1.25) rotate(24deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .got-house-sigil,
+  .got-price-particles span {
+    animation: none;
+  }
+}

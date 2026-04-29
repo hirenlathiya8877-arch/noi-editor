@@ -98,6 +98,9 @@ const team = [
   }
 ];
 
+const starkParticles = Array.from({ length: 18 }, (_, index) => index);
+const targaryenParticles = Array.from({ length: 18 }, (_, index) => index);
+
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pricing, setPricing] = useState<"india" | "world">("india");
@@ -402,10 +405,15 @@ export default function HomePage() {
     <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
 
       {/* STARK PACK */}
-      <div className="relative rounded-2xl p-px hover:-translate-y-1 transition-transform" style={{ background: "#0e1215", border: "1px solid #3a4a5a" }}>
-        <div className="rounded-2xl p-7" style={{ background: "linear-gradient(160deg,#0e1215 0%,#0a0d10 100%)" }}>
+      <div className="got-price-card got-price-card--stark relative overflow-hidden rounded-2xl p-px transition-transform hover:-translate-y-1" style={{ background: "#0e1215", border: "1px solid #3a4a5a" }}>
+        <div className="got-price-particles got-price-particles--snow" aria-hidden="true">
+          {starkParticles.map((particle) => (
+            <span key={particle} />
+          ))}
+        </div>
+        <div className="got-price-content rounded-2xl p-7" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
           <div className="flex justify-center mb-4">
-            <img src="/stark-wolf.png" alt="House Stark" className="h-24 w-auto object-contain opacity-90" style={{ filter: "drop-shadow(0 2px 8px rgba(100,150,200,0.25))" }} />
+            <img src="/targaryen-dragon.png" alt="House Stark" className="got-house-sigil got-house-sigil--stark h-24 w-auto object-contain opacity-95" />
           </div>
           <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #3a4a5a", color: "#6a8aaa" }}>SHORT FORM</span>
           <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
@@ -417,11 +425,16 @@ export default function HomePage() {
       </div>
 
       {/* TARGARYEN PACK — Most Popular */}
-      <div className="relative rounded-2xl hover:-translate-y-1 transition-transform mt-0 md:-mt-2" style={{ border: "1px solid #FF6B1A", background: "linear-gradient(160deg,#150d06 0%,#0e0a04 100%)", boxShadow: "0 0 40px rgba(255,107,26,0.1)" }}>
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "#FF6B1A", color: "#000" }}>⚔ MOST POPULAR ⚔</div>
-        <div className="rounded-2xl p-7 pt-9">
+      <div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ border: "1px solid #FF6B1A", background: "linear-gradient(160deg,#150d06 0%,#0e0a04 100%)", boxShadow: "0 0 40px rgba(255,107,26,0.1)" }}>
+        <div className="got-price-particles got-price-particles--fire" aria-hidden="true">
+          {targaryenParticles.map((particle) => (
+            <span key={particle} />
+          ))}
+        </div>
+        <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "#FF6B1A", color: "#000" }}>⚔ MOST POPULAR ⚔</div>
+        <div className="got-price-content rounded-2xl p-7 pt-9">
           <div className="flex justify-center mb-4">
-            <img src="/targaryen-dragon.jpg" alt="House Targaryen" className="h-20 w-auto object-contain" style={{ filter: "drop-shadow(0 2px 12px rgba(255,107,26,0.4)) brightness(0) invert(1)", opacity: 0.85 }} />
+            <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain opacity-95" />
           </div>
           <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid rgba(255,107,26,0.4)", color: "#FF6B1A" }}>LONG FORM</span>
           <h3 className="font-cinzel-decorative text-xl font-bold mb-1 text-white">Targaryen Pack</h3>
