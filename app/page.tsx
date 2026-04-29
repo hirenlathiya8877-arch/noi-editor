@@ -465,7 +465,7 @@ export default function HomePage() {
     <div className="mt-auto">
       <div className="mb-4 h-px" style={{ background: "#1e2a34" }} />
       <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#c8d8e8" }}>
-        {pricing === "india" ? "₹5,999" : "$75"}
+        {pricing === "india" ? "₹5,999" : "$175"}
         <span className="text-xs font-cinzel ml-1" style={{ color: "#445566" }}>/ reel</span>
       </p>
       <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:border-[#6a8aaa] hover:text-[#c8d8e8]" style={{ border: "1px solid #2a3a4a", color: "#6a8aaa" }}>GET IN TOUCH</Link>
@@ -526,7 +526,7 @@ export default function HomePage() {
     <div className="mt-auto">
       <div className="mb-4 h-px" style={{ background: "rgba(255,107,26,0.2)" }} />
       <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#fff" }}>
-        {pricing === "india" ? "₹9,999" : "$149"}
+        {pricing === "india" ? "₹9,999" : "$249"}
         <span className="text-xs font-cinzel ml-1" style={{ color: "#7a4a20" }}>/ video</span>
       </p>
       <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff8040]" style={{ background: "#FF6B1A", color: "#000" }}>GET IN TOUCH</Link>
