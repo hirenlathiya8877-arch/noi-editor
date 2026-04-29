@@ -474,7 +474,6 @@ export default function HomePage() {
 
   {/* Content — neeche push kiya */}
   <div className="relative z-[2] rounded-2xl p-7 flex flex-col justify-end" style={{ minHeight: "340px" }}>
-    <span className="text-[9px] tracking-widest font-cinzel px-3 py-1 rounded-full mb-3 inline-block" style={{ border: "1px solid #2a2a2a", color: "#555" }}>CUSTOM</span>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
     <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
     <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
