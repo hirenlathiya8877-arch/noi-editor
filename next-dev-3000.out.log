@@ -1,0 +1,14 @@
+
+> noi-editors-next@1.0.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3000
+  - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 2s
+ ○ Compiling / ...
+ ✓ Compiled / in 2.3s (593 modules)
+ GET / 200 in 2420ms
+[?25h

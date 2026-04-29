@@ -10,11 +10,13 @@ type NavBarProps = {
   onCloseMobile: () => void;
 };
 
+const DEFAULT_NOI_LOGO = "/img/noi-logo-white.png";
+
 function NoiMobileLogo() {
   return (
     <span className="noi-mobile-brand" aria-label="NOI Editors">
       <span className="noi-mobile-logo-frame">
-        <img src="/img/noi-logo-white.png" alt="" aria-hidden="true" />
+        <img src={DEFAULT_NOI_LOGO} alt="" aria-hidden="true" />
       </span>
       <span className="noi-mobile-brand-text">
         NOI <span>EDITORS</span>
@@ -47,7 +49,12 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
           className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full font-bebas text-xs leading-none tracking-wider"
           style={{ background: "#1c1c1c", border: "1.5px solid rgba(255,255,255,0.12)", color: "#fff" }}
         >
-          {showLogo ? <img src={logo} alt="NOI" className="h-full w-full object-cover" onError={() => setLogoFailed(true)} /> : <span>ne</span>}
+          <img
+            src={showLogo ? logo : DEFAULT_NOI_LOGO}
+            alt="NOI"
+            className={showLogo ? "h-full w-full object-cover" : "h-full w-full object-contain p-2"}
+            onError={() => setLogoFailed(true)}
+          />
         </Link>
         <div className="flex items-center gap-5">
           <Link href="#work" className="font-syne text-sm text-gray-400 transition-colors hover:text-white">
