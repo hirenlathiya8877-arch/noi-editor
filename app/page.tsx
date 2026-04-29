@@ -397,7 +397,7 @@ export default function HomePage() {
     <div className="mb-12 flex justify-center">
       <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
         <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India 🇮🇳</button>
-        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India</button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India 3</button>
       </div>
     </div>
 
