@@ -412,15 +412,11 @@ export default function HomePage() {
     ))}
   </div>
   <div className="got-price-content rounded-2xl p-7 flex flex-col" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
-    <div className="flex justify-center mb-4">
+    <div className="got-sigil-frame got-sigil-frame--stark mb-4">
       <img
         src="/targaryen-dragon.png"
         alt="House Stark"
-        className="got-house-sigil--stark h-24 w-auto object-contain"
-        style={{
-          animation: "got-sigil-breathe 4.8s ease-in-out infinite",
-          filter: "brightness(0) saturate(100%) invert(88%) sepia(18%) saturate(400%) hue-rotate(185deg) brightness(1.15) contrast(1.05) drop-shadow(0 0 10px rgba(120,194,255,0.65)) drop-shadow(0 0 28px rgba(160,220,255,0.25))",
-        }}
+        className="got-house-sigil got-house-sigil--stark h-24 w-auto object-contain"
       />
     </div>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
@@ -472,20 +468,20 @@ export default function HomePage() {
 </div>
 
 {/* TARGARYEN PACK — Most Popular */}
-<div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ border: "1px solid #FF6B1A", background: "linear-gradient(160deg,#150d06 0%,#0e0a04 100%)", boxShadow: "0 0 40px rgba(255,107,26,0.1)" }}>
+<div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ border: "1px solid rgba(255,107,26,0.42)", background: "linear-gradient(160deg,rgba(21,17,14,0.98) 0%,rgba(9,8,7,0.99) 100%)", boxShadow: "0 18px 55px rgba(0,0,0,0.34), 0 0 24px rgba(255,107,26,0.08)" }}>
   <div className="got-price-particles got-price-particles--fire" aria-hidden="true">
     {targaryenParticles.map((particle) => (
       <span key={particle} />
     ))}
   </div>
-  <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "#FF6B1A", color: "#000" }}>⚔ MOST POPULAR ⚔</div>
+  <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "linear-gradient(135deg,#f07a2c,#ff9a52)", color: "#080808", boxShadow: "0 10px 24px rgba(255,107,26,0.18)" }}>POPULAR CHOICE</div>
   <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col">
-    <div className="flex justify-center mb-4">
-      <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain opacity-95" />
+    <div className="got-sigil-frame got-sigil-frame--targaryen mb-4">
+      <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain" />
     </div>
-    <h3 className="font-cinzel-decorative text-xl font-bold mb-1 text-white">Targaryen Pack</h3>
-    <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "#7a4a20" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
-    <div className="mb-5 h-px" style={{ background: "rgba(255,107,26,0.2)" }} />
+    <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#f7f2ec" }}>Targaryen Pack</h3>
+    <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "rgba(247,242,236,0.58)" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
+    <div className="mb-5 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
 
     {/* Features */}
     <ul className="space-y-3 mb-6">
@@ -497,7 +493,7 @@ export default function HomePage() {
         "Unlimited Revisions",
         "Credit Required",
       ].map((text, i) => (
-        <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "#c08060" }}>
+        <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "rgba(247,242,236,0.72)" }}>
           <span
             style={{
               display: "inline-flex",
@@ -506,8 +502,9 @@ export default function HomePage() {
               width: "18px",
               height: "18px",
               borderRadius: "50%",
-              border: "1px solid rgba(255,107,26,0.4)",
-              color: "#FF6B1A",
+              border: "1px solid rgba(255,255,255,0.22)",
+              color: "#f7f2ec",
+              background: "rgba(255,107,26,0.10)",
               fontSize: "9px",
               flexShrink: 0,
               animation: `targ-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
@@ -520,12 +517,12 @@ export default function HomePage() {
 
     {/* Price */}
     <div className="mt-auto">
-      <div className="mb-4 h-px" style={{ background: "rgba(255,107,26,0.2)" }} />
-      <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#fff" }}>
+      <div className="mb-4 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+      <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#f7f2ec" }}>
         {pricing === "india" ? "₹9,999" : "$249"}
-        <span className="text-xs font-cinzel ml-1" style={{ color: "#7a4a20" }}>/ video</span>
+        <span className="text-xs font-cinzel ml-1" style={{ color: "rgba(247,242,236,0.48)" }}>/ video</span>
       </p>
-      <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff8040]" style={{ background: "#FF6B1A", color: "#000" }}>GET IN TOUCH</Link>
+      <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff9a52]" style={{ background: "linear-gradient(135deg,#f07a2c,#ff8d3d)", color: "#080808" }}>GET IN TOUCH</Link>
     </div>
   </div>
 </div>

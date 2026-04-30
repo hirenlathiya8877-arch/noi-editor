@@ -73,15 +73,15 @@ html {
 
 .got-price-card--targaryen::before {
   background:
-    radial-gradient(circle at 50% 13%, rgba(255, 107, 26, 0.28), transparent 32%),
-    radial-gradient(circle at 18% 90%, rgba(255, 184, 67, 0.14), transparent 25%),
-    linear-gradient(180deg, rgba(255, 107, 26, 0.08), transparent 50%);
+    radial-gradient(circle at 50% 13%, rgba(255, 123, 42, 0.16), transparent 34%),
+    radial-gradient(circle at 16% 88%, rgba(255, 184, 67, 0.08), transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 48%);
 }
 
 .got-price-card--targaryen::after {
   box-shadow:
-    inset 0 0 42px rgba(255, 107, 26, 0.2),
-    inset 0 1px 0 rgba(255, 185, 120, 0.16);
+    inset 0 0 38px rgba(255, 107, 26, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .got-price-content {
@@ -90,41 +90,85 @@ html {
   z-index: 2;
 }
 
-/* ── Targaryen sigil — orange fire (unchanged) ── */
-.got-house-sigil {
-  animation: got-sigil-breathe 4.8s ease-in-out infinite;
+.got-sigil-frame {
+  align-items: center;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
 }
 
-/* ── Stark wolf — icy blue/white ── */
+.got-sigil-frame::before {
+  border-radius: inherit;
+  content: "";
+  inset: -8px;
+  opacity: 0.7;
+  pointer-events: none;
+  position: absolute;
+}
+
+.got-sigil-frame--stark {
+  background: radial-gradient(circle, rgba(225, 240, 255, 0.08), transparent 66%);
+  border: 1px solid rgba(205, 226, 244, 0.08);
+  height: 112px;
+  width: 136px;
+}
+
+.got-sigil-frame--stark::before {
+  background: radial-gradient(circle, rgba(144, 202, 255, 0.15), transparent 64%);
+  filter: blur(10px);
+}
+
+.got-sigil-frame--targaryen {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255, 126, 46, 0.12), transparent 62%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04), transparent 70%);
+  border: 1px solid rgba(255, 190, 142, 0.12);
+  height: 108px;
+  width: 108px;
+}
+
+.got-sigil-frame--targaryen::before {
+  background: radial-gradient(circle, rgba(255, 107, 26, 0.16), transparent 64%);
+  filter: blur(12px);
+}
+
+/* Targaryen sigil — subdued ember */
+.got-house-sigil {
+  animation: got-sigil-breathe 4.8s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+/* Stark wolf — silver ice */
 .got-house-sigil--stark {
   max-width: 126px;
   filter:
-    brightness(0)
-    saturate(100%)
-    invert(88%)
-    sepia(18%)
-    saturate(400%)
-    hue-rotate(185deg)
-    brightness(1.15)
-    contrast(1.05)
-    drop-shadow(0 0 10px rgba(120, 194, 255, 0.65))
-    drop-shadow(0 0 28px rgba(160, 220, 255, 0.25));
+    saturate(0.76)
+    brightness(1.2)
+    contrast(0.96)
+    drop-shadow(0 0 12px rgba(150, 207, 255, 0.34))
+    drop-shadow(0 0 26px rgba(160, 220, 255, 0.14));
+  opacity: 0.94;
 }
 
-/* ── Targaryen dragon — orange fire ── */
+/* Targaryen dragon — muted copper */
 .got-house-sigil--targaryen {
   max-width: 118px;
   filter:
     brightness(0)
     saturate(100%)
-    invert(52%)
-    sepia(93%)
-    saturate(2550%)
+    invert(50%)
+    sepia(73%)
+    saturate(1320%)
     hue-rotate(348deg)
-    brightness(103%)
-    contrast(103%)
-    drop-shadow(0 0 14px rgba(255, 107, 26, 0.42))
-    drop-shadow(0 0 34px rgba(255, 107, 26, 0.16));
+    brightness(98%)
+    contrast(95%)
+    drop-shadow(0 0 12px rgba(255, 107, 26, 0.24))
+    drop-shadow(0 0 30px rgba(255, 107, 26, 0.1));
+  opacity: 0.9;
 }
 
 .got-price-particles {
@@ -177,13 +221,14 @@ html {
 
 .got-price-particles--fire span {
   animation-name: got-fire-rise;
-  background: radial-gradient(circle, #ffd27a 0%, #ff6b1a 48%, rgba(255, 58, 0, 0.12) 72%);
+  background: radial-gradient(circle, rgba(255, 219, 164, 0.82) 0%, rgba(255, 107, 26, 0.5) 46%, rgba(255, 58, 0, 0.08) 72%);
   box-shadow:
-    0 0 12px rgba(255, 107, 26, 0.75),
-    0 0 24px rgba(255, 58, 0, 0.25);
+    0 0 8px rgba(255, 107, 26, 0.28),
+    0 0 18px rgba(255, 58, 0, 0.08);
   bottom: -18px;
-  height: calc(var(--size) + 3px);
-  width: calc(var(--size) + 2px);
+  filter: blur(0.2px);
+  height: calc(var(--size) + 1px);
+  width: calc(var(--size) + 1px);
 }
 
 @keyframes got-sigil-breathe {
@@ -222,10 +267,10 @@ html {
     transform: translate3d(0, 18px, 0) scale(0.45) rotate(0deg);
   }
   14% {
-    opacity: 0.95;
+    opacity: 0.34;
   }
   72% {
-    opacity: 0.6;
+    opacity: 0.18;
   }
   100% {
     opacity: 0;
@@ -245,6 +290,6 @@ html {
 }
 
 @keyframes targ-check-glow {
-  0%, 100% { box-shadow: 0 0 4px rgba(255,107,26,0.2); }
-  50% { box-shadow: 0 0 10px rgba(255,107,26,0.8), 0 0 18px rgba(255,107,26,0.3); }
+  0%, 100% { box-shadow: 0 0 4px rgba(255,107,26,0.12); }
+  50% { box-shadow: 0 0 9px rgba(255,107,26,0.34), 0 0 16px rgba(255,107,26,0.1); }
 }
