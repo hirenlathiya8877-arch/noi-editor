@@ -397,7 +397,7 @@ export default function HomePage() {
     <div className="mb-12 flex justify-center">
       <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
         <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India</button>
-        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India </button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India</button>
       </div>
     </div>
 
@@ -405,129 +405,140 @@ export default function HomePage() {
     <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
 
       {/* STARK PACK */}
-<div className="got-price-card got-price-card--stark relative overflow-hidden rounded-2xl p-px transition-transform hover:-translate-y-1" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#2a3d50 0%,#1a2430 40%,#0e141a 100%)", boxShadow: "0 0 0 1px rgba(100,160,210,0.12), 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(140,200,255,0.06)" }}>
-  <div className="got-price-particles got-price-particles--snow" aria-hidden="true">
-    {starkParticles.map((particle) => (
-      <span key={particle} />
-    ))}
-  </div>
-  <div className="got-price-content rounded-2xl p-7 flex flex-col" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
-    <div className="got-sigil-frame got-sigil-frame--stark mb-4">
-      <img
-        src="/targaryen-dragon.png"
-        alt="House Stark"
-        className="got-house-sigil got-house-sigil--stark h-24 w-auto object-contain"
-      />
-    </div>
-    <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
-    <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "#445566" }}>"Winter is Coming — and so is your content."</p>
-    <div className="mb-5 h-px" style={{ background: "#1e2a34" }} />
+      <div className="got-price-card got-price-card--stark relative overflow-hidden rounded-2xl p-px transition-transform hover:-translate-y-1" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#2a3d50 0%,#1a2430 40%,#0e141a 100%)", boxShadow: "0 0 0 1px rgba(100,160,210,0.12), 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(140,200,255,0.06)" }}>
+        <div className="got-price-particles got-price-particles--snow" aria-hidden="true">
+          {starkParticles.map((particle) => (
+            <span key={particle} />
+          ))}
+        </div>
+        <div className="got-price-content rounded-2xl p-7 flex flex-col" style={{ background: "linear-gradient(160deg,rgba(14,18,21,0.94) 0%,rgba(10,13,16,0.96) 100%)" }}>
+          
+          {/* Stark Sigil */}
+          <div className="got-sigil-frame got-sigil-frame--stark mb-4" style={{ width: "96px", height: "96px", borderRadius: "50%", background: "radial-gradient(circle at 40% 35%,#1a2e42,#0a1620)", border: "1.5px solid rgba(100,160,220,0.25)", boxShadow: "0 0 20px rgba(80,140,200,0.12), inset 0 1px 0 rgba(140,200,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
+            <img
+              src="/targaryen-dragon.png"
+              alt="House Stark"
+              className="got-house-sigil got-house-sigil--stark object-contain"
+              style={{ width: "80px", height: "80px" }}
+            />
+          </div>
 
-    {/* Features */}
-    <ul className="space-y-3 mb-6">
-      {[
-        "Scroll-Stopping, High-Retention Edits",
-        "Trend-Based Cuts & Transitions",
-        "Personalized Video Branding",
-        "Color Grading",
-        "Captions & Subtitles",
-        "2 Revision Rounds",
-        "Credit Required",
-      ].map((text, i) => (
-        <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "#7a9ab8" }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "18px",
-              height: "18px",
-              borderRadius: "50%",
-              border: "1px solid rgba(120,194,255,0.35)",
-              color: "#78c2ff",
-              fontSize: "9px",
-              flexShrink: 0,
-              animation: `stark-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
-            }}
-          >✓</span>
-          <span>{text}</span>
-        </li>
-      ))}
-    </ul>
+          <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#c8d8e8" }}>Stark Pack</h3>
+          <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "#445566" }}>"Winter is Coming — and so is your content."</p>
+          <div className="mb-5 h-px" style={{ background: "#1e2a34" }} />
 
-    {/* Price */}
-    <div className="mt-auto">
-      <div className="mb-4 h-px" style={{ background: "#1e2a34" }} />
-      <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#c8d8e8" }}>
-        {pricing === "india" ? "₹5,999" : "$175"}
-        <span className="text-xs font-cinzel ml-1" style={{ color: "#445566" }}>/ reel</span>
-      </p>
-      <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:border-[#6a8aaa] hover:text-[#c8d8e8]" style={{ border: "1px solid #2a3a4a", color: "#6a8aaa" }}>GET IN TOUCH</Link>
-    </div>
-  </div>
-</div>
+          {/* Features */}
+          <ul className="space-y-3 mb-6">
+            {[
+              "Scroll-Stopping, High-Retention Edits",
+              "Trend-Based Cuts & Transitions",
+              "Personalized Video Branding",
+              "Color Grading",
+              "Captions & Subtitles",
+              "2 Revision Rounds",
+              "Credit Required",
+            ].map((text, i) => (
+              <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "#7a9ab8" }}>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "18px",
+                    height: "18px",
+                    borderRadius: "50%",
+                    border: "1px solid rgba(120,194,255,0.35)",
+                    color: "#78c2ff",
+                    fontSize: "9px",
+                    flexShrink: 0,
+                    animation: `stark-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
+                  }}
+                >✓</span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
 
-{/* TARGARYEN PACK — Most Popular */}
-<div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#c85a10 0%,#8b3a08 30%,#3a1805 60%,#1a0d03 100%)", boxShadow: "0 0 0 1px rgba(255,107,26,0.25), 0 28px 70px rgba(0,0,0,0.7), 0 0 60px rgba(200,70,10,0.18), inset 0 1px 0 rgba(255,160,80,0.12)" }}>
-  <div className="got-price-particles got-price-particles--fire" aria-hidden="true">
-    {targaryenParticles.map((particle) => (
-      <span key={particle} />
-    ))}
-  </div>
-  <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "linear-gradient(135deg,#e8651a,#ff9640)", color: "#1a0800", boxShadow: "0 4px 16px rgba(255,100,20,0.4), 0 0 30px rgba(255,100,20,0.2)" }}>POPULAR CHOICE</div>
-  <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col" style={{ background: "linear-gradient(170deg,#1c0d04 0%,#100804 50%,#0a0502 100%)", borderRadius: "16px" }}>
-    <div className="got-sigil-frame got-sigil-frame--targaryen mb-4" style={{ width: "88px", height: "88px", borderRadius: "50%", background: "radial-gradient(circle at 40% 35%,#2a1005,#120802)", border: "1.5px solid rgba(220,90,20,0.45)", boxShadow: "0 0 28px rgba(200,70,10,0.3), 0 0 8px rgba(255,120,30,0.2), inset 0 1px 0 rgba(255,140,60,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <img src="/stark-wolf.png" alt="House Targaryen" className="got-house-sigil got-house-sigil--targaryen h-20 w-auto object-contain" />
-    </div>
-    <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#f7f2ec" }}>Targaryen Pack</h3>
-    <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "rgba(247,242,236,0.58)" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
-    <div className="mb-5 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+          {/* Price */}
+          <div className="mt-auto">
+            <div className="mb-4 h-px" style={{ background: "#1e2a34" }} />
+            <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#c8d8e8" }}>
+              {pricing === "india" ? "₹5,999" : "$175"}
+              <span className="text-xs font-cinzel ml-1" style={{ color: "#445566" }}>/ reel</span>
+            </p>
+            <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:border-[#6a8aaa] hover:text-[#c8d8e8]" style={{ border: "1px solid #2a3a4a", color: "#6a8aaa" }}>GET IN TOUCH</Link>
+          </div>
+        </div>
+      </div>
 
-    {/* Features */}
-    <ul className="space-y-3 mb-6">
-      {[
-        "Everything in Stark Pack",
-        "Shooting (if required) only in Jamnagar",
-        "Custom Transitions & Effects",
-        "Brand Strategy Call",
-        "Priority Delivery (24 Hours)",
-        "Unlimited Revisions",
-        "Credit Required",
-      ].map((text, i) => (
-        <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "rgba(247,242,236,0.72)" }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "18px",
-              height: "18px",
-              borderRadius: "50%",
-              border: "1px solid rgba(255,255,255,0.22)",
-              color: "#f7f2ec",
-              background: "rgba(255,107,26,0.10)",
-              fontSize: "9px",
-              flexShrink: 0,
-              animation: `targ-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
-            }}
-          >✓</span>
-          <span>{text}</span>
-        </li>
-      ))}
-    </ul>
+      {/* TARGARYEN PACK — Most Popular */}
+      <div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#c85a10 0%,#8b3a08 30%,#3a1805 60%,#1a0d03 100%)", boxShadow: "0 0 0 1px rgba(255,107,26,0.25), 0 28px 70px rgba(0,0,0,0.7), 0 0 60px rgba(200,70,10,0.18), inset 0 1px 0 rgba(255,160,80,0.12)" }}>
+        <div className="got-price-particles got-price-particles--fire" aria-hidden="true">
+          {targaryenParticles.map((particle) => (
+            <span key={particle} />
+          ))}
+        </div>
+        <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "linear-gradient(135deg,#e8651a,#ff9640)", color: "#1a0800", boxShadow: "0 4px 16px rgba(255,100,20,0.4), 0 0 30px rgba(255,100,20,0.2)" }}>POPULAR CHOICE</div>
+        <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col" style={{ background: "linear-gradient(170deg,#1c0d04 0%,#100804 50%,#0a0502 100%)", borderRadius: "16px" }}>
 
-    {/* Price */}
-    <div className="mt-auto">
-      <div className="mb-4 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
-      <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#f7f2ec" }}>
-        {pricing === "india" ? "₹9,999" : "$249"}
-        <span className="text-xs font-cinzel ml-1" style={{ color: "rgba(247,242,236,0.48)" }}>/ video</span>
-      </p>
-      <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff9a52]" style={{ background: "linear-gradient(135deg,#d96018,#ff8030)", color: "#1a0800", boxShadow: "0 4px 20px rgba(200,80,10,0.35), inset 0 1px 0 rgba(255,160,80,0.15)", border: "1px solid rgba(220,100,30,0.4)" }}>GET IN TOUCH</Link>
-    </div>
-  </div>
-</div>
+          {/* Targaryen Sigil */}
+          <div className="got-sigil-frame got-sigil-frame--targaryen mb-4" style={{ width: "96px", height: "96px", borderRadius: "50%", background: "radial-gradient(circle at 40% 35%,#2a1005,#120802)", border: "1.5px solid rgba(220,90,20,0.45)", boxShadow: "0 0 28px rgba(200,70,10,0.3), 0 0 8px rgba(255,120,30,0.2), inset 0 1px 0 rgba(255,140,60,0.1)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
+            <img
+              src="/stark-wolf.png"
+              alt="House Targaryen"
+              className="got-house-sigil got-house-sigil--targaryen object-contain"
+              style={{ width: "80px", height: "80px" }}
+            />
+          </div>
 
+          <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#f7f2ec" }}>Targaryen Pack</h3>
+          <p className="italic text-xs mb-4 mt-1" style={{ fontFamily: "'IM Fell English', serif", color: "rgba(247,242,236,0.58)" }}>"Fire cannot kill a dragon — nor can short attention spans."</p>
+          <div className="mb-5 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+
+          {/* Features */}
+          <ul className="space-y-3 mb-6">
+            {[
+              "Everything in Stark Pack",
+              "Shooting (if required) only in Jamnagar",
+              "Custom Transitions & Effects",
+              "Brand Strategy Call",
+              "Priority Delivery (24 Hours)",
+              "Unlimited Revisions",
+              "Credit Required",
+            ].map((text, i) => (
+              <li key={text} className="flex items-center gap-3 text-xs" style={{ color: "rgba(247,242,236,0.72)" }}>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "18px",
+                    height: "18px",
+                    borderRadius: "50%",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    color: "#f7f2ec",
+                    background: "rgba(255,107,26,0.10)",
+                    fontSize: "9px",
+                    flexShrink: 0,
+                    animation: `targ-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
+                  }}
+                >✓</span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Price */}
+          <div className="mt-auto">
+            <div className="mb-4 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+            <p className="font-cinzel-decorative text-2xl font-bold mb-4" style={{ color: "#f7f2ec" }}>
+              {pricing === "india" ? "₹9,999" : "$249"}
+              <span className="text-xs font-cinzel ml-1" style={{ color: "rgba(247,242,236,0.48)" }}>/ video</span>
+            </p>
+            <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff9a52]" style={{ background: "linear-gradient(135deg,#d96018,#ff8030)", color: "#1a0800", boxShadow: "0 4px 20px rgba(200,80,10,0.35), inset 0 1px 0 rgba(255,160,80,0.15)", border: "1px solid rgba(220,100,30,0.4)" }}>GET IN TOUCH</Link>
+          </div>
+        </div>
+      </div>
 {/* CUSTOM */}
 <div className="relative rounded-2xl hover:-translate-y-1 transition-transform overflow-hidden" style={{ background: "#0e0e0e", border: "1px solid #222", minHeight: "420px" }}>
   

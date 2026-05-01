@@ -293,3 +293,48 @@ html {
   0%, 100% { box-shadow: 0 0 4px rgba(255,107,26,0.12); }
   50% { box-shadow: 0 0 9px rgba(255,107,26,0.34), 0 0 16px rgba(255,107,26,0.1); }
 }
+/* Targaryen fire particles */
+.got-price-card--targaryen .got-price-particles--fire {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.got-price-card--targaryen .got-price-particles--fire span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: targ-float linear infinite;
+}
+
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(odd) {
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 100, 20, 0.18);
+}
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(even) {
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 160, 60, 0.12);
+}
+
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(1)  { left: 12%; animation-duration: 7s;   animation-delay: 0s;    bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(2)  { left: 28%; animation-duration: 9s;   animation-delay: 1.2s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(3)  { left: 44%; animation-duration: 6s;   animation-delay: 2.5s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(4)  { left: 60%; animation-duration: 8s;   animation-delay: 0.7s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(5)  { left: 75%; animation-duration: 7.5s; animation-delay: 3.1s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(6)  { left: 88%; animation-duration: 5.5s; animation-delay: 1.8s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(7)  { left: 20%; animation-duration: 10s;  animation-delay: 4s;    bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(8)  { left: 52%; animation-duration: 6.5s; animation-delay: 2s;    bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(9)  { left: 68%; animation-duration: 8.5s; animation-delay: 0.3s;  bottom: -4px; }
+.got-price-card--targaryen .got-price-particles--fire span:nth-child(10) { left: 36%; animation-duration: 7.2s; animation-delay: 5s;    bottom: -4px; }
+
+@keyframes targ-float {
+  0%   { transform: translateY(0) translateX(0) scale(1);    opacity: 0; }
+  10%  { opacity: 1; }
+  85%  { opacity: 0.6; }
+  100% { transform: translateY(-420px) translateX(12px) scale(0.4); opacity: 0; }
+}
