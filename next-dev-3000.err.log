@@ -1,0 +1,70 @@
+Database connection error: PrismaClientKnownRequestError: 
+Invalid `prisma.siteSetting.findUnique()` invocation:
+
+
+Authentication failed against database server, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at the configured address.
+    at ei.handleRequestError (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (C:\site-main\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async Promise.all (index 2)
+    at async GET (webpack-internal:///(rsc)/./app/api/site/route.ts:19:46)
+    at async C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:55038
+    at async ek.execute (C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:45808)
+    at async ek.handle (C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:56292)
+    at async doRender (C:\site-main\node_modules\next\dist\server\base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (C:\site-main\node_modules\next\dist\server\base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\site-main\node_modules\next\dist\server\base-server.js:1507:28)
+    at async DevServer.renderPageComponent (C:\site-main\node_modules\next\dist\server\base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (C:\site-main\node_modules\next\dist\server\base-server.js:1969:32)
+    at async DevServer.pipeImpl (C:\site-main\node_modules\next\dist\server\base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\site-main\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\site-main\node_modules\next\dist\server\base-server.js:816:17)
+    at async C:\site-main\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\site-main\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\site-main\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\site-main\node_modules\next\dist\server\lib\router-server.js:174:21)
+    at async handleRequest (C:\site-main\node_modules\next\dist\server\lib\router-server.js:353:24)
+    at async requestHandlerImpl (C:\site-main\node_modules\next\dist\server\lib\router-server.js:377:13)
+    at async Server.requestListener (C:\site-main\node_modules\next\dist\server\lib\start-server.js:141:13) {
+  code: 'P1000',
+  meta: { modelName: 'SiteSetting', database_user: '(not available)' },
+  clientVersion: '6.19.3'
+}
+Database connection error: PrismaClientKnownRequestError: 
+Invalid `prisma.siteSetting.findUnique()` invocation:
+
+
+Authentication failed against database server, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at the configured address.
+    at ei.handleRequestError (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (C:\site-main\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (C:\site-main\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async Promise.all (index 2)
+    at async GET (webpack-internal:///(rsc)/./app/api/site/route.ts:19:46)
+    at async C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:55038
+    at async ek.execute (C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:45808)
+    at async ek.handle (C:\site-main\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:56292)
+    at async doRender (C:\site-main\node_modules\next\dist\server\base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (C:\site-main\node_modules\next\dist\server\base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\site-main\node_modules\next\dist\server\base-server.js:1507:28)
+    at async DevServer.renderPageComponent (C:\site-main\node_modules\next\dist\server\base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (C:\site-main\node_modules\next\dist\server\base-server.js:1969:32)
+    at async DevServer.pipeImpl (C:\site-main\node_modules\next\dist\server\base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\site-main\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\site-main\node_modules\next\dist\server\base-server.js:816:17)
+    at async C:\site-main\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\site-main\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\site-main\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\site-main\node_modules\next\dist\server\lib\router-server.js:174:21)
+    at async handleRequest (C:\site-main\node_modules\next\dist\server\lib\router-server.js:353:24)
+    at async requestHandlerImpl (C:\site-main\node_modules\next\dist\server\lib\router-server.js:377:13)
+    at async Server.requestListener (C:\site-main\node_modules\next\dist\server\lib\start-server.js:141:13) {
+  code: 'P1000',
+  meta: { modelName: 'SiteSetting', database_user: '(not available)' },
+  clientVersion: '6.19.3'
+}

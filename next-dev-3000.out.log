@@ -11,4 +11,7 @@
  ○ Compiling / ...
  ✓ Compiled / in 2.3s (593 modules)
  GET / 200 in 2420ms
-[?25h
+[?2 GET / 200 in 65ms
+ ✓ Compiled /api/site in 289ms (328 modules)
+ GET /api/site 200 in 2608ms
+ GET /api/site 200 in 2611ms
