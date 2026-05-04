@@ -118,6 +118,17 @@ export default function HomePage() {
   const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
 
+  const clients = [
+  { name: "Arjun Mehta",   sub: "Lifestyle Creator", platform: "YouTube",   followers: "248K", color: "#1a2a3a", text: "#4fa3e0", init: "AM" },
+  { name: "Zoya Khan",     sub: "Fashion & Beauty",  platform: "Instagram", followers: "185K", color: "#2a1a2a", text: "#e04faa", init: "ZK" },
+  { name: "Tech Duniya",   sub: "Tech Reviews",      platform: "YouTube",   followers: "512K", color: "#1a2a1a", text: "#4fc94f", init: "TD" },
+  { name: "Rohan Vlog",    sub: "Travel Creator",    platform: "Reels",     followers: "94K",  color: "#2a1a0a", text: "#e09a4f", init: "RV" },
+  { name: "Sneha Singh",   sub: "Fitness Coach",     platform: "Instagram", followers: "67K",  color: "#1a1a2a", text: "#7a6fe0", init: "SS" },
+  { name: "GamerzBhai",    sub: "Gaming Channel",    platform: "YouTube",   followers: "320K", color: "#1a2218", text: "#5de04f", init: "GB" },
+  { name: "Priya Talks",   sub: "Motivational",      platform: "Shorts",    followers: "41K",  color: "#2a1820", text: "#e04f70", init: "PT" },
+  { name: "BizBoss India", sub: "Entrepreneur",      platform: "LinkedIn",  followers: "28K",  color: "#181a2a", text: "#4f8ae0", init: "BI" },
+];
+
   const flipTeamTo = (next: number) => {
     if (teamAnimatingRef.current || next === teamIdxRef.current) return;
 
@@ -290,7 +301,98 @@ export default function HomePage() {
         {shortVideos.length > 0 && <VideoCarousel title="SHORT FORM" tag="Reels · Shorts" videos={shortVideos} isShort />}
         {longVideos.length > 0 && <VideoCarousel title="LONG FORM" tag="YouTube " videos={longVideos} />}
       </section>
-       
+       {/* CLIENTS MARQUEE */}
+<section className="overflow-hidden py-16" style={{ background: "#080808" }}>
+  <div className="mb-8 text-center">
+    <div className="orange-line mx-auto mb-4" />
+    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>
+      WORKED WITH
+    </p>
+    <h2
+      className="section-title text-white"
+      style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
+    >
+      OUR <span style={{ color: "#FF6B1A" }}>CLIENTS</span>
+    </h2>
+  </div>
+
+  <div className="relative w-full overflow-hidden clients-fade">
+    <div className="clients-track flex gap-[10px]" style={{ width: "max-content" }}>
+      {[...clients, ...clients].map((c, i) => (
+        <div
+          key={i}
+          className="clients-card flex-shrink-0 flex items-center gap-[10px] rounded-full border px-[10px]"
+          style={{
+            width: "220px",
+            height: "54px",
+            background: "#111",
+            borderColor: "rgba(255,107,26,0.15)",
+            borderRadius: "30px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Avatar */}
+          <div
+            className="flex-shrink-0 flex items-center justify-center rounded-full text-xs font-bold"
+            style={{
+              width: "34px",
+              height: "34px",
+              background: c.color,
+              color: c.text,
+              border: "1px solid rgba(255,107,26,0.2)",
+              fontSize: "12px",
+            }}
+          >
+            {c.init}
+          </div>
+
+          {/* Name + Sub */}
+          <div className="flex flex-col flex-1 min-w-0">
+            <span
+              className="font-bold truncate"
+              style={{ fontSize: "13px", color: "#F0EDE8", letterSpacing: "0.03em", lineHeight: 1.2 }}
+            >
+              {c.name}
+            </span>
+            <span
+              className="uppercase truncate"
+              style={{ fontSize: "8.5px", color: "rgba(240,237,232,0.35)", letterSpacing: "0.07em" }}
+            >
+              {c.sub}
+            </span>
+          </div>
+
+          {/* Platform + Followers */}
+          <div className="flex flex-col items-end gap-[3px] flex-shrink-0">
+            <span
+              className="uppercase font-bold"
+              style={{
+                fontSize: "7.5px",
+                letterSpacing: "0.1em",
+                padding: "2px 6px",
+                borderRadius: "20px",
+                background: "rgba(255,107,26,0.1)",
+                color: "#FF6B1A",
+                border: "1px solid rgba(255,107,26,0.2)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {c.platform}
+            </span>
+            <span
+              className="flex items-center gap-1 font-bold"
+              style={{ fontSize: "10px", color: "#FF6B1A" }}
+            >
+              <span className="clients-dot" />
+              {c.followers}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
        {/* TESTIMONIALS */}
   <section id="testimonials" className="px-6 py-20 md:py-32">

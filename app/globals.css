@@ -338,3 +338,49 @@ html {
   85%  { opacity: 0.6; }
   100% { transform: translateY(-420px) translateX(12px) scale(0.4); opacity: 0; }
 }
+/* CLIENTS MARQUEE */
+.clients-track {
+  animation: scroll-clients 22s linear infinite;
+}
+.clients-fade:hover .clients-track {
+  animation-play-state: paused;
+}
+@keyframes scroll-clients {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.clients-fade::before,
+.clients-fade::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.clients-fade::before {
+  left: 0;
+  background: linear-gradient(90deg, #080808, transparent);
+}
+.clients-fade::after {
+  right: 0;
+  background: linear-gradient(-90deg, #080808, transparent);
+}
+.clients-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #FF6B1A;
+  display: inline-block;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.clients-card {
+  transition: border-color 0.3s;
+}
+.clients-card:hover {
+  border-color: rgba(255,107,26,0.5) !important;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.6); }
+}
