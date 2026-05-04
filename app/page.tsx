@@ -119,14 +119,12 @@ export default function HomePage() {
   useScrollReveal();
 
   const clients = [
-  { name: "Arjun Mehta",   sub: "Lifestyle Creator", platform: "YouTube",   followers: "248K", color: "#1a2a3a", text: "#4fa3e0", init: "AM" },
-  { name: "Zoya Khan",     sub: "Fashion & Beauty",  platform: "Instagram", followers: "185K", color: "#2a1a2a", text: "#e04faa", init: "ZK" },
-  { name: "Tech Duniya",   sub: "Tech Reviews",      platform: "YouTube",   followers: "512K", color: "#1a2a1a", text: "#4fc94f", init: "TD" },
-  { name: "Rohan Vlog",    sub: "Travel Creator",    platform: "Reels",     followers: "94K",  color: "#2a1a0a", text: "#e09a4f", init: "RV" },
-  { name: "Sneha Singh",   sub: "Fitness Coach",     platform: "Instagram", followers: "67K",  color: "#1a1a2a", text: "#7a6fe0", init: "SS" },
-  { name: "GamerzBhai",    sub: "Gaming Channel",    platform: "YouTube",   followers: "320K", color: "#1a2218", text: "#5de04f", init: "GB" },
-  { name: "Priya Talks",   sub: "Motivational",      platform: "Shorts",    followers: "41K",  color: "#2a1820", text: "#e04f70", init: "PT" },
-  { name: "BizBoss India", sub: "Entrepreneur",      platform: "LinkedIn",  followers: "28K",  color: "#181a2a", text: "#4f8ae0", init: "BI" },
+  { name: "Technical Sagar",sub: "Tech Creator", platform: "YouTube",   followers: "3.14M", color: "#1a2a3a", text: "#4fa3e0", init: "TS" },
+  { name: "Cyber Sagar",   sub: "Tech & cyber",  platform: "YouTube", followers: "64.7K", color: "#2a1a2a", text: "#e04faa", init: "CS" },
+  { name: "Neel Chavda",   sub: "Vloger",      platform: "YouTube",   followers: "1.48M", color: "#1a2a1a", text: "#4fc94f", init: "NC" },
+  { name: "Tatva by Tradeprop",    sub: "Plots,villas & Resort facilities near Ahmedabad",    platform: "Instagram",     followers: "7.1k",  color: "#2a1a0a", text: "#e09a4f", init: "TT" },
+  { name: "Builtwithakash",   sub: "Fitness Coach",     platform: "Instagram", followers: "2K",  color: "#1a1a2a", text: "#7a6fe0", init: "BA" },
+  { name: "Theabhisheksagar",    sub: "Tech",    platform: "Instagram",   followers: "63K", color: "#1a2218", text: "#5de04f", init: "AS" },
 ];
 
   const flipTeamTo = (next: number) => {
