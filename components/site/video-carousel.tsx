@@ -11,6 +11,107 @@ type VideoCarouselProps = {
   isShort?: boolean;
 };
 
+type CarouselMediaProps = {
+  video: Video;
+  thumb: string;
+  mediaKey: string;
+  isPlaying: boolean;
+  isMuted: boolean;
+  embedOrigin: string;
+  registerMp4Ref: (id: string, element: HTMLVideoElement | null) => void;
+  registerYouTubeRef: (id: string, element: HTMLIFrameElement | null) => void;
+  onYouTubeLoad: () => void;
+};
+
+function CarouselMedia({
+  video,
+  thumb,
+  mediaKey,
+  isPlaying,
+  isMuted,
+  embedOrigin,
+  registerMp4Ref,
+  registerYouTubeRef,
+  onYouTubeLoad,
+}: CarouselMediaProps) {
+  const [loaded, setLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const markLoaded = useCallback(() => {
+    setLoaded(true);
+  }, []);
+
+  // Media loading: each rendered card owns its own skeleton state.
+  useEffect(() => {
+    if (imageRef.current?.complete && imageRef.current.naturalWidth > 0) {
+      markLoaded();
+    }
+
+    if (videoRef.current && videoRef.current.readyState >= 2) {
+      markLoaded();
+    }
+  }, [mediaKey, markLoaded]);
+
+  const mediaClassName = `portfolio-media-asset absolute inset-0 h-full w-full object-cover ${
+    loaded ? "is-loaded" : ""
+  }`;
+
+  return (
+    <>
+      {/* Actual media: fades in after its own load event fires. */}
+      {video.mp4 ? (
+        <video
+          ref={(element) => {
+            videoRef.current = element;
+            registerMp4Ref(video.id, element);
+          }}
+          src={video.mp4}
+          muted={isMuted}
+          controls={false}
+          className={mediaClassName}
+          autoPlay={isPlaying}
+          loop
+          preload="auto"
+          playsInline
+          onLoadedData={markLoaded}
+        />
+      ) : isPlaying && video.yt ? (
+        <iframe
+          ref={(element) => {
+            registerYouTubeRef(video.id, element);
+          }}
+          className={`portfolio-media-asset absolute inset-0 h-full w-full ${loaded ? "is-loaded" : ""}`}
+          src={`https://www.youtube.com/embed/${video.yt}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&playsinline=1${
+            embedOrigin ? `&origin=${encodeURIComponent(embedOrigin)}` : ""
+          }`}
+          title={video.title}
+          allow="autoplay; encrypted-media; fullscreen"
+          onLoad={() => {
+            markLoaded();
+            onYouTubeLoad();
+          }}
+        />
+      ) : (
+        <img
+          ref={imageRef}
+          src={thumb}
+          alt={video.title}
+          className={mediaClassName}
+          draggable={false}
+          onLoad={markLoaded}
+        />
+      )}
+
+      {/* Thumbnail skeleton: covers only the media rectangle, never the card chrome. */}
+      <div
+        aria-hidden="true"
+        className={`portfolio-media-skeleton absolute inset-0 ${loaded ? "is-loaded" : ""}`}
+      />
+    </>
+  );
+}
+
 export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCarouselProps) {
   const [index, setIndex] = useState(0);
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -72,6 +173,14 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
 
   useEffect(() => {
     setEmbedOrigin(window.location.origin);
+  }, []);
+
+  const registerMp4Ref = useCallback((id: string, element: HTMLVideoElement | null) => {
+    mp4Refs.current[id] = element;
+  }, []);
+
+  const registerYouTubeRef = useCallback((id: string, element: HTMLIFrameElement | null) => {
+    youtubeRefs.current[id] = element;
   }, []);
 
   const sendYouTubeCommand = useCallback((id: string, command: "mute" | "unMute") => {
@@ -166,6 +275,10 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                 ? `https://img.youtube.com/vi/${video.yt}/maxresdefault.jpg`
                 : "https://placehold.co/1280x720");
             const aspectClass = isShort ? "aspect-[9/16]" : "aspect-video";
+            const mediaMode = video.mp4 ? "mp4" : isPlaying && video.yt ? "youtube" : "image";
+            const mediaSourceKey =
+              video.mp4 || (mediaMode === "youtube" ? `${video.yt}-${embedOrigin}` : thumb);
+            const mediaKey = `${video.id}-${i}-${mediaMode}-${mediaSourceKey}`;
             const cardStyle = {
               transform: center ? "scale(1)" : "scale(0.85)",
               opacity: center ? 1 : 0.4,
@@ -199,44 +312,23 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                     transition: "box-shadow 560ms cubic-bezier(0.22,1,0.36,1), border-color 560ms cubic-bezier(0.22,1,0.36,1)",
                   }}
                 >
-                  <div className={`relative ${aspectClass}`}>
-                    {video.mp4 ? (
-                      <video
-                        ref={(element) => {
-                          mp4Refs.current[video.id] = element;
-                        }}
-                        src={video.mp4}
-                        muted={isMuted}
-                        controls={false}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        autoPlay={isPlaying}
-                        loop
-                        playsInline
-                      />
-                    ) : isPlaying && video.yt ? (
-                      <iframe
-                        ref={(element) => {
-                          youtubeRefs.current[video.id] = element;
-                        }}
-                        className="absolute inset-0 h-full w-full"
-                        src={`https://www.youtube.com/embed/${video.yt}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&playsinline=1${
-                          embedOrigin ? `&origin=${encodeURIComponent(embedOrigin)}` : ""
-                        }`}
-                        title={video.title}
-                        allow="autoplay; encrypted-media; fullscreen"
-                        onLoad={() => sendYouTubeCommand(video.id, isMuted ? "mute" : "unMute")}
-                      />
-                    ) : (
-                      <img
-                        src={thumb}
-                        alt={video.title}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        draggable={false}
-                      />
-                    )}
+                  <div className={`portfolio-media-frame relative ${aspectClass}`}>
+                    {/* Media rectangle: skeleton is limited to this exact thumbnail area. */}
+                    <CarouselMedia
+                      key={mediaKey}
+                      video={video}
+                      thumb={thumb}
+                      mediaKey={mediaKey}
+                      isPlaying={isPlaying}
+                      isMuted={isMuted}
+                      embedOrigin={embedOrigin}
+                      registerMp4Ref={registerMp4Ref}
+                      registerYouTubeRef={registerYouTubeRef}
+                      onYouTubeLoad={() => sendYouTubeCommand(video.id, isMuted ? "mute" : "unMute")}
+                    />
 
                     {!isPlaying ? (
-                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4">
+                      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/90 to-transparent p-4">
                         <span className="tag inline-block rounded px-2 py-0.5 text-xs font-syne">
                           {isShort ? "Short Form" : "Long Form"}
                         </span>
@@ -246,7 +338,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
 
                     {!isPlaying ? (
                       <button
-                        className="absolute inset-0 flex items-center justify-center bg-black/35"
+                        className="absolute inset-0 z-20 flex items-center justify-center bg-black/35"
                         style={{ transition: "background 200ms ease" }}
                         onClick={() => setPlayingId(video.id)}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.2)")}
@@ -266,7 +358,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                         </span>
                       </button>
                     ) : (
-                      <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+                      <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
                         <button
                           className="rounded-lg bg-black/50 p-2 text-white"
                           style={{ transition: "color 150ms ease" }}
@@ -327,6 +419,58 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
           />
         ))}
       </div>
+
+      <style>{`
+        /* Media frame: shares the card radius and clips the shimmer to the thumbnail only. */
+        .portfolio-media-frame {
+          border-radius: inherit;
+          overflow: hidden;
+        }
+
+        /* Real thumbnail/video: hidden until this card's own media has loaded. */
+        .portfolio-media-asset {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: 0;
+        }
+
+        .portfolio-media-asset.is-loaded {
+          opacity: 1;
+        }
+
+        /* Skeleton shimmer: dark diagonal gradient, confined to the media rectangle. */
+        .portfolio-media-skeleton {
+          background-image: linear-gradient(
+            135deg,
+            #1e1e1e 0%,
+            #1e1e1e 35%,
+            #2a2a2a 50%,
+            #1e1e1e 65%,
+            #1e1e1e 100%
+          );
+          background-size: 240% 240%;
+          border-radius: inherit;
+          opacity: 1;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+          animation: portfolio-thumbnail-shimmer 1.25s linear infinite;
+          z-index: 10;
+        }
+
+        .portfolio-media-skeleton.is-loaded {
+          opacity: 0;
+        }
+
+        /* Shimmer motion: diagonal left-to-right loop. */
+        @keyframes portfolio-thumbnail-shimmer {
+          0% {
+            background-position: 120% 0%;
+          }
+          100% {
+            background-position: -120% 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
