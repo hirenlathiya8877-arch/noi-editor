@@ -75,7 +75,7 @@ const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: 
   const { ref, count } = useCountUp(end, 2000);
   return (
     <div ref={ref} className="text-center">
-      <div className="font-bebas text-5xl" style={{ color: "#FF6B1A" }}>{count}{suffix}</div>
+      <div className="font-bebas text-5xl" style={{ color: "#38D5FF" }}>{count}{suffix}</div>
       <div className="text-xs uppercase tracking-widest mt-1" style={{ color: "rgba(240,237,232,0.45)" }}>{label}</div>
     </div>
   );
@@ -122,7 +122,7 @@ export default function HomePage() {
   { name: "Technical Sagar",sub: "Tech Creator", platform: "YouTube",   followers: "3.14M", color: "#1a2a3a", text: "#4fa3e0", init: "TS" },
   { name: "Cyber Sagar",   sub: "Tech & cyber",  platform: "YouTube", followers: "64.7K", color: "#2a1a2a", text: "#e04faa", init: "CS" },
   { name: "Neel Chavda",   sub: "Vloger",      platform: "YouTube",   followers: "1.48M", color: "#1a2a1a", text: "#4fc94f", init: "NC" },
-  { name: "Tatva by Tradeprop",    sub: "Plots,villas & Resort facilities near Ahmedabad",    platform: "Instagram",     followers: "7.1k",  color: "#2a1a0a", text: "#e09a4f", init: "TT" },
+  { name: "Tatva by Tradeprop",    sub: "Plots,villas & Resort facilities near Ahmedabad",    platform: "Instagram",     followers: "7.1k",  color: "#0a2230", text: "#38D5FF", init: "TT" },
   { name: "Builtwithakash",   sub: "Fitness Coach",     platform: "Instagram", followers: "2K",  color: "#1a1a2a", text: "#7a6fe0", init: "BA" },
   { name: "Theabhisheksagar",    sub: "Tech",    platform: "Instagram",   followers: "63K", color: "#1a2218", text: "#5de04f", init: "AS" },
 ];
@@ -195,13 +195,13 @@ export default function HomePage() {
   };
 
   const renderTeamCard = (person: (typeof team)[number]) => (
-    <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(255,107,26,0.2)", boxShadow: "0 0 40px rgba(255,107,26,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(56,213,255,0.2)", boxShadow: "0 0 40px rgba(56,213,255,0.08)" }}>
       {/* Photo area */}
       <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
         {/* Arch */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(255,107,26,0.15)", background: "rgba(255,107,26,0.03)" }} />
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(56,213,255,0.15)", background: "rgba(56,213,255,0.03)" }} />
         {/* Avatar */}
-        <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,107,26,0.12),rgba(255,107,26,0.04))" }}>
+        <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(56,213,255,0.12),rgba(56,213,255,0.04))" }}>
           {person.image ? (
             <Image
               src={person.image}
@@ -211,21 +211,21 @@ export default function HomePage() {
               className="object-cover object-top"
             />
           ) : (
-            <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(255,107,26,0.25)" }}>{person.name[0]}</span>
+            <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(56,213,255,0.25)" }}>{person.name[0]}</span>
           )}
         </div>
         {/* Badge */}
-        <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(255,107,26,0.15)", border: "1px solid rgba(255,107,26,0.3)", color: "#FF6B1A" }}>
+        <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(56,213,255,0.15)", border: "1px solid rgba(56,213,255,0.3)", color: "#38D5FF" }}>
           {"\u2726"} {person.tag}
         </div>
         {/* Instagram only */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-orange-500" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", border: "1px solid rgba(255,107,26,0.25)" }}>ig</a>
+          <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-sky-400" style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF", border: "1px solid rgba(56,213,255,0.25)" }}>ig</a>
         </div>
       </div>
       {/* Name */}
-      <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(255,107,26,0.1)" }}>
-        <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>{person.role}</p>
+      <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(56,213,255,0.1)" }}>
+        <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(56,213,255,0.6)" }}>{person.role}</p>
         <h3 className="font-bebas text-2xl tracking-wide text-white">{person.name}</h3>
       </div>
     </div>
@@ -238,22 +238,22 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-        <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(60px)" }} />
-        <div className="pointer-events-none absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#FF6B1A,transparent)", filter: "blur(40px)" }} />
+        <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#38D5FF,transparent)", filter: "blur(60px)" }} />
+        <div className="pointer-events-none absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#38D5FF,transparent)", filter: "blur(40px)" }} />
         <div className="float tag relative z-10 mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-orange-accent" />
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand-accent" />
           Available for New Projects
         </div>
         <h1 className="section-title text-glow animate-pulse-slow relative z-10 mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
-          RAW TO<br /><span style={{ color: "#FF6B1A" }}>ROYALTY</span>
+          RAW TO<br /><span style={{ color: "#38D5FF" }}>ROYALTY</span>
         </h1>
         <p className="relative z-10 mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
           <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
-          <span className="font-semibold" style={{ color: "#FF6B1A" }}>Legendary.</span>
+          <span className="font-semibold" style={{ color: "#38D5FF" }}>Legendary.</span>
         </p>
         <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 mb-12 sm:flex-row">
-          <a href="#work" className="glow-orange rounded-full px-8 py-4 font-syne font-semibold text-black text-center w-64 active:opacity-80" style={{ background: "#FF6B1A" }}>See Our Work ↓</a>
-          <a href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(255,107,26,0.3)" }}>Start a Project</a>
+          <a href="#work" className="glow-blue rounded-full px-8 py-4 font-syne font-semibold text-black text-center w-64 active:opacity-80" style={{ background: "#38D5FF" }}>See Our Work ↓</a>
+          <a href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(56,213,255,0.3)" }}>Start a Project</a>
         </div>
         {/* STATS */}
         <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
@@ -269,16 +269,16 @@ export default function HomePage() {
       </section>
 
       {/* TOOLS MARQUEE */}
-      <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(255,107,26,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(255,107,26,0.15)", maxWidth: "100vw", width: "100%" }}>
+      <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(56,213,255,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(56,213,255,0.15)", maxWidth: "100vw", width: "100%" }}>
         <div className="marquee-track">
           <span className="inline-flex items-center gap-8 pr-8" style={{ whiteSpace: "nowrap" }}>
             {Array.from({ length: 3 }).map((_, i) => (
               <span key={i} className="inline-flex items-center gap-8">
                 {[{ label: "After Effects", icon: "Ae" }, { label: "Premiere Pro", icon: "Pr" }, { label: "DaVinci Resolve", icon: "Da" }, { label: "Photoshop", icon: "Ps" }, { label: "AI Tools", icon: "AI" }, { label: "Motion Graphics", icon: "Mo" }, { label: "Color Grading", icon: "Cg" }, { label: "Sound Design", icon: "Sd" }].map((tool) => (
                   <span key={tool.label} className="inline-flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded text-[9px] font-bold" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A", fontFamily: "monospace" }}>{tool.icon}</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded text-[9px] font-bold" style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF", fontFamily: "monospace" }}>{tool.icon}</span>
                     <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "rgba(240,237,232,0.45)", letterSpacing: "0.1em" }}>{tool.label}</span>
-                    <span style={{ color: "rgba(255,107,26,0.3)", fontSize: "8px" }}>◆</span>
+                    <span style={{ color: "rgba(56,213,255,0.3)", fontSize: "8px" }}>◆</span>
                   </span>
                 ))}
               </span>
@@ -290,7 +290,7 @@ export default function HomePage() {
       {/* OUR WORK */}
       <section id="work" className="mx-auto max-w-7xl px-6 pb-8 pt-12 md:pb-32 md:pt-16">
         <div className="mb-16 text-center">
-         <div className="orange-line mx-auto mb-4" />
+         <div className="accent-line mx-auto mb-4" />
           <div className="flex flex-col items-center justify-center gap-3">
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR WORK</h2>
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
@@ -302,15 +302,15 @@ export default function HomePage() {
        {/* CLIENTS MARQUEE */}
 <section className="overflow-hidden py-16" style={{ background: "#080808" }}>
   <div className="mb-8 text-center">
-    <div className="orange-line mx-auto mb-4" />
-    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,107,26,0.6)" }}>
+    <div className="accent-line mx-auto mb-4" />
+    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(56,213,255,0.6)" }}>
       WORKED WITH
     </p>
     <h2
       className="section-title text-white"
       style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
     >
-      OUR <span style={{ color: "#FF6B1A" }}>CLIENTS</span>
+      OUR <span style={{ color: "#38D5FF" }}>CLIENTS</span>
     </h2>
   </div>
 
@@ -324,7 +324,7 @@ export default function HomePage() {
             width: "220px",
             height: "54px",
             background: "#111",
-            borderColor: "rgba(255,107,26,0.15)",
+            borderColor: "rgba(56,213,255,0.15)",
             borderRadius: "30px",
             position: "relative",
             overflow: "hidden",
@@ -338,7 +338,7 @@ export default function HomePage() {
               height: "34px",
               background: c.color,
               color: c.text,
-              border: "1px solid rgba(255,107,26,0.2)",
+              border: "1px solid rgba(56,213,255,0.2)",
               fontSize: "12px",
             }}
           >
@@ -370,9 +370,9 @@ export default function HomePage() {
                 letterSpacing: "0.1em",
                 padding: "2px 6px",
                 borderRadius: "20px",
-                background: "rgba(255,107,26,0.1)",
-                color: "#FF6B1A",
-                border: "1px solid rgba(255,107,26,0.2)",
+                background: "rgba(56,213,255,0.1)",
+                color: "#38D5FF",
+                border: "1px solid rgba(56,213,255,0.2)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -380,7 +380,7 @@ export default function HomePage() {
             </span>
             <span
               className="flex items-center gap-1 font-bold"
-              style={{ fontSize: "10px", color: "#FF6B1A" }}
+              style={{ fontSize: "10px", color: "#38D5FF" }}
             >
               <span className="clients-dot" />
               {c.followers}
@@ -396,7 +396,7 @@ export default function HomePage() {
   <section id="testimonials" className="px-6 py-20 md:py-32">
   <div className="mx-auto max-w-7xl">
     <div className="mb-10 text-center md:mb-16">
-      <div className="orange-line mx-auto mb-4" />
+      <div className="accent-line mx-auto mb-4" />
       <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
     </div>
     <div className="reveal">
@@ -409,8 +409,8 @@ export default function HomePage() {
       <section id="team" className="bg-[#080808] px-6 pb-20 pt-8 md:py-24">
         <div className="mx-auto max-w-5xl">
           <div className="mb-16 text-center">
-            <div className="orange-line mx-auto mb-4" />
-            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#FF6B1A" }}>MEET THE TEAM</p>
+            <div className="accent-line mx-auto mb-4" />
+            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#38D5FF" }}>MEET THE TEAM</p>
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
           </div>
           <div className="flex flex-col items-center reveal">
@@ -437,7 +437,7 @@ export default function HomePage() {
             <div className="flex gap-2 mt-6">
               {team.map((_, i) => (
                 <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
-                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#FF6B1A" : "rgba(255,107,26,0.25)" }} />
+                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#38D5FF" : "rgba(56,213,255,0.25)" }} />
               ))}
             </div>
           </div>
@@ -448,7 +448,7 @@ export default function HomePage() {
       <section id="services" className="stripe-bg bg-[#080808] px-6 pb-16 pt-20 md:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center md:mb-16">
-            <div className="orange-line mx-auto mb-4" />
+            <div className="accent-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
             <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
           </div>
@@ -461,7 +461,7 @@ export default function HomePage() {
               { title: "Shooting", icon: <Camera className="h-5 w-5" />, copy: "Exclusive shooting services in Jamnagar, Gujarat covering events, brands, and commercial spaces. Please note, wedding shoots are not part of our services." }
             ].map((service) => (
               <div key={service.title} className="card-hover rounded-2xl border p-8 reveal" style={{ background: "#111111", borderColor: "#1f1f1f" }}>
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A" }}>{service.icon}</div>
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(56,213,255,0.1)", color: "#38D5FF" }}>{service.icon}</div>
                 <h3 className="mb-3 text-lg font-bold text-white">{service.title}</h3>
                 <p className="text-sm leading-relaxed text-gray-500">{service.copy}</p>
               </div>
@@ -474,7 +474,7 @@ export default function HomePage() {
                 className={`flex items-center gap-3 rounded-xl border p-5 reveal ${i === 4 ? "col-span-2 mx-auto w-[calc(50%-0.5rem)] md:col-span-1 md:mx-0 md:w-auto" : ""}`}
                 style={{ background: "#111", borderColor: "#1f1f1f" }}
               >
-                <Icon className="h-5 w-5 shrink-0" style={{ color: "#FF6B1A" }} />
+                <Icon className="h-5 w-5 shrink-0" style={{ color: "#38D5FF" }} />
                 <span className="text-sm font-semibold">{["Gaming Videos", "Cinematic Edits", "24H Fast Delivery", "Unlimited Revisions", "Professional Shoot"][i]}</span>
               </div>
             ))}
@@ -485,19 +485,19 @@ export default function HomePage() {
 
       {/* PRICING */}
 <section id="pricing" className="bg-[#080808] px-6 py-20 md:py-32" style={{
-  backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,107,26,0.025) 60px,rgba(255,107,26,0.025) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,107,26,0.025) 60px,rgba(255,107,26,0.025) 61px)`
+  backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(56,213,255,0.025) 60px,rgba(56,213,255,0.025) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(56,213,255,0.025) 60px,rgba(56,213,255,0.025) 61px)`
 }}>
   <div className="mx-auto max-w-5xl">
     <div className="mb-10 text-center md:mb-16">
-      <div className="orange-line mx-auto mb-4" />
+      <div className="accent-line mx-auto mb-4" />
       <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING PLANS</h2>
     </div>
 
     {/* Toggle */}
     <div className="mb-12 flex justify-center">
       <div className="flex rounded-full p-1" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
-        <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#FF6B1A" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India</button>
-        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#FF6B1A" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India</button>
+        <button onClick={() => setPricing("india")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "india" ? "#38D5FF" : "transparent", color: pricing === "india" ? "#000" : "#666" }}>India</button>
+        <button onClick={() => setPricing("world")} className="rounded-full px-6 py-2 text-xs font-semibold tracking-widest transition-all font-cinzel" style={{ background: pricing === "world" ? "#38D5FF" : "transparent", color: pricing === "world" ? "#000" : "#666" }}>Outside India</button>
       </div>
     </div>
 
@@ -572,17 +572,17 @@ export default function HomePage() {
       </div>
 
       {/* TARGARYEN PACK — Most Popular */}
-      <div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#c85a10 0%,#8b3a08 30%,#3a1805 60%,#1a0d03 100%)", boxShadow: "0 0 0 1px rgba(255,107,26,0.25), 0 28px 70px rgba(0,0,0,0.7), 0 0 60px rgba(200,70,10,0.18), inset 0 1px 0 rgba(255,160,80,0.12)" }}>
+      <div className="got-price-card got-price-card--targaryen relative mt-0 rounded-2xl transition-transform hover:-translate-y-1 md:-mt-2" style={{ borderRadius: "18px", padding: "2px", background: "linear-gradient(160deg,#0EA5E9 0%,#075985 30%,#082F49 60%,#06151f 100%)", boxShadow: "0 0 0 1px rgba(56,213,255,0.25), 0 28px 70px rgba(0,0,0,0.7), 0 0 60px rgba(14,165,233,0.18), inset 0 1px 0 rgba(125,220,255,0.12)" }}>
         <div className="got-price-particles got-price-particles--fire" aria-hidden="true">
           {targaryenParticles.map((particle) => (
             <span key={particle} />
           ))}
         </div>
-        <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "linear-gradient(135deg,#e8651a,#ff9640)", color: "#1a0800", boxShadow: "0 4px 16px rgba(255,100,20,0.4), 0 0 30px rgba(255,100,20,0.2)" }}>POPULAR CHOICE</div>
-        <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col" style={{ background: "linear-gradient(170deg,#1c0d04 0%,#100804 50%,#0a0502 100%)", borderRadius: "16px" }}>
+        <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] font-bold font-cinzel tracking-widest" style={{ background: "linear-gradient(135deg,#22D3EE,#7DD3FC)", color: "#00111f", boxShadow: "0 4px 16px rgba(56,213,255,0.4), 0 0 30px rgba(56,213,255,0.2)" }}>POPULAR CHOICE</div>
+        <div className="got-price-content rounded-2xl p-7 pt-9 flex flex-col" style={{ background: "linear-gradient(170deg,#061827 0%,#05111d 50%,#03070d 100%)", borderRadius: "16px" }}>
 
           {/* Targaryen Sigil */}
-          <div className="got-sigil-frame got-sigil-frame--targaryen mb-4" style={{ width: "96px", height: "96px", borderRadius: "50%", background: "radial-gradient(circle at 40% 35%,#2a1005,#120802)", border: "1.5px solid rgba(220,90,20,0.45)", boxShadow: "0 0 28px rgba(200,70,10,0.3), 0 0 8px rgba(255,120,30,0.2), inset 0 1px 0 rgba(255,140,60,0.1)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
+          <div className="got-sigil-frame got-sigil-frame--targaryen mb-4" style={{ width: "96px", height: "96px", borderRadius: "50%", background: "radial-gradient(circle at 40% 35%,#0d3350,#04111d)", border: "1.5px solid rgba(56,213,255,0.45)", boxShadow: "0 0 28px rgba(14,165,233,0.3), 0 0 12px rgba(56,213,255,0.22), inset 0 1px 0 rgba(125,220,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
             <img
               src="/stark-wolf.png"
               alt="House Targaryen"
@@ -617,7 +617,7 @@ export default function HomePage() {
                     borderRadius: "50%",
                     border: "1px solid rgba(255,255,255,0.22)",
                     color: "#f7f2ec",
-                    background: "rgba(255,107,26,0.10)",
+                    background: "rgba(56,213,255,0.10)",
                     fontSize: "9px",
                     flexShrink: 0,
                     animation: `targ-check-glow 2.4s ease-in-out ${i * 0.18}s infinite`,
@@ -635,7 +635,7 @@ export default function HomePage() {
               {pricing === "india" ? "₹9,999" : "$249"}
               <span className="text-xs font-cinzel ml-1" style={{ color: "rgba(247,242,236,0.48)" }}>/ video</span>
             </p>
-            <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#ff9a52]" style={{ background: "linear-gradient(135deg,#d96018,#ff8030)", color: "#1a0800", boxShadow: "0 4px 20px rgba(200,80,10,0.35), inset 0 1px 0 rgba(255,160,80,0.15)", border: "1px solid rgba(220,100,30,0.4)" }}>GET IN TOUCH</Link>
+            <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all hover:bg-[#7DD3FC]" style={{ background: "linear-gradient(135deg,#22D3EE,#38D5FF)", color: "#00111f", boxShadow: "0 4px 20px rgba(56,213,255,0.35), inset 0 1px 0 rgba(125,220,255,0.15)", border: "1px solid rgba(56,213,255,0.4)" }}>GET IN TOUCH</Link>
           </div>
         </div>
       </div>
@@ -660,7 +660,7 @@ export default function HomePage() {
   {/* Content — neeche push kiya */}
   <div className="relative z-[2] rounded-2xl p-7 flex flex-col justify-end" style={{ minHeight: "420px" }}>
     <h3 className="font-cinzel-decorative text-xl font-bold mb-1" style={{ color: "#aaa" }}>Custom</h3>
-    <p className="text-sm font-semibold mb-4" style={{ color: "#FF6B1A" }}>Let's Talk</p>
+    <p className="text-sm font-semibold mb-4" style={{ color: "#38D5FF" }}>Let's Talk</p>
     <div className="mb-4 h-px" style={{ background: "#1a1a1a" }} />
     <p className="italic text-xs mb-5" style={{ fontFamily: "'IM Fell English', serif", color: "#444" }}>"All men must serve — let's forge your strategy together."</p>
     <Link href="#contact" className="block w-full text-center py-3 rounded-full text-xs tracking-widest font-cinzel font-semibold transition-all" style={{ border: "1px solid #252525", color: "#555" }}>GET IN TOUCH</Link>
@@ -675,7 +675,7 @@ export default function HomePage() {
       <section id="faq" className="px-6 py-20 md:py-32">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center md:mb-16">
-            <div className="orange-line mx-auto mb-4" />
+            <div className="accent-line mx-auto mb-4" />
             <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>FAQs</h2>
           </div>
           <FaqList faqs={site.faqs} />
@@ -686,7 +686,7 @@ export default function HomePage() {
 <section id="contact" className="px-6 py-20 md:py-32">
   <div className="mx-auto max-w-5xl">
     <div className="mb-10 text-center md:mb-16">
-      <div className="orange-line mx-auto mb-4" />
+      <div className="accent-line mx-auto mb-4" />
       <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S WORK</h2>
     </div>
     <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
@@ -695,44 +695,44 @@ export default function HomePage() {
 <div className="space-y-4 md:space-y-6">
 
   {/* WhatsApp Card - PEHLE */}
-  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
+  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
     <svg className="absolute top-4 right-4 md:top-5 md:right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
       <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
     </svg>
     <div className="transition-opacity duration-300 group-hover:opacity-0">
-      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
-        <MessageCircle className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#FF6B1A" }} />
+      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(56,213,255,0.1)" }}>
+        <MessageCircle className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#38D5FF" }} />
       </div>
       <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Instant Chat</div>
       <div className="mt-0.5 md:mt-1 text-base md:text-lg font-semibold text-white">WhatsApp</div>
     </div>
     <div className="absolute bottom-4 md:bottom-5 right-4 md:right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 hidden md:block" style={{ color: "#333" }}>hover to reveal →</div>
     <div className="absolute bottom-4 right-4 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 md:hidden" style={{ color: "#333" }}>tap to reveal →</div>
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#38D5FF" }}>
       <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>WhatsApp</span>
       <span className="text-sm font-bold text-black">+91 88494 38871</span>
-      <Link href="https://wa.me/918849438871" target="_blank" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Chat →</Link>
+      <Link href="https://wa.me/918849438871" target="_blank" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#38D5FF" }}>Open Chat →</Link>
     </div>
   </div>
 
   {/* Email Card - BAAD ME */}
-  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-orange-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
+  <div className="group relative overflow-hidden rounded-2xl border p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent reveal cursor-pointer" style={{ background: "#111", borderColor: "#1f1f1f", minHeight: "130px" }}>
     <svg className="absolute top-4 right-4 md:top-5 md:right-5 opacity-20 transition-opacity duration-300 group-hover:opacity-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
       <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
     </svg>
     <div className="transition-opacity duration-300 group-hover:opacity-0">
-      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(255,107,26,0.1)" }}>
-        <Mail className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#FF6B1A" }} />
+      <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl" style={{ background: "rgba(56,213,255,0.1)" }}>
+        <Mail className="h-4 w-4 md:h-5 md:w-5" style={{ color: "#38D5FF" }} />
       </div>
       <div className="text-xs uppercase tracking-widest" style={{ color: "#555" }}>Contact</div>
       <div className="mt-0.5 md:mt-1 text-base md:text-lg font-semibold text-white">Email Us</div>
     </div>
     <div className="absolute bottom-4 md:bottom-5 right-4 md:right-5 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 hidden md:block" style={{ color: "#333" }}>hover to reveal →</div>
     <div className="absolute bottom-4 right-4 text-xs uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 md:hidden" style={{ color: "#333" }}>tap to reveal →</div>
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#FF6B1A" }}>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl transition-transform duration-500 translate-y-full group-hover:translate-y-0" style={{ background: "#38D5FF" }}>
       <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(0,0,0,0.5)" }}>Email</span>
       <span className="text-sm font-bold text-black">noieditorswork@gmail.com</span>
-      <Link href="mailto:noieditorswork@gmail.com" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#FF6B1A" }}>Open Mail →</Link>
+      <Link href="mailto:noieditorswork@gmail.com" className="mt-1 rounded-full px-5 py-2 text-xs font-bold" style={{ background: "#000", color: "#38D5FF" }}>Open Mail →</Link>
     </div>
   </div>
 
@@ -780,11 +780,11 @@ export default function HomePage() {
           <button
             onClick={submitContact}
             className="w-full rounded-xl py-4 text-sm font-bold text-black transition-all hover:scale-[1.01] hover:opacity-90"
-            style={{ background: "#FF6B1A" }}
+            style={{ background: "#38D5FF" }}
           >
             Send Message →
           </button>
-          {message && <div className="py-2 text-center text-sm text-orange-accent">{message}</div>}
+          {message && <div className="py-2 text-center text-sm text-brand-accent">{message}</div>}
         </div>
       </div>
 
@@ -797,7 +797,7 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-3">
             {site.logo && <img src={site.logo} alt="Logo" className="h-8 w-8 rounded-full object-cover" onError={(event) => { event.currentTarget.style.display = "none"; }} />}
-            <div className="font-bebas text-2xl tracking-widest">NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span></div>
+            <div className="font-bebas text-2xl tracking-widest">NOI <span style={{ color: "#38D5FF" }}>EDITORS</span></div>
           </div>
           <div className="flex gap-6">
             <Link href="#work" className="text-sm text-gray-600 transition-colors hover:text-white">Work</Link>

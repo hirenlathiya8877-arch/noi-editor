@@ -231,17 +231,17 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
         disabled={animating}
         className={`z-20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border md:h-9 md:w-9 ${className}`}
         style={{
-          borderColor: "rgba(255,107,26,0.3)",
+          borderColor: "rgba(56,213,255,0.3)",
           color: "#999",
           background: "#111",
           transition: "border-color 200ms ease, color 200ms ease",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = "#FF6B1A";
-          e.currentTarget.style.color = "#FF6B1A";
+          e.currentTarget.style.borderColor = "#38D5FF";
+          e.currentTarget.style.color = "#38D5FF";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(255,107,26,0.3)";
+          e.currentTarget.style.borderColor = "rgba(56,213,255,0.3)";
           e.currentTarget.style.color = "#999";
         }}
       >
@@ -304,9 +304,9 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                 <div
                   className="overflow-hidden rounded-[18px] border"
                   style={{
-                    borderColor: center ? "rgba(255,107,26,0.4)" : "rgba(255,107,26,0.12)",
+                    borderColor: center ? "rgba(56,213,255,0.4)" : "rgba(56,213,255,0.12)",
                     boxShadow: center
-                      ? "0 0 60px rgba(255,107,26,0.25), 0 20px 60px rgba(0,0,0,0.6)"
+                      ? "0 0 60px rgba(56,213,255,0.25), 0 20px 60px rgba(0,0,0,0.6)"
                       : "none",
                     background: "#111",
                     transition: "box-shadow 560ms cubic-bezier(0.22,1,0.36,1), border-color 560ms cubic-bezier(0.22,1,0.36,1)",
@@ -347,9 +347,9 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                         <span
                           className="flex h-14 w-14 items-center justify-center rounded-full text-black"
                           style={{
-                            background: "#FF6B1A",
+                            background: "#38D5FF",
                             transition: "transform 200ms ease",
-                            boxShadow: "0 0 24px rgba(255,107,26,0.5)",
+                            boxShadow: "0 0 24px rgba(56,213,255,0.5)",
                           }}
                           onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
                           onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
@@ -362,7 +362,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                         <button
                           className="rounded-lg bg-black/50 p-2 text-white"
                           style={{ transition: "color 150ms ease" }}
-                          onMouseEnter={(e) => (e.currentTarget.style.color = "#FF6B1A")}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = "#38D5FF")}
                           onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
                           onClick={() => setPlayingId(null)}
                         >
@@ -371,7 +371,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
                         <button
                           className="rounded-lg bg-black/50 p-2 text-white"
                           style={{ transition: "color 150ms ease" }}
-                          onMouseEnter={(e) => (e.currentTarget.style.color = "#FF6B1A")}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = "#38D5FF")}
                           onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
                           onClick={() => toggleMute(video, isMuted)}
                         >
@@ -413,7 +413,7 @@ export function VideoCarousel({ title, tag, videos, isShort = false }: VideoCaro
             style={{
               width: video.id === currentReal?.id ? "20px" : "8px",
               background:
-                video.id === currentReal?.id ? "#FF6B1A" : "rgba(255,107,26,0.25)",
+                video.id === currentReal?.id ? "#38D5FF" : "rgba(56,213,255,0.25)",
               transition: "width 300ms cubic-bezier(0.4,0,0.2,1), background 300ms ease",
             }}
           />

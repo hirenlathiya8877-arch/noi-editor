@@ -24,7 +24,7 @@ export function FaqList({ faqs }: { faqs: FAQ[] }) {
               <span className="text-sm font-semibold text-white">{faq.q}</span>
               <ChevronDown
                 className="h-4 w-4 shrink-0 transition-transform"
-                style={{ color: "#FF6B1A", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+                style={{ color: "#38D5FF", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
               />
             </button>
             <div className={`faq-content ${open ? "open" : ""}`}>

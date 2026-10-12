@@ -21,7 +21,7 @@ const statusLabels: Record<string, string> = {
 
 const statusClass: Record<string, string> = {
   PENDING: "bg-gray-500/10 text-gray-400 border-gray-500/20",
-  IN_PROGRESS: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  IN_PROGRESS: "bg-sky-500/10 text-sky-300 border-sky-500/20",
   REVIEW: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
   DONE: "bg-green-500/10 text-green-400 border-green-500/20"
 };
@@ -78,7 +78,7 @@ export default function ClientPage() {
         style={{ background: "rgba(8,8,8,0.95)", backdropFilter: "blur(20px)", borderColor: "#1a1a1a" }}
       >
         <div className="font-bebas text-xl tracking-widest text-white">
-          NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span> <span className="ml-2 font-dm text-sm text-gray-600">Client Portal</span>
+          NOI <span style={{ color: "#38D5FF" }}>EDITORS</span> <span className="ml-2 font-dm text-sm text-gray-600">Client Portal</span>
         </div>
         <button onClick={logout} className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm text-gray-500 transition-all hover:bg-red-900/20 hover:text-red-400">
           <LogOut className="h-4 w-4" />
@@ -89,21 +89,21 @@ export default function ClientPage() {
       <div className="mx-auto max-w-5xl px-6 py-10">
         <div className="mb-10">
           <h1 className="font-bebas text-5xl text-white">
-            Welcome Back, <span style={{ color: "#FF6B1A" }}>{clientName.split(" ")[0] || "Client"}</span>
+            Welcome Back, <span style={{ color: "#38D5FF" }}>{clientName.split(" ")[0] || "Client"}</span>
           </h1>
           <p className="mt-2 text-gray-500">Here are all your projects and deliverables from NOI EDITORS.</p>
         </div>
 
         <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <StatCard label="Total Projects" value={stats.total} color="#FF6B1A" />
+          <StatCard label="Total Projects" value={stats.total} color="#38D5FF" />
           <StatCard label="Delivered" value={stats.done} color="#4CAF50" />
-          <StatCard label="In Progress" value={stats.inProgress} color="#FF6B1A" />
+          <StatCard label="In Progress" value={stats.inProgress} color="#38D5FF" />
           <StatCard label="Pending" value={stats.pending} color="#8b8b8b" />
         </div>
 
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-white">Your Projects</h2>
-          <Link href="/#contact" className="text-sm transition-colors hover:text-white" style={{ color: "#FF6B1A" }}>
+          <Link href="/#contact" className="text-sm transition-colors hover:text-white" style={{ color: "#38D5FF" }}>
             New Project
           </Link>
         </div>

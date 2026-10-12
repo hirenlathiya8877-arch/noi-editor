@@ -79,7 +79,7 @@ export default function LoginPage() {
       <CustomCursor />
       <div
         className="pointer-events-none fixed inset-0"
-        style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%,rgba(255,107,26,0.06) 0%,transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%,rgba(56,213,255,0.06) 0%,transparent 70%)" }}
       />
       <div className="w-full max-w-md">
         <div className="mb-10 text-center">
@@ -89,17 +89,17 @@ export default function LoginPage() {
             className="font-bebas text-3xl tracking-widest text-white cursor-default select-none"
             style={{ background: "none", border: "none" }}
           >
-            NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span>
+            NOI <span style={{ color: "#38D5FF" }}>EDITORS</span>
           </button>
           <p className="mt-2 text-sm text-gray-600">Welcome back. Please login.</p>
           {showAdminHint && (
-            <p className="mt-1 text-xs" style={{ color: "rgba(255,107,26,0.5)" }}>
+            <p className="mt-1 text-xs" style={{ color: "rgba(56,213,255,0.5)" }}>
               — admin mode —
             </p>
           )}
         </div>
 
-        <div className="rounded-2xl border p-8" style={{ background: "#111", borderColor: "#1f1f1f", boxShadow: "0 0 60px rgba(255,107,26,0.2)" }}>
+        <div className="rounded-2xl border p-8" style={{ background: "#111", borderColor: "#1f1f1f", boxShadow: "0 0 60px rgba(56,213,255,0.2)" }}>
           
           {/* Sirf admin mode mein tab dikhega */}
           {tab === "admin" && (
@@ -113,7 +113,7 @@ export default function LoginPage() {
               </button>
               <button
                 className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
-                style={{ background: "#FF6B1A", color: "#000" }}
+                style={{ background: "#38D5FF", color: "#000" }}
               >
                 Admin
               </button>
@@ -160,7 +160,7 @@ export default function LoginPage() {
               onClick={submit}
               disabled={loading}
               className="w-full rounded-xl py-3.5 text-sm font-bold text-black transition-all hover:opacity-90 disabled:opacity-70"
-              style={{ background: "#FF6B1A" }}
+              style={{ background: "#38D5FF" }}
             >
               {loading ? "Logging in..." : "Login →"}
             </button>

@@ -40,7 +40,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
         style={{
           background: "rgba(8,8,8,0.95)",
           backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,107,26,0.15)",
+          border: "1px solid rgba(56,213,255,0.15)",
           boxShadow: "0 4px 40px rgba(0,0,0,0.8)"
         }}
       >
@@ -76,7 +76,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
         <Link
           href="#contact"
           className="shrink-0 rounded-full px-5 py-2 text-sm font-semibold text-black transition-all hover:opacity-90"
-          style={{ background: "#FF6B1A" }}
+          style={{ background: "#38D5FF" }}
         >
           Get in Touch
         </Link>
@@ -143,7 +143,7 @@ export function NavBar({ logo, mobileOpen, onToggleMobile, onCloseMobile }: NavB
                 href="#contact"
                 onClick={onCloseMobile}
                 className="mobile-menu-link flex justify-center rounded-xl py-3 text-sm font-semibold text-black"
-                style={{ background: "#FF6B1A", animationDelay: "365ms" }}
+                style={{ background: "#38D5FF", animationDelay: "365ms" }}
               >
                 Get In Touch
               </Link>

@@ -25,30 +25,30 @@ body {
 }
 
 .hero-gradient {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 107, 26, 0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56, 213, 255, 0.12) 0%, transparent 70%);
 }
 
 .stripe-bg {
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(255, 107, 26, 0.03) 0px,
-    rgba(255, 107, 26, 0.03) 1px,
+    rgba(56, 213, 255, 0.03) 0px,
+    rgba(56, 213, 255, 0.03) 1px,
     transparent 1px,
     transparent 12px
   );
 }
 
-.orange-line {
+.accent-line {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #ff6b1a, transparent);
+  background: linear-gradient(90deg, #38D5FF, transparent);
   border-radius: 999px;
 }
 
 .tag {
-  background: rgba(255, 107, 26, 0.1);
-  border: 1px solid rgba(255, 107, 26, 0.2);
-  color: #ff6b1a;
+  background: rgba(56, 213, 255, 0.1);
+  border: 1px solid rgba(56, 213, 255, 0.2);
+  color: #38D5FF;
 }
 
 .card-hover {
@@ -59,20 +59,20 @@ body {
 
 .card-hover:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(255, 107, 26, 0.15);
+  box-shadow: 0 20px 60px rgba(56, 213, 255, 0.15);
 }
 
-.glow-orange {
-  box-shadow: 0 0 40px rgba(255, 107, 26, 0.25);
+.glow-blue {
+  box-shadow: 0 0 40px rgba(56, 213, 255, 0.25);
 }
 
 .text-glow {
-  text-shadow: 0 0 60px rgba(255, 107, 26, 0.4);
+  text-shadow: 0 0 60px rgba(56, 213, 255, 0.4);
 }
 
 .popular-card {
-  border-color: #ff6b1a !important;
-  background: linear-gradient(135deg, #161616 0%, #1a1008 100%) !important;
+  border-color: #38D5FF !important;
+  background: linear-gradient(135deg, #161616 0%, #061827 100%) !important;
 }
 
 .faq-content {
@@ -156,8 +156,8 @@ body {
 
 .feedback-wall::before {
   background:
-    linear-gradient(90deg, rgba(255, 107, 26, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 107, 26, 0.05) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(56, 213, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(56, 213, 255, 0.05) 1px, transparent 1px);
   background-size: 82px 82px;
   content: "";
   inset: 0;
@@ -178,7 +178,7 @@ body {
 }
 
 .feedback-wall__glow--left {
-  background: #ff6b1a;
+  background: #38D5FF;
   height: 260px;
   left: 3%;
   top: 18%;
@@ -195,7 +195,7 @@ body {
 
 .feedback-wall__line {
   animation: feedback-line-glide 6.5s ease-in-out infinite;
-  background: linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.38), transparent);
+  background: linear-gradient(90deg, transparent, rgba(56, 213, 255, 0.38), transparent);
   height: 1px;
   left: 5%;
   pointer-events: none;
@@ -213,12 +213,12 @@ body {
   animation:
     feedback-shot-rise 0.84s cubic-bezier(0.22, 1, 0.36, 1) var(--feedback-delay, 0s) both,
     feedback-shot-float 6.6s ease-in-out calc(var(--feedback-delay, 0s) + 0.9s) infinite;
-  background: linear-gradient(135deg, rgba(255, 107, 26, 0.72), rgba(255, 107, 26, 0.12) 45%, rgba(255, 255, 255, 0.08));
-  border: 1px solid rgba(255, 107, 26, 0.34);
+  background: linear-gradient(135deg, rgba(56, 213, 255, 0.72), rgba(56, 213, 255, 0.12) 45%, rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(56, 213, 255, 0.34);
   border-radius: var(--feedback-radius);
   box-shadow:
     0 30px 70px rgba(0, 0, 0, 0.52),
-    0 0 42px rgba(255, 107, 26, 0.16);
+    0 0 42px rgba(56, 213, 255, 0.16);
   max-width: calc(100vw - 48px);
   padding: 1px;
   position: absolute;
@@ -281,7 +281,7 @@ body {
   background-image:
     radial-gradient(circle at 14px 14px, rgba(255, 255, 255, 0.09) 1.5px, transparent 2px),
     radial-gradient(circle at 42px 38px, rgba(255, 255, 255, 0.06) 1px, transparent 2px),
-    linear-gradient(135deg, rgba(255, 107, 26, 0.11), transparent 48%);
+    linear-gradient(135deg, rgba(56, 213, 255, 0.11), transparent 48%);
   background-size: 58px 58px, 64px 64px, 100% 100%;
   border-radius: inherit;
   min-height: 148px;
@@ -316,7 +316,7 @@ body {
 
 .feedback-shot__avatar {
   align-items: center;
-  background: linear-gradient(135deg, #ff6b1a, #ff9a4f);
+  background: linear-gradient(135deg, #38D5FF, #8BEAFF);
   border-radius: 999px;
   color: #080808;
   display: flex;
@@ -500,15 +500,15 @@ body {
   }
 
   .noi-mobile-brand-text span {
-    color: #ff6b1a;
+    color: #38D5FF;
   }
 
   .mobile-menu-trigger {
     align-items: center;
-    background: rgba(255, 107, 26, 0.12);
-    border: 1px solid rgba(255, 107, 26, 0.18);
+    background: rgba(56, 213, 255, 0.12);
+    border: 1px solid rgba(56, 213, 255, 0.18);
     border-radius: 16px;
-    color: #ff6b1a;
+    color: #38D5FF;
     display: flex;
     height: 36px;
     justify-content: center;
@@ -527,9 +527,9 @@ body {
   }
 
   .mobile-menu-trigger.is-open {
-    background: #ff6b1a;
-    border-color: rgba(255, 107, 26, 0.9);
-    box-shadow: 0 0 28px rgba(255, 107, 26, 0.35);
+    background: #38D5FF;
+    border-color: rgba(56, 213, 255, 0.9);
+    box-shadow: 0 0 28px rgba(56, 213, 255, 0.35);
   }
 
   .mobile-menu-trigger__shine {
@@ -538,7 +538,7 @@ body {
       transparent,
       rgba(255, 255, 255, 0.42),
       transparent,
-      rgba(255, 107, 26, 0.28),
+      rgba(56, 213, 255, 0.28),
       transparent
     );
     inset: -50%;
@@ -607,7 +607,7 @@ body {
 
   .mobile-menu-panel::before {
     animation: mobile-menu-sweep 0.65s ease both;
-    background: linear-gradient(135deg, rgba(255, 107, 26, 0.18), transparent 55%);
+    background: linear-gradient(135deg, rgba(56, 213, 255, 0.18), transparent 55%);
     content: "";
     inset: 0;
     pointer-events: none;
@@ -669,7 +669,7 @@ body {
     position: fixed;
     width: 10px;
     height: 10px;
-    background: #ff6b1a;
+    background: #38D5FF;
     border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
@@ -683,7 +683,7 @@ body {
     position: fixed;
     width: 36px;
     height: 36px;
-    border: 1.5px solid #ff6b1a;
+    border: 1.5px solid #38D5FF;
     border-radius: 50%;
     pointer-events: none;
     z-index: 99998;
@@ -709,7 +709,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff6b1a;
+  background: #38D5FF;
   border-radius: 999px;
 }
 

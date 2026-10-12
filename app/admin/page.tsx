@@ -331,7 +331,7 @@ export default function AdminPage() {
         <aside className="w-64 shrink-0 border-r" style={{ background: "#0d0d0d", borderColor: "#1a1a1a" }}>
           <div className="border-b p-6" style={{ borderColor: "#1a1a1a" }}>
             <div className="font-bebas text-xl tracking-widest text-white">
-              NOI <span style={{ color: "#FF6B1A" }}>EDITORS</span>
+              NOI <span style={{ color: "#38D5FF" }}>EDITORS</span>
             </div>
             <div className="mt-1 text-xs text-gray-600">Admin Dashboard</div>
           </div>
@@ -345,9 +345,9 @@ export default function AdminPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className="flex w-full items-center gap-3 rounded-xl border-l-2 px-4 py-3 text-left text-sm font-semibold transition-all"
                   style={{
-                    borderLeftColor: active ? "#FF6B1A" : "transparent",
-                    color: active ? "#FF6B1A" : "#888",
-                    background: active ? "rgba(255,107,26,0.1)" : "transparent"
+                    borderLeftColor: active ? "#38D5FF" : "transparent",
+                    color: active ? "#38D5FF" : "#888",
+                    background: active ? "rgba(56,213,255,0.1)" : "transparent"
                   }}
                 >
                   <Icon className="h-4 w-4" />
@@ -377,7 +377,7 @@ export default function AdminPage() {
             <div className="flex items-center gap-3">
               <div
                 className="flex h-8 w-8 items-center justify-center rounded-full font-bebas text-sm"
-                style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A" }}
+                style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF" }}
               >
                 A
               </div>
@@ -392,7 +392,7 @@ export default function AdminPage() {
                   {statCards.map((card) => (
                     <div key={card.label} className="rounded-2xl border p-6" style={{ background: "#111", borderColor: "#1f1f1f" }}>
                       <div className="mb-3 text-xs uppercase tracking-wider text-gray-500">{card.label}</div>
-                      <div className="font-bebas text-5xl" style={{ color: "#FF6B1A" }}>
+                      <div className="font-bebas text-5xl" style={{ color: "#38D5FF" }}>
                         {card.value}
                       </div>
                     </div>
@@ -401,7 +401,7 @@ export default function AdminPage() {
                 <div className="rounded-2xl border p-6" style={{ background: "#111", borderColor: "#1f1f1f" }}>
                   <h3 className="mb-4 font-bold text-white">Quick Actions</h3>
                   <div className="flex flex-wrap gap-3">
-                    <button onClick={() => setActiveTab("videos")} className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                    <button onClick={() => setActiveTab("videos")} className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                       + Add Video
                     </button>
                     <button onClick={() => setActiveTab("clients")} className="rounded-xl border px-5 py-2.5 text-sm" style={{ borderColor: "#2a2a2a", color: "#888" }}>
@@ -470,7 +470,7 @@ export default function AdminPage() {
                       style={{ background: "#161616", borderColor: "#2a2a2a" }}
                     />
                   </div>
-                  <button onClick={createVideo} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                  <button onClick={createVideo} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                     Add Video
                   </button>
                 </div>
@@ -479,7 +479,7 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Video Order</h3>
                     {reorderingVideos ? (
-                      <span className="inline-flex items-center gap-2 text-xs" style={{ color: "#FF6B1A" }}>
+                      <span className="inline-flex items-center gap-2 text-xs" style={{ color: "#38D5FF" }}>
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
                         Saving
                       </span>
@@ -496,7 +496,7 @@ export default function AdminPage() {
                       className="flex items-center gap-4 rounded-2xl border p-4 transition-opacity"
                       style={{
                         background: "#111",
-                        borderColor: draggedVideoId === video.id ? "#FF6B1A" : "#1f1f1f",
+                        borderColor: draggedVideoId === video.id ? "#38D5FF" : "#1f1f1f",
                         opacity: draggedVideoId === video.id ? 0.6 : 1
                       }}
                     >
@@ -510,7 +510,7 @@ export default function AdminPage() {
                       />
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-sm font-semibold text-white">{video.title}</div>
-                        <div className="mt-1 flex gap-2 text-xs" style={{ color: "#FF6B1A" }}>
+                        <div className="mt-1 flex gap-2 text-xs" style={{ color: "#38D5FF" }}>
                           <span>{video.category}</span>
                           <span style={{ color: "#555" }}>{video.mp4 ? "📁 MP4" : "▶ YouTube"}</span>
                         </div>
@@ -570,14 +570,14 @@ export default function AdminPage() {
                       style={{ background: "#161616", borderColor: "#2a2a2a" }}
                     />
                   </div>
-                  <button onClick={createTestimonial} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                  <button onClick={createTestimonial} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                     Add Testimonial
                   </button>
                 </div>
                 <div className="space-y-3">
                   {testimonials.map((testimonial) => (
                     <div key={testimonial.id} className="flex items-start gap-4 rounded-2xl border p-5" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bebas text-sm" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A" }}>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bebas text-sm" style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF" }}>
                         {testimonial.avatar}
                       </div>
                       <div className="flex-1">
@@ -614,14 +614,14 @@ export default function AdminPage() {
                       />
                     ))}
                   </div>
-                  <button onClick={createClient} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                  <button onClick={createClient} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                     Add Client
                   </button>
                 </div>
                 <div className="space-y-3">
                   {clients.map((client) => (
                     <div key={client.id} className="flex items-center gap-4 rounded-2xl border p-5" style={{ background: "#111", borderColor: "#1f1f1f" }}>
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bebas text-sm" style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A" }}>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bebas text-sm" style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF" }}>
                         {client.name.slice(0, 2).toUpperCase()}
                       </div>
                       <div className="flex-1">
@@ -690,7 +690,7 @@ export default function AdminPage() {
                       style={{ background: "#161616", borderColor: "#2a2a2a" }}
                     />
                   </div>
-                  <button onClick={createProject} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                  <button onClick={createProject} className="mt-4 rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                     Add Project
                   </button>
                 </div>
@@ -710,7 +710,7 @@ export default function AdminPage() {
                             value={project.status}
                             onChange={(e) => updateProjectStatus(project.id, e.target.value)}
                             className="rounded-lg px-3 py-1.5 text-xs font-semibold"
-                            style={{ background: "rgba(255,107,26,0.1)", color: "#FF6B1A", border: "none" }}
+                            style={{ background: "rgba(56,213,255,0.1)", color: "#38D5FF", border: "none" }}
                           >
                             {statusOptions.map((option) => (
                               <option key={option} value={option}>
@@ -741,7 +741,7 @@ export default function AdminPage() {
                     {logo && !logoPreviewFailed ? (
                       <img src={logo} alt="Logo" className="h-full w-full object-cover" onError={() => setLogoPreviewFailed(true)} />
                     ) : (
-                      <span className="font-bebas text-2xl tracking-widest" style={{ color: "#FF6B1A" }}>
+                      <span className="font-bebas text-2xl tracking-widest" style={{ color: "#38D5FF" }}>
                         NE
                       </span>
                     )}
@@ -758,7 +758,7 @@ export default function AdminPage() {
                   Use a direct image URL, or local path like /img/logo.png. Google Drive and Dropbox share links are auto-converted when possible.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <button onClick={saveLogo} className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#FF6B1A" }}>
+                  <button onClick={saveLogo} className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black" style={{ background: "#38D5FF" }}>
                     Save Logo
                   </button>
                   <button
@@ -778,7 +778,7 @@ export default function AdminPage() {
       {toast ? (
         <div
           className="fixed bottom-6 right-6 rounded-xl px-6 py-3 text-sm font-semibold text-black"
-          style={{ background: "#FF6B1A" }}
+          style={{ background: "#38D5FF" }}
         >
           {toast}
         </div>

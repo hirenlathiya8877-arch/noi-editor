@@ -11,7 +11,7 @@ export function TestimonialGrid({ testimonials }: { testimonials: Testimonial[] 
         >
           <div className="mb-4 flex gap-1">
             {"★★★★★".split("").map((star, i) => (
-              <span key={`${t.id}-${i}`} style={{ color: "#FF6B1A" }}>
+              <span key={`${t.id}-${i}`} style={{ color: "#38D5FF" }}>
                 {star}
               </span>
             ))}
@@ -20,7 +20,7 @@ export function TestimonialGrid({ testimonials }: { testimonials: Testimonial[] 
           <div className="flex items-center gap-3">
             <div
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bebas text-sm"
-              style={{ background: "rgba(255,107,26,0.15)", color: "#FF6B1A" }}
+              style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF" }}
             >
               {t.avatar}
             </div>

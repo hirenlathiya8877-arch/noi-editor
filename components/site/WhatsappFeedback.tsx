@@ -65,7 +65,7 @@ const Card = ({
       style={{
         position: "relative",
         borderRadius: 28,
-        border: "1.5px solid rgba(255,107,26,0.22)",
+        border: "1.5px solid rgba(56,213,255,0.22)",
         background: "#131313",
         overflow: "hidden",
         marginTop: i === 0 ? 0 : -36,
@@ -105,7 +105,7 @@ const Card = ({
       <div
         style={{
           height: 3,
-          background: "linear-gradient(90deg,transparent,#FF6B1A 25%,#FF6B1A 75%,transparent)",
+          background: "linear-gradient(90deg,transparent,#38D5FF 25%,#38D5FF 75%,transparent)",
           opacity: 0.75,
         }}
       />
@@ -116,7 +116,7 @@ const Card = ({
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#25D366", display: "inline-block" }} />
           WhatsApp
         </div>
-        <span style={{ background: "rgba(255,107,26,0.12)", border: "1px solid rgba(255,107,26,0.28)", color: "#FF6B1A", fontSize: 10, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
+        <span style={{ background: "rgba(56,213,255,0.12)", border: "1px solid rgba(56,213,255,0.28)", color: "#38D5FF", fontSize: 10, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
           CLIENT SS
         </span>
       </div>
