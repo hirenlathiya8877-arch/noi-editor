@@ -72,7 +72,7 @@ export default function ClientPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#080808] text-[#F0EDE8]">
+    <main className="min-h-screen text-[#F0EDE8]">
       <header
         className="sticky top-0 z-50 flex items-center justify-between border-b px-6 py-4"
         style={{ background: "rgba(8,8,8,0.95)", backdropFilter: "blur(20px)", borderColor: "#1a1a1a" }}

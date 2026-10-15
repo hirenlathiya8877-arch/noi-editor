@@ -75,12 +75,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center bg-[#080808] px-4">
+    <main className="relative flex min-h-screen items-center justify-center px-4">
       <CustomCursor />
-      <div
-        className="pointer-events-none fixed inset-0"
-        style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%,rgba(56,213,255,0.06) 0%,transparent 70%)" }}
-      />
       <div className="w-full max-w-md">
         <div className="mb-10 text-center">
           {/* 7 baar click karo title pe — admin mode unlock hoga */}

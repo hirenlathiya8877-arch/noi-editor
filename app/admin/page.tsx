@@ -326,7 +326,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#080808] text-[#F0EDE8]">
+    <main className="min-h-screen text-[#F0EDE8]">
       <div className="flex min-h-screen">
         <aside className="w-64 shrink-0 border-r" style={{ background: "#0d0d0d", borderColor: "#1a1a1a" }}>
           <div className="border-b p-6" style={{ borderColor: "#1a1a1a" }}>

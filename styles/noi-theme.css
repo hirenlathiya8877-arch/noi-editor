@@ -24,20 +24,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-.hero-gradient {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56, 213, 255, 0.12) 0%, transparent 70%);
-}
-
-.stripe-bg {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(56, 213, 255, 0.03) 0px,
-    rgba(56, 213, 255, 0.03) 1px,
-    transparent 1px,
-    transparent 12px
-  );
-}
-
 .accent-line {
   width: 60px;
   height: 3px;
@@ -152,58 +138,6 @@ body {
   min-height: 620px;
   overflow: hidden;
   position: relative;
-}
-
-.feedback-wall::before {
-  background:
-    linear-gradient(90deg, rgba(56, 213, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(56, 213, 255, 0.05) 1px, transparent 1px);
-  background-size: 82px 82px;
-  content: "";
-  inset: 0;
-  mask-image: radial-gradient(circle at 50% 48%, black 0%, transparent 68%);
-  opacity: 0.45;
-  pointer-events: none;
-  position: absolute;
-  z-index: -2;
-}
-
-.feedback-wall__glow {
-  border-radius: 999px;
-  filter: blur(48px);
-  opacity: 0.26;
-  pointer-events: none;
-  position: absolute;
-  z-index: -1;
-}
-
-.feedback-wall__glow--left {
-  background: #38D5FF;
-  height: 260px;
-  left: 3%;
-  top: 18%;
-  width: 260px;
-}
-
-.feedback-wall__glow--right {
-  background: #10b981;
-  bottom: 5%;
-  height: 220px;
-  right: 12%;
-  width: 220px;
-}
-
-.feedback-wall__line {
-  animation: feedback-line-glide 6.5s ease-in-out infinite;
-  background: linear-gradient(90deg, transparent, rgba(56, 213, 255, 0.38), transparent);
-  height: 1px;
-  left: 5%;
-  pointer-events: none;
-  position: absolute;
-  top: 50%;
-  transform: rotate(-4deg);
-  width: 90%;
-  z-index: 0;
 }
 
 .feedback-shot {
@@ -402,18 +336,6 @@ body {
   }
 }
 
-@keyframes feedback-line-glide {
-  0%,
-  100% {
-    opacity: 0.28;
-    translate: -18px 0;
-  }
-  50% {
-    opacity: 0.65;
-    translate: 18px 0;
-  }
-}
-
 @media (max-width: 767px) {
   .feedback-wall {
     display: grid;
@@ -421,12 +343,6 @@ body {
     max-width: 460px;
     min-height: 0;
     overflow: visible;
-  }
-
-  .feedback-wall::before,
-  .feedback-wall__glow,
-  .feedback-wall__line {
-    display: none;
   }
 
   .feedback-shot {
@@ -457,8 +373,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .feedback-shot,
-  .feedback-wall__line {
+  .feedback-shot {
     animation: none;
   }
 }

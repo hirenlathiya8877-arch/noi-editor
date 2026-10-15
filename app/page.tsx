@@ -83,20 +83,155 @@ const StatItem = ({ end, suffix, label }: { end: number; suffix: string; label: 
 
 const team = [
   {
+    id: "hiren",
     name: "Hiren Lathiya",
-    role: "FOUNDER",
-    tag: "Video Editor",
-    image: "/img/hiren.jpg",
-    ig: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag=="
+    role: "Founder",
+    initials: "HL",
+    photo: "/img/hiren.jpg",
+    instagram: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag==",
+    specialty: ["Reels", "YouTube videos", "Color grading"]
   },
   {
-    name: "Krishnarajsinh Jadeja ",
-    role: "CO-FOUNDER",
-    tag: "Video Editor",
-    image: "",
-    ig: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk"
+    id: "krishnaraj",
+    name: "Krishnaraj Jadeja",
+    role: "Co-founder",
+    initials: "KJ",
+    photo: "",
+    instagram: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk",
+    specialty: ["Reels", "YouTube videos", "Color grading"]
   }
 ];
+
+const EditorTimeline = ({ activeIndex, playheadRef, onSelect }: {
+  activeIndex: number;
+  playheadRef: { current: HTMLSpanElement | null };
+  onSelect: (index: number) => void;
+}) => (
+  <div className="oe-timeline" role="group" aria-label="Editor timeline">
+    <div className="oe-ruler-row" aria-hidden="true">
+      <span />
+      <div className="oe-ruler">
+        {Array.from({ length: 9 }, (_, index) => <span key={index}>00:0{index}</span>)}
+      </div>
+    </div>
+    <div className="oe-track-stack">
+      <div className="oe-track-labels" aria-hidden="true"><span>V1</span><span>V2</span></div>
+      <div className="oe-lanes">
+        {team.map((editor, index) => (
+          <div className="oe-lane" key={editor.id}>
+            <button type="button" className={`oe-clip oe-clip--${editor.id}${activeIndex === index ? " is-active" : ""}`} aria-label={`Select ${editor.name}, ${editor.role}`} aria-pressed={activeIndex === index} onClick={() => onSelect(index)}>
+              <span className="oe-clip-title">{editor.name}</span><span className="oe-clip-role">{editor.role}</span>
+            </button>
+          </div>
+        ))}
+        <span ref={playheadRef} className="oe-playhead" aria-hidden="true" />
+      </div>
+    </div>
+  </div>
+);
+
+const EditorClock = ({ playheadRef }: { playheadRef: { current: HTMLSpanElement | null } }) => {
+  const [timecode, setTimecode] = useState("00:00:00:00");
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frameId = 0;
+    let startTime = 0;
+    let lastFrame = -1;
+    let running = false;
+    const tick = (now: number) => {
+      if (!running) return;
+      if (!startTime) startTime = now;
+      const elapsed = (now - startTime) % 12000;
+      const progress = elapsed / 12000;
+      const wholeSeconds = Math.floor(elapsed / 1000);
+      const frames = Math.floor((elapsed % 1000) / (1000 / 24));
+      const frameNumber = Math.floor(elapsed / (1000 / 24));
+      playheadRef.current?.style.setProperty("left", `${progress * 100}%`);
+      if (frameNumber !== lastFrame) {
+        lastFrame = frameNumber;
+        setTimecode(`00:00:${String(wholeSeconds).padStart(2, "0")}:${String(frames).padStart(2, "0")}`);
+      }
+      frameId = window.requestAnimationFrame(tick);
+    };
+    const start = () => {
+      if (running) return;
+      running = true;
+      startTime = 0;
+      frameId = window.requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      running = false;
+      window.cancelAnimationFrame(frameId);
+      playheadRef.current?.style.setProperty("left", "0%");
+      setTimecode("00:00:00:00");
+    };
+    if (reducedMotion.matches) stop();
+    else start();
+
+    const stopForReducedMotion = (event: MediaQueryListEvent) => {
+      if (event.matches) stop();
+      else start();
+    };
+    reducedMotion.addEventListener("change", stopForReducedMotion);
+    return () => {
+      running = false;
+      window.cancelAnimationFrame(frameId);
+      reducedMotion.removeEventListener("change", stopForReducedMotion);
+    };
+  }, []);
+
+  return <span aria-live="off">{timecode}</span>;
+};
+
+const OurEditorsSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const playheadRef = useRef<HTMLSpanElement>(null);
+  const activeEditor = team[activeIndex];
+
+  return (
+    <section id="team" className="oe-section" aria-label="Our editors">
+      <div className="oe-shell">
+        <div className="oe-topbar">
+          <div className="oe-recording"><span className="oe-rec-dot" aria-hidden="true" />REC / MEET THE TEAM</div>
+          <span aria-live="polite">SEQ {String(activeIndex + 1).padStart(2, "0")} OF {String(team.length).padStart(2, "0")}</span>
+        </div>
+
+        <h2 className="oe-heading"><span>OUR</span> <span className="oe-heading-outline">EDITORS</span></h2>
+
+        <div className="oe-main-grid">
+          <div className="oe-viewfinder" role="group" aria-label={`${activeEditor.name} portrait viewfinder`}>
+            {activeEditor.photo ? (
+              <Image src={activeEditor.photo} alt={activeEditor.name} fill sizes="(max-width: 700px) 100vw, 40vw" className="oe-photo" priority />
+            ) : (
+              <span className="oe-initials" aria-hidden="true">{activeEditor.initials}</span>
+            )}
+            <span className="oe-corner oe-corner--tl" aria-hidden="true" />
+            <span className="oe-corner oe-corner--tr" aria-hidden="true" />
+            <span className="oe-corner oe-corner--bl" aria-hidden="true" />
+            <span className="oe-corner oe-corner--br" aria-hidden="true" />
+            <div className="oe-viewfinder-top"><span>REC</span><EditorClock playheadRef={playheadRef} /></div>
+            <a className="oe-instagram" href={activeEditor.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Open ${activeEditor.name}'s Instagram`}>ig</a>
+          </div>
+
+          <div key={activeEditor.id} className="oe-info">
+            <p className="oe-eyebrow">NOW PLAYING</p>
+            <h3 className="oe-name">{activeEditor.name}</h3>
+            <p className="oe-role">{activeEditor.role} / Video editor</p>
+            <div className="oe-divider" />
+            <p className="oe-eyebrow oe-specialty-label">SPECIALTY</p>
+            <div className="oe-tags">
+              {activeEditor.specialty.map((specialty) => <span key={specialty}>{specialty}</span>)}
+            </div>
+            <a className="oe-work-button" href="#work">View work</a>
+          </div>
+        </div>
+
+        <EditorTimeline activeIndex={activeIndex} playheadRef={playheadRef} onSelect={setActiveIndex} />
+      </div>
+    </section>
+  );
+};
 
 const starkParticles = Array.from({ length: 18 }, (_, index) => index);
 const targaryenParticles = Array.from({ length: 18 }, (_, index) => index);
@@ -107,15 +242,6 @@ export default function HomePage() {
   const [site, setSite] = useState<SiteResponse>(defaultState);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", projectType: "", message: "" });
-  const [teamIdx, setTeamIdx] = useState(0);
-  const [teamFlip, setTeamFlip] = useState(false);
-  const [teamRotation, setTeamRotation] = useState(0);
-  const [teamFaces, setTeamFaces] = useState<[number, number]>([0, 1]);
-  const teamIdxRef = useRef(0);
-  const teamFlipRef = useRef(false);
-  const teamAnimatingRef = useRef(false);
-  const teamRotationRef = useRef(0);
-  const teamFlipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useScrollReveal();
 
   const clients = [
@@ -126,41 +252,6 @@ export default function HomePage() {
   { name: "Builtwithakash",   sub: "Fitness Coach",     platform: "Instagram", followers: "2K",  color: "#1a1a2a", text: "#7a6fe0", init: "BA" },
   { name: "Theabhisheksagar",    sub: "Tech",    platform: "Instagram",   followers: "63K", color: "#1a2218", text: "#5de04f", init: "AS" },
 ];
-
-  const flipTeamTo = (next: number) => {
-    if (teamAnimatingRef.current || next === teamIdxRef.current) return;
-
-    const hiddenFace = teamFlipRef.current ? 0 : 1;
-    const nextFlip = !teamFlipRef.current;
-    teamAnimatingRef.current = true;
-    teamFlipRef.current = nextFlip;
-    teamRotationRef.current += 180;
-
-    setTeamFaces((faces) => {
-      const updated: [number, number] = [faces[0], faces[1]];
-      updated[hiddenFace] = next;
-      return updated;
-    });
-    setTeamFlip(nextFlip);
-    setTeamRotation(teamRotationRef.current);
-
-    if (teamFlipTimeoutRef.current) clearTimeout(teamFlipTimeoutRef.current);
-    teamFlipTimeoutRef.current = setTimeout(() => {
-      teamIdxRef.current = next;
-      teamAnimatingRef.current = false;
-      setTeamIdx(next);
-    }, 850);
-  };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      flipTeamTo((teamIdxRef.current + 1) % team.length);
-    }, 2400);
-    return () => {
-      clearInterval(timer);
-      if (teamFlipTimeoutRef.current) clearTimeout(teamFlipTimeoutRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -194,58 +285,19 @@ export default function HomePage() {
     setMessage("✓ Message sent! We'll get back to you soon.");
   };
 
-  const renderTeamCard = (person: (typeof team)[number]) => (
-    <div className="relative overflow-hidden rounded-[28px] border" style={{ background: "linear-gradient(135deg,#1a1a1a,#111)", borderColor: "rgba(56,213,255,0.2)", boxShadow: "0 0 40px rgba(56,213,255,0.08)" }}>
-      {/* Photo area */}
-      <div className="relative h-80 flex items-end justify-center" style={{ background: "linear-gradient(180deg,#1a0d0d 0%,#150a0a 60%,#111 100%)" }}>
-        {/* Arch */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 h-56 rounded-t-full border-2" style={{ borderColor: "rgba(56,213,255,0.15)", background: "rgba(56,213,255,0.03)" }} />
-        {/* Avatar */}
-        <div className="relative z-10 mb-4 flex h-52 w-40 items-end justify-center rounded-t-full overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(56,213,255,0.12),rgba(56,213,255,0.04))" }}>
-          {person.image ? (
-            <Image
-              src={person.image}
-              alt={person.name}
-              fill
-              sizes="160px"
-              className="object-cover object-top"
-            />
-          ) : (
-            <span className="font-bebas text-7xl pb-4" style={{ color: "rgba(56,213,255,0.25)" }}>{person.name[0]}</span>
-          )}
-        </div>
-        {/* Badge */}
-        <div className="absolute top-6 left-4 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm" style={{ background: "rgba(56,213,255,0.15)", border: "1px solid rgba(56,213,255,0.3)", color: "#38D5FF" }}>
-          {"\u2726"} {person.tag}
-        </div>
-        {/* Instagram only */}
-        <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <a href={person.ig} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all hover:scale-110 hover:bg-sky-400" style={{ background: "rgba(56,213,255,0.15)", color: "#38D5FF", border: "1px solid rgba(56,213,255,0.25)" }}>ig</a>
-        </div>
-      </div>
-      {/* Name */}
-      <div className="border-t px-6 py-5 text-center" style={{ borderColor: "rgba(56,213,255,0.1)" }}>
-        <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(56,213,255,0.6)" }}>{person.role}</p>
-        <h3 className="font-bebas text-2xl tracking-wide text-white">{person.name}</h3>
-      </div>
-    </div>
-  );
-
   return (
-    <main className="bg-[#080808] text-[#F0EDE8]">
+    <main className="text-[#F0EDE8]">
       <CustomCursor />
       <NavBar logo={site.logo} mobileOpen={mobileMenuOpen} onToggleMobile={() => setMobileMenuOpen((o) => !o)} onCloseMobile={() => setMobileMenuOpen(false)} />
 
       {/* HERO */}
-      <section className="hero-gradient relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
-        <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#38D5FF,transparent)", filter: "blur(60px)" }} />
-        <div className="pointer-events-none absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full opacity-5" style={{ background: "radial-gradient(circle,#38D5FF,transparent)", filter: "blur(40px)" }} />
+      <section className="relative flex flex-col items-center px-6 pb-16 pt-32 text-center md:pt-24">
         <div className="float tag relative z-10 mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand-accent" />
           Available for New Projects
         </div>
-        <h1 className="section-title text-glow animate-pulse-slow relative z-10 mb-6 w-full leading-none" style={{ fontSize: "clamp(3.2rem,12vw,11rem)" }}>
-          RAW TO<br /><span style={{ color: "#38D5FF" }}>ROYALTY</span>
+        <h1 className="hero-title relative z-10 mb-6 w-full">
+          <span className="hero-title-static">RAW TO</span><br /><span className="hero-title-sweep">ROYALTY</span>
         </h1>
         <p className="relative z-10 mx-auto mb-10 max-w-sm text-base tracking-wide text-gray-400">
           <span className="font-semibold text-white">NOI EDITORS</span> — We make your vision{" "}
@@ -253,7 +305,7 @@ export default function HomePage() {
         </p>
         <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 mb-12 sm:flex-row">
           <a href="#work" className="glow-blue rounded-full px-8 py-4 font-syne font-semibold text-black text-center w-64 active:opacity-80" style={{ background: "#38D5FF" }}>See Our Work ↓</a>
-          <a href="#contact" className="rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(56,213,255,0.3)" }}>Start a Project</a>
+          <a href="#contact" className="project-cta-orbit rounded-full border px-8 py-4 font-syne font-semibold text-white text-center w-64 active:opacity-80" style={{ borderColor: "rgba(56,213,255,0.3)" }}>Start a Project</a>
         </div>
         {/* STATS */}
         <div className="grid grid-cols-2 gap-x-16 gap-y-6 md:grid-cols-4 md:gap-x-20">
@@ -269,7 +321,7 @@ export default function HomePage() {
       </section>
 
       {/* TOOLS MARQUEE */}
-      <div className="overflow-hidden border-b border-t py-4" style={{ background: "linear-gradient(90deg,rgba(8,8,8,1) 0%,rgba(56,213,255,0.03) 50%,rgba(8,8,8,1) 100%)", borderColor: "rgba(56,213,255,0.15)", maxWidth: "100vw", width: "100%" }}>
+      <div className="overflow-hidden border-b border-t py-4" style={{ borderColor: "rgba(56,213,255,0.15)", maxWidth: "100vw", width: "100%" }}>
         <div className="marquee-track">
           <span className="inline-flex items-center gap-8 pr-8" style={{ whiteSpace: "nowrap" }}>
             {Array.from({ length: 3 }).map((_, i) => (
@@ -300,7 +352,7 @@ export default function HomePage() {
         {longVideos.length > 0 && <VideoCarousel title="LONG FORM" tag="YouTube " videos={longVideos} />}
       </section>
        {/* CLIENTS MARQUEE */}
-<section className="overflow-hidden py-16" style={{ background: "#080808" }}>
+<section className="overflow-hidden py-16">
   <div className="mb-8 text-center">
     <div className="accent-line mx-auto mb-4" />
     <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(56,213,255,0.6)" }}>
@@ -405,47 +457,11 @@ export default function HomePage() {
   </div>
 </section>
        
-       {/* TEAM */}
-      <section id="team" className="bg-[#080808] px-6 pb-20 pt-8 md:py-24">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-16 text-center">
-            <div className="accent-line mx-auto mb-4" />
-            <p className="text-xs uppercase tracking-widest mb-2 reveal" style={{ color: "#38D5FF" }}>MEET THE TEAM</p>
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR EDITORS</h2>
-          </div>
-          <div className="flex flex-col items-center reveal">
-            <div className="relative w-72" style={{ perspective: "1200px" }} onMouseEnter={() => {}}>
-              <div
-                data-flipped={teamFlip ? "true" : "false"}
-                style={{
-                  transformStyle: "preserve-3d",
-                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
-                  transform: `rotateY(${teamRotation}deg)`,
-                  position: "relative",
-                  willChange: "transform"
-                }}
-              >
-                <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
-                  {renderTeamCard(team[teamFaces[0]])}
-                </div>
-                <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
-                  {renderTeamCard(team[teamFaces[1]])}
-                </div>
-              </div>
-            </div>
-            {/* Dots */}
-            <div className="flex gap-2 mt-6">
-              {team.map((_, i) => (
-                <button key={i} type="button" aria-label={`Show ${team[i].name}`} onClick={() => flipTeamTo(i)} className="rounded-full transition-all"
-                  style={{ width: i === teamIdx ? "20px" : "8px", height: "8px", background: i === teamIdx ? "#38D5FF" : "rgba(56,213,255,0.25)" }} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* TEAM */}
+      <OurEditorsSection />
 
       {/* SERVICES */}
-      <section id="services" className="stripe-bg bg-[#080808] px-6 pb-16 pt-20 md:py-32">
+      <section id="services" className="px-6 pb-16 pt-20 md:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center md:mb-16">
             <div className="accent-line mx-auto mb-4" />
@@ -484,9 +500,7 @@ export default function HomePage() {
 
 
       {/* PRICING */}
-<section id="pricing" className="bg-[#080808] px-6 py-20 md:py-32" style={{
-  backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(56,213,255,0.025) 60px,rgba(56,213,255,0.025) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(56,213,255,0.025) 60px,rgba(56,213,255,0.025) 61px)`
-}}>
+<section id="pricing" className="px-6 py-20 md:py-32">
   <div className="mx-auto max-w-5xl">
     <div className="mb-10 text-center md:mb-16">
       <div className="accent-line mx-auto mb-4" />
@@ -793,7 +807,7 @@ export default function HomePage() {
 </section>
 
       {/* FOOTER */}
-      <footer className="border-t bg-[#080808] px-6 py-12" style={{ borderColor: "#1f1f1f" }}>
+      <footer className="border-t px-6 py-12" style={{ borderColor: "#1f1f1f" }}>
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-3">
             {site.logo && <img src={site.logo} alt="Logo" className="h-8 w-8 rounded-full object-cover" onError={(event) => { event.currentTarget.style.display = "none"; }} />}
