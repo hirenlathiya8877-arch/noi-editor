@@ -87,9 +87,9 @@ const team = [
     name: "Hiren Lathiya",
     role: "Founder",
     initials: "HL",
-    photo: "/img/hiren.jpg",
+    photo: "/img/noi%20final.png",
     instagram: "https://www.instagram.com/elitehiren?igsh=MXJjeHFyd2k4cG5mag==",
-    specialty: ["Reels", "YouTube videos", "Color grading"]
+    specialty: ["Reels", "YouTube videos", "Motion graphics", "Text animation", "Brand color match", "Color grading"]
   },
   {
     id: "krishnaraj",
@@ -98,7 +98,7 @@ const team = [
     initials: "KJ",
     photo: "",
     instagram: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk",
-    specialty: ["Reels", "YouTube videos", "Color grading"]
+    specialty: ["Reels", "YouTube videos", "Motion graphics", "Text animation", "Brand color match", "Color grading"]
   }
 ];
 
@@ -186,8 +186,30 @@ const EditorClock = ({ playheadRef }: { playheadRef: { current: HTMLSpanElement 
 
 const OurEditorsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [tagsInView, setTagsInView] = useState(false);
   const playheadRef = useRef<HTMLSpanElement>(null);
+  const tagsRef = useRef<HTMLDivElement>(null);
   const activeEditor = team[activeIndex];
+
+  useEffect(() => {
+    if (tagsInView) return;
+    const tags = tagsRef.current;
+    if (!tags) return;
+    if (!("IntersectionObserver" in window)) {
+      setTagsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTagsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.25 });
+
+    observer.observe(tags);
+    return () => observer.disconnect();
+  }, [activeIndex, tagsInView]);
 
   return (
     <section id="team" className="oe-section" aria-label="Our editors">
@@ -220,7 +242,7 @@ const OurEditorsSection = () => {
             <p className="oe-role">{activeEditor.role} / Video editor</p>
             <div className="oe-divider" />
             <p className="oe-eyebrow oe-specialty-label">SPECIALTY</p>
-            <div className="oe-tags">
+            <div ref={tagsRef} className={`oe-tags${tagsInView ? " is-visible" : ""}`}>
               {activeEditor.specialty.map((specialty) => <span key={specialty}>{specialty}</span>)}
             </div>
             <a className="oe-work-button" href="#work">View work</a>
@@ -344,7 +366,7 @@ export default function HomePage() {
         <div className="mb-16 text-center">
          <div className="accent-line mx-auto mb-4" />
           <div className="flex flex-col items-center justify-center gap-3">
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR WORK</h2>
+            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>OUR <span style={{ color: "#38D5FF" }}>WORK</span></h2>
             <span className="text-sm text-gray-500">Short Form ✦ Reels ✦ YouTube</span>
           </div>
         </div>
@@ -449,7 +471,7 @@ export default function HomePage() {
   <div className="mx-auto max-w-7xl">
     <div className="mb-10 text-center md:mb-16">
       <div className="accent-line mx-auto mb-4" />
-      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT FEEDBACK</h2>
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>CLIENT <span style={{ color: "#38D5FF" }}>FEEDBACK</span></h2>
     </div>
     <div className="reveal">
       <WhatsappFeedback />
@@ -465,7 +487,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center md:mb-16">
             <div className="accent-line mx-auto mb-4" />
-            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT NOI DO</h2>
+            <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>WHAT <span style={{ color: "#38D5FF" }}>NOI</span> DO</h2>
             <p className="mx-auto mt-4 max-w-xl text-gray-500 reveal">Premium video editing, motion graphics, and visual storytelling for brands, creators, and businesses.</p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
@@ -504,7 +526,7 @@ export default function HomePage() {
   <div className="mx-auto max-w-5xl">
     <div className="mb-10 text-center md:mb-16">
       <div className="accent-line mx-auto mb-4" />
-      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING PLANS</h2>
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>PRICING <span style={{ color: "#38D5FF" }}>PLANS</span></h2>
     </div>
 
     {/* Toggle */}
@@ -701,7 +723,7 @@ export default function HomePage() {
   <div className="mx-auto max-w-5xl">
     <div className="mb-10 text-center md:mb-16">
       <div className="accent-line mx-auto mb-4" />
-      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S WORK</h2>
+      <h2 className="section-title text-white reveal" style={{ fontSize: "clamp(2.5rem,6vw,5rem)" }}>LET&apos;S <span style={{ color: "#38D5FF" }}>WORK</span></h2>
     </div>
     <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
 
