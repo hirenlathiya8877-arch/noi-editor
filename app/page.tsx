@@ -96,7 +96,7 @@ const team = [
     name: "Krishnaraj Jadeja",
     role: "Co-founder",
     initials: "KJ",
-    photo: "",
+    photo: "/img/krish%20noi%20color%20matched.png",
     instagram: "https://www.instagram.com/krrishnrajsinh_1635?igsh=djZ3Y290YW1hbHVk",
     specialty: ["Reels", "YouTube videos", "Motion graphics", "Text animation", "Brand color match", "Color grading"]
   }
