@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/img/logo.png",
     apple: "/img/logo.png"
+  },
+  verification: {
+    google: "s7yzMIHnL4qg4BztYEieXak1Ow5wClVUHxL8jjjThSk"
   }
 };
 
