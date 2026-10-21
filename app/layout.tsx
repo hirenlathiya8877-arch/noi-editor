@@ -4,7 +4,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "NOI EDITORS — Raw to Royalty",
-  description: "NOI EDITORS portfolio, client portal, and admin dashboard"
+  description: "NOI EDITORS portfolio, client portal, and admin dashboard",
+  icons: {
+    icon: "/img/logo.png",
+    apple: "/img/logo.png"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
